@@ -6,9 +6,13 @@ import type PocketBase from 'pocketbase'
 import type { RecordService } from 'pocketbase'
 
 export enum Collections {
+	Admins = "admins",
 	Auditlog = "auditlog",
-	Hooks = "hooks",
+	Bookings = "bookings",
+	Events = "events",
+	Locations = "locations",
 	Posts = "posts",
+	TimeSlots = "time_slots",
 	Users = "users",
 }
 
@@ -20,10 +24,10 @@ export type HTMLString = string
 // System fields
 export type BaseSystemFields<T = never> = {
 	id: RecordIdString
-	created: IsoDateString
-	updated: IsoDateString
 	collectionId: string
 	collectionName: Collections
+	created: string
+	updated: string
 	expand?: T
 }
 
@@ -36,6 +40,8 @@ export type AuthSystemFields<T = never> = {
 
 // Record types for each collection
 
+export type AdminsRecord = never
+
 export type AuditlogRecord<Tdata = unknown, Toriginal = unknown> = {
 	admin?: string
 	collection: string
@@ -43,36 +49,42 @@ export type AuditlogRecord<Tdata = unknown, Toriginal = unknown> = {
 	event: string
 	original?: null | Toriginal
 	record: string
-	user?: RecordIdString
+	user?: RecordIdString[]
 }
 
-export enum HooksEventOptions {
-	"insert" = "insert",
-	"update" = "update",
-	"delete" = "delete",
+export type BookingsRecord = {
+	field: RecordIdString[]
+	user: RecordIdString[]
 }
 
-export enum HooksActionTypeOptions {
-	"command" = "command",
-	"email" = "email",
-	"post" = "post",
+export type EventsRecord = {
+	description?: HTMLString
+	public_access_link?: string
+	title: string
 }
-export type HooksRecord = {
-	action: string
-	action_params?: string
-	action_type: HooksActionTypeOptions
-	collection: string
-	disabled?: boolean
-	event: HooksEventOptions
-	expands?: string
+
+export type LocationsRecord = {
+	description?: HTMLString
+	event_id: RecordIdString[]
+	geo_place?: string
+	name?: string
 }
 
 export type PostsRecord = {
 	body: string
-	files?: string[]
+	files?: string
 	slug: string
 	title: string
-	user?: RecordIdString
+	user?: RecordIdString[]
+}
+
+export type TimeSlotsRecord = {
+	description?: HTMLString
+	duration: number
+	label: string
+	limit?: number
+	location_id: RecordIdString[]
+	start_at: IsoDateString
 }
 
 export type UsersRecord = {
@@ -81,24 +93,36 @@ export type UsersRecord = {
 }
 
 // Response types include system fields and match responses from the PocketBase API
+export type AdminsResponse<Texpand = unknown> = Required<AdminsRecord> & AuthSystemFields<Texpand>
 export type AuditlogResponse<Tdata = unknown, Toriginal = unknown, Texpand = unknown> = Required<AuditlogRecord<Tdata, Toriginal>> & BaseSystemFields<Texpand>
-export type HooksResponse<Texpand = unknown> = Required<HooksRecord> & BaseSystemFields<Texpand>
+export type BookingsResponse<Texpand = unknown> = Required<BookingsRecord> & BaseSystemFields<Texpand>
+export type EventsResponse<Texpand = unknown> = Required<EventsRecord> & BaseSystemFields<Texpand>
+export type LocationsResponse<Texpand = unknown> = Required<LocationsRecord> & BaseSystemFields<Texpand>
 export type PostsResponse<Texpand = unknown> = Required<PostsRecord> & BaseSystemFields<Texpand>
+export type TimeSlotsResponse<Texpand = unknown> = Required<TimeSlotsRecord> & BaseSystemFields<Texpand>
 export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSystemFields<Texpand>
 
 // Types containing all Records and Responses, useful for creating typing helper functions
 
 export type CollectionRecords = {
+	admins: AdminsRecord
 	auditlog: AuditlogRecord
-	hooks: HooksRecord
+	bookings: BookingsRecord
+	events: EventsRecord
+	locations: LocationsRecord
 	posts: PostsRecord
+	time_slots: TimeSlotsRecord
 	users: UsersRecord
 }
 
 export type CollectionResponses = {
+	admins: AdminsResponse
 	auditlog: AuditlogResponse
-	hooks: HooksResponse
+	bookings: BookingsResponse
+	events: EventsResponse
+	locations: LocationsResponse
 	posts: PostsResponse
+	time_slots: TimeSlotsResponse
 	users: UsersResponse
 }
 
@@ -106,8 +130,12 @@ export type CollectionResponses = {
 // https://github.com/pocketbase/js-sdk#specify-typescript-definitions
 
 export type TypedPocketBase = PocketBase & {
+	collection(idOrName: 'admins'): RecordService<AdminsResponse>
 	collection(idOrName: 'auditlog'): RecordService<AuditlogResponse>
-	collection(idOrName: 'hooks'): RecordService<HooksResponse>
+	collection(idOrName: 'bookings'): RecordService<BookingsResponse>
+	collection(idOrName: 'events'): RecordService<EventsResponse>
+	collection(idOrName: 'locations'): RecordService<LocationsResponse>
 	collection(idOrName: 'posts'): RecordService<PostsResponse>
+	collection(idOrName: 'time_slots'): RecordService<TimeSlotsResponse>
 	collection(idOrName: 'users'): RecordService<UsersResponse>
 }

@@ -3,12 +3,12 @@
   import Tabs from "$lib/components/TabGroup.svelte";
   import Tab from "$lib/components/Tab.svelte";
   import type { Snippet } from "svelte";
-  import LoginGuard from "$lib/components/LoginGuard.svelte";
   import { preloadData } from "$app/navigation";
   import AuditPage from "../../auditlog/[coll]/[id]/+page.svelte";
   import type { PageData } from "../../auditlog/[coll]/[id]/$types";
   import Delete from "$lib/components/Delete.svelte";
   import { authModel, client } from "$lib/pocketbase";
+  import LoginGuard from "$lib/components/Auth/LoginGuard.svelte";
 
   const { data, children }: { data: any; children: Snippet } = $props();
   const record = $derived(data.record);
