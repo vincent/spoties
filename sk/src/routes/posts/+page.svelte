@@ -5,7 +5,7 @@
   import Link2Modal from "$lib/components/Link2Modal.svelte";
   import { client } from "$lib/pocketbase";
   import EditPage from "./[slug]/edit/+page.svelte";
-  import LoginGuard from "$lib/components/LoginGuard.svelte";
+  import LoginGuard from "$lib/components/Auth/LoginGuard.svelte";
   import Paginator from "$lib/pocketbase/Paginator.svelte";
   import Spinner, { activityStore } from "$lib/components/Spinner.svelte";
 

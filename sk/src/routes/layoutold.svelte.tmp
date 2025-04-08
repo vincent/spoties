@@ -3,14 +3,13 @@
   import { page } from "$app/stores";
   import Alerts from "$lib/components/Alerts.svelte";
   import Nav from "$lib/components/Nav.svelte";
-  import Sidebar from "$lib/components/Sidebar.svelte";
 
   const { data, children } = $props();
   const metadata = $derived(data.metadata ?? {});
   const config = $derived(data.config ?? {});
 
   $effect(() => {
-    if ($page.error) metadata.title = $page.error.message;
+    if ($page.error)  metadata.title = $page.error.message;
   });
 </script>
 
@@ -18,8 +17,12 @@
   <title>{metadata.title} | {config.site?.name}</title>
 </svelte:head>
 
-<div class="bg-gray-50 antialiased dark:bg-gray-900">
-  <Nav siteName={config.site?.name} siteLogo={null} />
+<main class="antialiased bg-gray-50 dark:bg-gray-900">
+  <Nav siteName={config.site?.name} />
+
+  <Alerts />
+
+  <h1>{metadata.headline ?? metadata.title}</h1>
 
   {@render children()}
-</div>
+</main>

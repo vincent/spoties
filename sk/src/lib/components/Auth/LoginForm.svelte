@@ -1,5 +1,6 @@
 <script lang="ts">
   import { client, providerLogin } from "../../pocketbase";
+  import { Label, Input } from 'flowbite-svelte';
 
   const { authCollection = "users" } = $props();
   const collection = client.collection(authCollection);
@@ -50,14 +51,14 @@
 
   <form class="space-y-4" onsubmit={submit}>
     {#if !signup}
-      <label class="label">
-        <span>Email</span>
-        <input type="email" placeholder="your-email@example.com" class="input" bind:value={form.email} required />
-      </label>
-      <label class="label">
-        <span>Password</span>
-        <input type="password" placeholder="Your password" class="input" bind:value={form.password} />
-      </label>
+      <div class="mb-6">
+        <Label for="email" class="block mb-2">Email</Label>
+        <Input id="email" size="lg" placeholder="your-email@example.com" bind:value={form.email} required />
+      </div>
+      <div class="mb-6">
+        <Label for="password" class="block mb-2">Password</Label>
+        <Input id="password" size="lg" placeholder="******" bind:value={form.password} required />
+      </div>
       <div class="flex justify-between flex-wrap">
         <p class="text-sm unstyled py-2 text-slate-500">
           Don't have an account? <button type="button" onclick={() => (signup = true)}>Register</button>
@@ -65,22 +66,22 @@
         <button class="btn variant-filled-primary">Login</button>
       </div>
     {:else}
-      <label class="label">
-        <span>Email</span>
-        <input type="email" placeholder="your-email@example.com" class="input" bind:value={form.email} required />
-      </label>
-      <label class="label">
-        <span>Password</span>
-        <input type="password" placeholder="Your password" class="input" bind:value={form.password} />
-      </label>
-      <label class="label">
-        <span class="label-text">Confirm password</span>
-        <input class="input" required type="password" placeholder="Your password again" bind:value={form.passwordConfirm} />
-      </label>
-      <label class="label">
-        <span class="label-text">Name</span>
-        <input class="input" required type="text" placeholder="Your name" bind:value={form.name} />
-      </label>
+      <div class="mb-6">
+        <Label for="email" class="block mb-2">Email</Label>
+        <Input id="email" size="lg" placeholder="your-email@example.com" bind:value={form.email} required />
+      </div>
+      <div class="mb-6">
+        <Label for="password" class="block mb-2">Password</Label>
+        <Input id="password" size="lg" placeholder="******" bind:value={form.password} required />
+      </div>
+      <div class="mb-6">
+        <Label for="password" class="block mb-2">Confirm password</Label>
+        <Input id="password" size="lg" placeholder="******" bind:value={form.passwordConfirm} required />
+      </div>
+      <div class="mb-6">
+        <Label for="email" class="block mb-2">Name</Label>
+        <Input id="email" size="lg" placeholder="Your name" bind:value={form.name} required />
+      </div>
       <input type="hidden" name="register" value={true} />
       <div class="flex justify-between flex-wrap">
         <p class="text-sm unstyled py-2 text-slate-500">

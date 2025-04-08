@@ -3,7 +3,7 @@
   import { authModel, client } from "../../pocketbase";
   import Alerts, { alerts } from "../Alerts.svelte";
   import Dialog from "../Dialog.svelte";
-  import { Avatar } from "@skeletonlabs/skeleton-svelte";
+    import { Avatar } from "flowbite-svelte";
 
   const { signupAllowed = true } = $props();
 
@@ -28,16 +28,13 @@
     {#snippet trigger(show)}
       <button onclick={show}>
         <Avatar
-          size="size-10"
           src={client.getFileUrl($authModel, $authModel.avatar)}
-          name={$authModel?.name || $authModel?.username || $authModel?.email}
         />
       </button>
     {/snippet}
     <div class="wrapper">
       <Avatar
         src={client.getFileUrl($authModel, $authModel.avatar)}
-        name={$authModel?.name || $authModel?.username || $authModel?.email}
       />
       <button onclick={logout}>Sign Out</button>
     </div>

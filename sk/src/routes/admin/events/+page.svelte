@@ -1,66 +1,42 @@
 <script lang="ts">
   import { base } from "$app/paths";
-  import DateShow from "$lib/components/DateShow.svelte";
-  import Image from "$lib/pocketbase/Image.svelte";
-  import Link2Modal from "$lib/components/Link2Modal.svelte";
-  import { client } from "$lib/pocketbase";
-  import Paginator from "$lib/pocketbase/Paginator.svelte";
-  import Spinner, { activityStore } from "$lib/components/Spinner.svelte";
-  import LoginGuard from "$lib/components/Auth/LoginGuard.svelte";
+  import { PlusOutline } from "flowbite-svelte-icons";
+  import { Timeline, TimelineItem, Button, Navbar, NavBrand, NavLi, NavUl } from "flowbite-svelte";
 
   const { data } = $props();
   const events = $derived(data.events);
   $effect(() => {
     data.metadata.title = data.metadata.headline = "Events";
   });
-  const store = activityStore(() =>
-    client.send("/api/generate", { method: "post" })
-  );
 </script>
 
-<LoginGuard>
-  <button type="button" onclick={store.run} disabled={$store}
-    ><Spinner active={$store} />
-    Generate a random post
-  </button>
-  {#snippet otherwise()}
-    <p>Please Sign In to create/edit events.</p>
-  {/snippet}
-</LoginGuard>
+<Navbar class="ml-3">
+  <NavBrand href="/admin/events/create">
+    <Button><PlusOutline /> Create a new event</Button>
+  </NavBrand>
+  <NavUl>
+    <NavLi href="/admin/events">All</NavLi>
+    <NavLi  href="/admin/events/future">Coming up</NavLi>
+    <NavLi  href="/admin/events/past">Passed</NavLi>
+  </NavUl>
+</Navbar>
 
-<Paginator store={events} showIfSinglePage={true} />
-{#each $events.items as item}
-  <a href={`${base}/admin/events/${item.id}`} class="post">
-    <DateShow date={item.updated} />
-    <div>
-      <div>
-        <i class="bx bx-calendar" title="on date"></i>
-        {new Intl.DateTimeFormat(undefined, { dateStyle: "full" }).format(
-          new Date(item.updated)
-        )}
-        {#if item.expand?.user?.name}
-          <i class="bx bx-pen" title="author"></i>
-          {item.expand.user.name}
-        {/if}
-      </div>
-      <h2>{item.title}</h2>
-    </div>
-  </a>
-
-{:else}
-  <div>No location found. Create some !</div>
-{/each}
-
-<Paginator store={events} showIfSinglePage={true} />
-
-<style lang="scss">
-  .post {
-    color: inherit;
-    display: flex;
-    gap: 1rem;
-    padding-block: 1rem;
-    & + .post {
-      border-block-start: dashed 1px;
-    }
-  }
-</style>
+<Timeline>
+  {#each $events.items as item}
+    <a href={`${base}/admin/events/${item.id}`}>
+      <TimelineItem
+        title={item.title}
+        date={new Intl.DateTimeFormat(undefined, { dateStyle: "full" }).format(new Date(item.updated))}
+        classLi="hover:bg-gray-100 p-2"
+      >
+        <div class="mb-4 flex justify-between text-base font-normal text-gray-500 dark:text-gray-400">
+          <p>{"An event about blh bazd dazd dazd azd"}</p>
+          <div class="event-actions">
+          </div>
+        </div>
+      </TimelineItem>
+    </a>
+  {:else}
+    <div>No event found. Create some !</div>
+  {/each}
+</Timeline>

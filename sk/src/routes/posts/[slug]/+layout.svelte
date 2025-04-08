@@ -68,10 +68,3 @@
     {@render children()}
   {/snippet}
 </LoginGuard>
-
-<style>
-  a {
-    /* don't color links */
-    color: inherit;
-  }
-</style>

@@ -46,7 +46,7 @@
     alerts.error(e.reason.toString());
     const { data = {} } = e.reason.response ?? {};
     for (const [key, value] of Object.entries(data)) {
-      alerts.error(`${key}: ${value?.message}`);
+      alerts.error(`${key}: ${(value as any)?.message}`);
     }
   }
 </script>
