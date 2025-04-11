@@ -1,8 +1,15 @@
 <script lang="ts">
+    import { goto } from "$app/navigation";
   import { base } from "$app/paths";
+    import { client } from "$lib/pocketbase";
 
   const { data } = $props();
   $effect(() => {
+    if (client.authStore.isValid) {
+      goto('/admin/events');
+      return;
+    }
+
     // you could set the metadata either here or in +page.ts
     data.metadata.title = "Home";
     data.metadata.headline = `Welcome to ${data.config.site?.name}`;

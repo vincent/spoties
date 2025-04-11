@@ -1,24 +1,9 @@
 <script lang="ts">
-  import LoginBadge from "./Auth/LoginBadge.svelte";
-
-  import {
-    Navbar,
-    NavBrand,
-    NavHamburger,
-    NavUl,
-    NavLi,
-    Button,
-  } from "flowbite-svelte";
-    import NavDrawer from "./NavDrawer.svelte";
-    import NavApp from "./NavApp.svelte";
-    import NavSearch from "./NavSearch.svelte";
-    import NavNotifications from "./NavNotifications.svelte";
-    import NavApps from "./NavApps.svelte";
-    import NavAuth from "./NavAuth.svelte";
-
-  let navClass = "bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800";
-  let navContainerClass = "flex flex-wrap justify-between items-center mx-auto max-w-screen-xl";
-
+  import LoginBadge from "../Auth/LoginBadge.svelte";
+  import NavDrawer from "./NavDrawer.svelte";
+  import NavApp from "./NavApp.svelte";
+  import NavSearch from "./NavSearch.svelte";
+    
   const links = [
     ["/", "Home"],
     ["/posts/", "Posts"],
@@ -26,7 +11,6 @@
   ];
 
   const { siteName, siteLogo } = $props();
-  let isMenuOpen = $state(false);
 </script>
 
 <nav class="bg-white border-b border-gray-200 px-4 py-2.5 dark:bg-gray-800 dark:border-gray-700 fixed left-0 right-0 top-0 z-50">

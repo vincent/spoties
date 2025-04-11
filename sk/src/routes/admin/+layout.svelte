@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Nav from "$lib/components/Nav.svelte";
+  import Nav from "$lib/components/Nav/Nav.svelte";
   import Sidebar from "$lib/components/Sidebar.svelte";
 
   const { data, children } = $props();

@@ -1,9 +1,7 @@
 <script lang="ts">
   import "../app.css";
   import { page } from "$app/stores";
-  import Alerts from "$lib/components/Alerts.svelte";
-  import Nav from "$lib/components/Nav.svelte";
-  import Sidebar from "$lib/components/Sidebar.svelte";
+  import Nav from "$lib/components/Nav/Nav.svelte";
 
   const { data, children } = $props();
   const metadata = $derived(data.metadata ?? {});
