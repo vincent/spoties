@@ -1,5 +1,6 @@
+import { goto } from "$app/navigation";
 import { client } from "$lib/pocketbase";
-import type { AnswersResponse } from "$lib/pocketbase/generated-types";
+import type { AnswersResponse, BookingsResponse } from "$lib/pocketbase/generated-types";
 import { writable } from 'svelte/store';
 
 type UserFormAnswer = {
@@ -13,13 +14,14 @@ type UserFormAnswer = {
 
 type UserEvent = {
     questions_answers: Record<string, UserFormAnswer>
-    slots_answers: Record<string, boolean>
+    bookings: { id: string, slots: Record<string, boolean> }
     event_id: string
 }
 
 export function createUserEventStore(initial: UserEvent, pb = client) {
     const store = writable<UserEvent>();
 
+    const BOOKINGS = pb.collection('bookings');
     const ANSWERS = pb.collection('answers');
     const user = client.authStore.record
 
@@ -60,13 +62,28 @@ export function createUserEventStore(initial: UserEvent, pb = client) {
                 })
             }
 
+            const bookings = {
+                id: props.bookings.id,
+                slots: Object.keys(props.bookings.slots).filter(sid => !!props.bookings.slots[sid])
+            }
+            const row = props.bookings.id
+                ? await BOOKINGS.update<BookingsResponse>(props.bookings.id, bookings)
+                : await BOOKINGS.create<BookingsResponse>(bookings)
+
+            Object.assign(props.bookings, {
+                ...props.bookings,
+                id: row.id,
+            })
+
             store.update(s => ({ ...s, ...props }))
+
+            goto(`/event/${props.event_id}/done`)
         }
     };
 }
 
 export const userEventStore = createUserEventStore({
     questions_answers: {},
-    slots_answers: {},
+    bookings: { id: '', slots: {} },
     event_id: '',
 })

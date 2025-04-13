@@ -1,7 +1,8 @@
-import type { AnswersResponse } from "$lib/pocketbase/generated-types";
+import type { AnswersResponse, BookingsResponse } from "$lib/pocketbase/generated-types";
 import type { RecordListOptions } from "pocketbase";
 import { client } from "$lib/pocketbase";
 
+const BOOKINGS = client.collection('bookings');
 const ANSWERS = client.collection('answers');
 
 function postUpdateValueFormatter(question: any, row: AnswersResponse): any {
@@ -14,7 +15,7 @@ export async function fetchEventUserAnswers(eventId: string, userId: string, opt
     let record = {
         event_id: eventId,
         questions_answers: {}, // Record<string, UserFormAnswer>
-        slots_answers: {}, // Record<string, boolean>
+        bookings: { id: '', slots: {} }, // { id: string, slots: Record<string, boolean> }
     };
 
     record.questions_answers = await ANSWERS
@@ -31,6 +32,16 @@ export async function fetchEventUserAnswers(eventId: string, userId: string, opt
                 value: postUpdateValueFormatter((a.expand as any).question, a)
             }
         }), {}))
+
+    record.bookings = await BOOKINGS
+        .getFirstListItem<BookingsResponse>(
+            client.filter('user.id={:userId} && event.id={:eventId}', { userId, eventId }),
+            options,
+        )
+        .then(booking => ({
+            id: booking.id,
+            slots: booking.slots.reduce((acc, s) => ({ ...acc, [s]: true }), {}),
+        }))
 
     return record
 }

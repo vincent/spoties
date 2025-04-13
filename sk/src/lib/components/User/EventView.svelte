@@ -1,10 +1,11 @@
 <script lang="ts">
-	import { userEventStore as store, userEventStore } from "$lib/stores/user-event-form";
-	import { Label, Input, Textarea, Card, Range, Rating, Datepicker, Toggle, Radio, Checkbox, Button, Helper, MultiSelect, Badge, Banner } from "flowbite-svelte";
-    import { MapPinAltOutline } from "flowbite-svelte-icons";
-    import { ArrowUpFromLine, UserCircle } from "lucide-svelte";
-    import { client } from "$lib/pocketbase";
+	import { Label, Input, Textarea, Card, Range, Rating, Datepicker, Toggle, Radio, Checkbox, Button, Helper, MultiSelect, Badge } from "flowbite-svelte";
+	import { userEventStore as store } from "$lib/stores/user-event-form";
     import BannerPrefillEvent from "./BannerPrefillEvent.svelte";
+    import { MapPinAltOutline } from "flowbite-svelte-icons";
+    import { ArrowUpFromLine } from "lucide-svelte";
+    import { client } from "$lib/pocketbase";
+    import NavMini from "../Nav/NavMini.svelte";
 
 	let { record, userData } = $props()
 
@@ -25,23 +26,17 @@
 			}), {}),
 			...(userData.questions_answers || {})
 		},
-		slots_answers: {
+		bookings: {
 			...record.locations.map(l => l.slots).flat().reduce((acc, s) => ({
 				...acc,
 				[s.id]: null
 			}), {}),
-			...(userData.slots_answers || {})
+			...(userData.bookings || {})
 		},
 	});
 
 	function multiSelectChoices(choices: any[]) {
 		return choices.map(({ name }) => ({ name, value: name }))
-	}
-
-	function submitEventForm() {
-		// Handle form submission logic here
-		console.log($store);
-		userEventStore.updateUserAnswer($store)
 	}
 </script>
 
@@ -49,9 +44,11 @@
 	<BannerPrefillEvent {username} />
 {/if}
 
-<form onsubmit={submitEventForm}>
-	<h1 class="mt-6 mb-10 block text-4xl">{record.title}</h1>
+<NavMini>
+	<h1 class="mt-6 mb-10 block text-4xl text-gray-800 dark:text-gray-100">{record.title}</h1>
+</NavMini>
 
+<form class="mt-4" onsubmit={() => store.updateUserAnswer($store)}>
 	<div class="mb-6">
 		{@html record.description}
 	</div>
@@ -59,7 +56,7 @@
 	<div class="mb-6">
 		{#each record.questions as q, i}
 			<div class="space-y-4">
-				<Card size="none" class="mt-2 {$store.questions_answers[q.id].value !== null ? 'border-2 border-primary-600' : ''}">
+				<Card size="none" class="mt-2 {$store.questions_answers[q.id].value !== null ? 'border-2 border-primary-600 dark:border-secondary-800' : ''}">
 					<div class="mb-2">{@html q.label}</div>
 
 					{#if q.answer_type === 'simple_text'}
@@ -105,7 +102,7 @@
 
 	{#if record.locations.length}
 		<div class="mb-6">
-			<Label class="mb-2 block text-2xl">Locations</Label>
+			<Label class="mb-2 block text-2xl dark:text-gray-800 text-gray-800">Locations</Label>
 			{#each record.locations as l, i}
 				<div class="space-y-4">
 					<Card size="none" class="mt-2">
@@ -118,7 +115,7 @@
 
 						{#each l.slots as s, i}
 							{#if !s.deleted}
-								<Checkbox class="mt-1 flex" disabled={s.limit === 0} value={s.id} bind:checked={$store.slots_answers[s.id]}>
+								<Checkbox class="mt-1 flex" disabled={s.limit === 0} value={s.id} bind:checked={$store.bookings.slots[s.id]}>
 									<span class="mr-auto">
 										{s.label}
 									</span>
