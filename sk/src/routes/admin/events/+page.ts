@@ -1,5 +1,5 @@
+import type { EventsResponse } from "$lib/pocketbase/generated-types";
 import { client, watch } from "$lib/pocketbase";
-import type { EventsResponse, LocationsResponse } from "$lib/pocketbase/generated-types";
 import type { PageLoad } from "./$types";
 
 export const load: PageLoad = async ({ parent, fetch }) => {

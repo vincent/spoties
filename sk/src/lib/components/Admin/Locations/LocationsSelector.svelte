@@ -1,10 +1,9 @@
 <script lang="ts">
-    import type { LocationsResponse, TimeSlotsRecord, TimeSlotsResponse } from "$lib/pocketbase/generated-types";
-    import SelectedLocationsSummary from "./SelectedLocationsSummary.svelte";
+    import SelectedLocationsSummary from "../Events/EventFormSummary.svelte";
     import AvailableLocationCard from "./AvailableLocationCard.svelte";
     import SelectedLocationCard from "./SelectedLocationCard.svelte";
-    import NewLocationCard from "./NewLocationCard.svelte";
     import { AdminEventStore } from "$lib/stores/admin-event-form";
+    import NewLocationCard from "./NewLocationCard.svelte";
 
     type Props = {
         locations: any[]
@@ -18,14 +17,11 @@
     }: Props = $props()
 
     let unselectedLocations = $derived(locations.filter(l => !value.some(v => v.id === l.id)))
-    let selectedLocations = $derived(value || [])
-
-    
 </script>
 
 <section class="p-1 antialiased">
-    <div class="md:gap-6 lg:flex lg:items-start xl:gap-8">
-        <div class="mx-auto w-full flex-none lg:max-w-2xl xl:max-w-4xl">
+    <div class="flex gap-6">
+        <div class="w-full flex-none lg:max-w-2xl xl:max-w-4xl">
             <div class="space-y-6">
                 {#each $AdminEventStore.locations as l, i}
                     <SelectedLocationCard
@@ -56,7 +52,6 @@
         </div>
 
         <SelectedLocationsSummary
-            {selectedLocations}
             submit={() => AdminEventStore.updateEvent($AdminEventStore)}
         />
     </div>

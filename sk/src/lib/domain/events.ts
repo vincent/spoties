@@ -1,84 +1,80 @@
-import type { EventsRecord, EventsResponse, LocationsRecord, LocationsResponse, TimeSlotsRecord } from "$lib/pocketbase/generated-types";
+import type { EventsResponse, TimeSlotsResponse } from "$lib/pocketbase/generated-types";
 import type { RecordListOptions } from "pocketbase";
 import { client } from "$lib/pocketbase";
-import PocketBase from "pocketbase";
 
-const LOCATIONS = client.collection('locations');
 const SLOTS = client.collection('time_slots');
 const EVENTS = client.collection('events');
 
 export async function fetchEvent(eventId: string, options: RecordListOptions) {
 
-    let record = {
+    let record: Partial<EventsResponse> & any = {
         title: '',
         locations: [] as any[],
+        questions: [] as any[],
     };
 
     if (eventId !== 'create') {
+
+        const event = await EVENTS
+            .getFirstListItem<EventsResponse>(
+                client.filter('id={:eventId} || public_access_link={:eventId}', {eventId}), {
+                ...options,
+                expand: 'locations_via_event,questions_via_event'
+            })
+
+        event.expand = event.expand || {
+            locations_via_event: [],
+            questions_via_event: [],
+        }
+            
+        for (let i = 0; i < (event.expand as any)?.locations_via_event?.length; i++) {
+            const location = (event.expand as any).locations_via_event[i];
+            location.slots = await SLOTS.getFullList<TimeSlotsResponse>(1000, {
+                ...options,
+                filter: client.filter('location.id = {:id}', location),
+                sort: 'starts_at'
+            })
+        }
+
         record = {
             ...record,
-            ...await EVENTS.getOne<EventsResponse>(eventId, {
-                options,
-            }),
-            locations: await LOCATIONS.getFullList<LocationsResponse>(1000, {
-                filter: client.filter('event_id.id = {:eventId}', { eventId }),
-            })
+            event,
+            id: event.id,
+            title: event.title,
+            created: event.created,
+            updated: event.updated,
+            description: event.description,
+            public_access_link: event.public_access_link,
+
+            questions: (event.expand as any).questions_via_event.map(q => ({
+                ...q,
+                properties: q.properties || {}
+            })),
+
+            locations: (event.expand as any).locations_via_event.map(location => ({
+                id: location.id,
+                name: location.name,
+                created: location.created,
+                updated: location.updated,
+                event: location.event,
+                description: location.description,
+                geo_place: location.geo_place,
+
+                slots: location.slots.map(slot => ({
+                    id: slot.id,
+                    label: slot.label,
+                    limit: slot.limit,
+                    created: slot.created,
+                    updated: slot.updated,
+                    deleted: slot.deleted,
+                    starts_at: slot.starts_at ? new Date(Date.parse(slot.starts_at)) : null,
+                    duration: slot.duration,
+                    description: slot.description,
+                    location: slot.location,
+                })),
+            })),
         };
-
-        record.locations.forEach(async l => {
-            l.slots = await SLOTS.getFullList<LocationsResponse>(1000, {
-                filter: client.filter('location_id.id = {:id}', l),
-            })
-        })
-
-        console.log(record)
     }
 
     return record
 }
-
-// export async function saveEvent(locals: App.Locals, event: FullEventUpdateDto, options: {}) {
-//     console.log(`updating Event ${event.id}`)
-
-//     const e1 = await EVENTS.getFirstListItem<EventsResponse>(
-//         client.filter('id = {:eventId}', { eventId: event.id }),
-//         options
-//     )
-//     console.log('1 found', e1)
-
-//     let e = await EVENTS.getOne(event.id, options)
-//     console.log('2 found', e)
-
-//     console.log('3 found', locals.pb.authStore.record)
-
-//     e = await locals.pb.collection('events').update(event.id, event, options)
-//     console.log('3 found', e)
-//     e = await EVENTS.update(event.id, event, options)
-//     console.log('4 found', e)
-
-//     Object.assign(event, event.id
-//         ? await EVENTS.update(event.id, event, options)
-//         : await EVENTS.create(event, options))
-
-//     console.log(`updated Event ${event.id}`)
-
-//     for (let i = 0; i < event.locations.length; i++) {
-//         const loc = event.locations[i]
-//         Object.assign(loc, loc.id
-//             ? await LOCATIONS.update(loc.id, loc, options)
-//             : await LOCATIONS.create(loc, options))
-
-//         console.log(`updated Location ${loc.id}`)
-
-//         for (let j = 0; j < loc.slots.length; j++) {
-//             const slot = loc.slots[j]
-//             Object.assign(loc, loc.id
-//                 ? await SLOTS.update(slot.id, slot, options)
-//                 : await SLOTS.create(slot, options))
-
-//             console.log(`updated Slot ${slot.id}`)
-//         }
-//     }
-
-//     return event
-// }

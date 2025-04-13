@@ -1,23 +1,26 @@
 <script>
-	import { Label, Input, Textarea } from "flowbite-svelte";
+	import { Label, Textarea, FloatingLabelInput, A } from "flowbite-svelte";
 	import LocationsSelector from "../Locations/LocationsSelector.svelte";
 	import { AdminEventStore } from "$lib/stores/admin-event-form";
+    import QuestionsForm from "../Questions/QuestionsForm.svelte";
 
 	const { locations } = $props();
-
-	console.log($AdminEventStore)
 </script>
 
-<h1 class="mb-4 text-3xl">{$AdminEventStore.id ? 'Edit event' : 'Create a new event' }</h1>
-
 <form onsubmit={() => AdminEventStore.updateEvent($AdminEventStore)}>
-	<div class="mb-6">
-		<Label for="event-title" class="mb-2 block text-xl">Title</Label>
-		<Input id="event-title" placeholder="The event title" bind:value={$AdminEventStore.title}/>
-	</div>
+	<FloatingLabelInput classDiv="mb-4" classInput="text-3xl" type="text" bind:value={$AdminEventStore.title}>
+		The event title
+	</FloatingLabelInput>
+
+	{#if $AdminEventStore.id}
+		<div class="mb-6">
+			<Label for="event-description" class="mb-2 block text-2xl">Public link</Label>
+			<A target="_blank" href={`/event/${$AdminEventStore.id}`}>{`/event/${$AdminEventStore.id}`}</A>
+		</div>
+	{/if}
 
 	<div class="mb-6">
-		<Label for="event-description" class="mb-2 block text-xl">Description</Label>
+		<Label for="event-description" class="mb-2 block text-2xl">Description</Label>
 		<Textarea
 			id="event-description"
 			bind:value={$AdminEventStore.description}
@@ -27,7 +30,14 @@
 	</div>
 
 	<div class="mb-6">
-		<Label for="event-locations" class="mb-2 block text-xl">Locations</Label>
+		<Label for="event-questions" class="mb-2 block text-2xl">Questions</Label>
+		<QuestionsForm
+			bind:value={$AdminEventStore.questions}
+		/>
+	</div>
+
+	<div class="mb-6">
+		<Label for="event-locations" class="mb-2 block text-2xl">Locations</Label>
 		<LocationsSelector
 			{locations}
 			bind:value={$AdminEventStore.locations}

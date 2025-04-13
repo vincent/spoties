@@ -1,13 +1,17 @@
 <script lang="ts">
-    import { Datepicker, Input, Range, Textarea, TimelineItem } from "flowbite-svelte";
-    import { CheckCircleOutline } from "flowbite-svelte-icons";
+    import { A, Button, Datepicker, Input, Range, Textarea, TimelineItem } from "flowbite-svelte";
+    import { CheckCircleOutline, TrashBinOutline } from "flowbite-svelte-icons";
+    import { CrossIcon } from "lucide-svelte";
 
-    let { value = $bindable() } = $props()
+    let {
+        value = $bindable(),
+        removeLocationTimeSlot
+    } = $props()
 
     const resetEditing = {
         label: false,
         description: false,
-        start_at: false,
+        starts_at: false,
         duration: false,
         reset: false,
     }
@@ -20,13 +24,20 @@
 <TimelineItem>
     <div class="flex justify-between mb-4 text-base font-normal text-gray-500 dark:text-gray-400">
         {#if editing.label}
-            <div class="flex"><Input size="sm" bind:value={value.label} required onblur={toggleEdit('label')} /> <CheckCircleOutline onclick={toggleEdit('label')}/></div>
+        <div class="flex"><Input size="sm" bind:value={value.label} required onblur={toggleEdit('label')} /> <CheckCircleOutline onclick={toggleEdit('label')}/></div>
         {:else if value.label}
-            <div class="flex" onclick={toggleEdit('label')}>{value.label}</div>
+        <div class="flex" onclick={toggleEdit('label')}>{value.label}</div>
         {:else}
-            <div class="flex" onclick={toggleEdit('label')}><span class="text-gray-300 font-italic">Set slot title</span></div>
+        <div class="flex" onclick={toggleEdit('label')}><span class="text-gray-300 font-italic">Set slot title</span></div>
         {/if}
-        <Datepicker bind:value={value.start_at} />
+        <div class="flex">
+            <Datepicker bind:value={value.starts_at} />
+            <button
+                type="button"
+                class="ml-2 inline-flex items-center text-sm font-medium text-red-600 hover:underline dark:text-red-500"
+                onclick={removeLocationTimeSlot}
+            ><TrashBinOutline /></button>
+        </div>
     </div>
 
     <div class="flex mb-4 text-base font-normal text-gray-500 dark:text-gray-400">

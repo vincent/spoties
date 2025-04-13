@@ -13,6 +13,7 @@ export const load: LayoutLoad = async ({ fetch }) => {
   type Metadata = {
     title: string;
     headline?: string;
+    subline?: string;
   };
   let config: {
     site: {

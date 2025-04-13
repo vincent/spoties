@@ -1,20 +1,27 @@
-import type { EventsRecord, EventsResponse } from "$lib/pocketbase/generated-types";
+import { fetchEventUserAnswers } from "$lib/domain/answers";
+import { fetchEvent } from "$lib/domain/events";
 import type { LayoutLoad } from "../../$types";
 import { client } from "$lib/pocketbase";
+import { redirect } from "@sveltejs/kit";
 
-export const load: LayoutLoad = async ({ params, fetch }) => {
-  const { eventId } = params;
-  // search by both id and slug
-  const filter = client.filter("id != {:id}", { id: eventId });
-  const collection = client.collection("events");
-  const options = { fetch };
-  let record: EventsRecord = {
-    title: "",
-  };
-  if (eventId !== 'create') {
-    record = await collection.getFirstListItem<EventsResponse>(filter, options);
+export const load: LayoutLoad = async ({ url, params, fetch }) => {
+
+  if (!client.authStore.isValid) {
+    return redirect(
+      303,
+      url.pathname.match(/^\/event\/\w/)
+        ? `/login?return_url=${url}`
+        : '/'
+    )
   }
+
+  const { publicLink } = params;
+  const options = { fetch };
+  const record = await fetchEvent(publicLink as string, options)
+  const userAnswers = await fetchEventUserAnswers(record.id, client.authStore.record?.id as string, options)
+
   return {
-    record: record as EventsResponse,
+    record,
+    userAnswers
   };
 };

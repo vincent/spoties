@@ -1,8 +1,9 @@
-import type { EventsResponse, LocationsResponse, TimeSlotsResponse } from '$lib/pocketbase/generated-types';
+import type { EventsResponse, LocationsResponse, QuestionsResponse, TimeSlotsResponse } from '$lib/pocketbase/generated-types';
 import { client } from "$lib/pocketbase";
 import { writable } from 'svelte/store';
 
 type AdminEvent = Partial<EventsResponse> & {
+    questions: Partial<QuestionsResponse>[]
     locations: (Partial<LocationsResponse> & {
         slots: Partial<TimeSlotsResponse>[]
     })[]
@@ -17,55 +18,34 @@ export function createAdminEventStore(initial: AdminEvent, pb = client) {
         }))
     });
 
-    debugger;
-
     const LOCATIONS = pb.collection('locations');
+    const QUESTIONS = pb.collection('questions');
     const SLOTS = pb.collection('time_slots');
     const EVENTS = pb.collection('events');
 
     return {
         ...store,
 
-        reset: () => store.set({ ...initial }),
+        addEventQuestion: (question: Partial<QuestionsResponse> = {}) => store.update(s => ({
+            ...s,
+            questions: (s.questions || []).concat({
+                ...question,
+                label: '',
+                answer_type: '',
+                properties: {}
+            })
+        })),
 
-        updateEvent: async (props: AdminEvent) => {
+        removeEventQuestion: (index: number) => store.update(s => ({
+            ...s,
+            questions: (s.questions || []).concat({
+                label: '',
+                answer_type: '',
+                properties: {}
+            })
+        })),
 
-            console.log(store)
-            debugger;
-
-            Object.assign(props, props.id
-                ? await EVENTS.update(props.id, props)
-                : await EVENTS.create(props))
-
-            for (let i = 0; i < props.locations.length; i++) {
-                const loc = props.locations[i]
-                Object.assign(loc, {
-                    ...loc,
-                    event_id: props.id
-                })
-                Object.assign(loc, loc.id
-                    ? await LOCATIONS.update(loc.id, loc)
-                    : await LOCATIONS.create(loc))
-
-                // props.locations[i] = loc as any
-                
-                for (let j = 0; j < loc.slots.length; j++) {
-                    const slot = {
-                        ...loc.slots[j],
-                        location_id: loc.id,
-                    }
-                    Object.assign(slot, slot.id
-                        ? await SLOTS.update(slot.id as string, slot)
-                        : await SLOTS.create(slot))
-                    
-                    // props.locations[i].slots[j] = slot as any
-                }
-            }
-                    
-            store.update(s => ({ ...s, ...props }))
-        },
-
-        addLocation: (location: Partial<LocationsResponse>) => store.update(s => ({
+        addLocation: (location: Partial<LocationsResponse> = {}) => store.update(s => ({
             ...s,
             locations: (s.locations || []).concat({
                 ...location,
@@ -85,16 +65,77 @@ export function createAdminEventStore(initial: AdminEvent, pb = client) {
                 .concat({
                     label: '',
                     description: '',
-                    start_at: '',
+                    starts_at: '',
                     duration: 4 * 60,
                     limit: 0,
                 })
             }))
-        }))
+        })),
     
+        removeLocationTimeSlot: (locationId: string, slotIndex: number) =>  store.update(s => ({
+            ...s,
+            locations: (s.locations || []).map((l, i) => l.id !== locationId ? l : ({
+                ...l, slots: (l.slots || []).filter((s, i) => i !== slotIndex)
+            }))
+        })),
+
+        /////////////////////////
+
+        reset: () => store.set({ ...initial }),
+
+        updateEvent: async (props: AdminEvent) => {
+
+            console.log(store)
+            debugger;
+
+            Object.assign(props, props.id
+                ? await EVENTS.update(props.id, props)
+                : await EVENTS.create(props))
+
+            for (let i = 0; i < props.questions.length; i++) {
+                const q = props.questions[i]
+                Object.assign(q, {
+                    ...q,
+                    event: props.id,
+                    entity: 'event',
+                    entity_id: props.id,
+                })
+                Object.assign(props.questions[i], q.id
+                    ? await QUESTIONS.update(q.id, q)
+                    : await QUESTIONS.create(q))
+            }
+
+            for (let i = 0; i < props.locations.length; i++) {
+                const loc = props.locations[i]
+                Object.assign(loc, {
+                    ...loc,
+                    event: props.id
+                })
+                Object.assign(props.locations[i], loc.id
+                    ? await LOCATIONS.update(loc.id, loc)
+                    : await LOCATIONS.create(loc))
+
+                // props.locations[i] = loc as any
+                
+                for (let j = 0; j < loc.slots.length; j++) {
+                    const slot = {
+                        ...loc.slots[j],
+                        location: loc.id,
+                    }
+                    Object.assign(loc.slots[j], slot.id
+                        ? await SLOTS.update(slot.id as string, slot)
+                        : await SLOTS.create(slot))
+                    
+                    // props.locations[i].slots[j] = slot as any
+                }
+            }
+                    
+            store.update(s => ({ ...s, ...props }))
+        }
     };
 }
 
 export const AdminEventStore = createAdminEventStore({
-    locations: []
+    locations: [],
+    questions: [],
 })

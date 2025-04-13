@@ -6,7 +6,7 @@
   const { data } = $props();
 </script>
 
-<Navbar class="ml-3">
+<Navbar fluid class="ml-3">
   <NavBrand href="/admin/events/create">
     <Button><PlusOutline /> Create a new event</Button>
   </NavBrand>
