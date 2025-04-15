@@ -1,11 +1,13 @@
 <script lang="ts">
-    import { Input, Textarea } from "flowbite-svelte";
+    import { clickOutside } from "$lib/directives/click-outside";
+    import RichText from "./RichText.svelte";
+    import { Input } from "flowbite-svelte";
 
 	let {
 		value = $bindable(),
 		placeholder = '',
-		input = 'input', // | textarea
-		divClass,
+		input = 'input', // | richtext
+		divClass = '',
 		children,
 	} = $props()
 
@@ -31,8 +33,10 @@
 	{#if editing && input === 'input'}
 		<Input bind:this={element} {placeholder} on:keydown={keydown} onblur={() => editing = false} bind:value={value} />
 
-	{:else if editing && input === 'textarea'}
-		<Textarea bind:this={element} {placeholder} on:keydown={keydown} onblur={() => editing = false} bind:value={value} />
+	{:else if editing && input === 'richtext'}
+		<div use:clickOutside={() => editing = false}>
+			<RichText size={2} bind:value />
+		</div>
 
 	{:else}
 		<div onclick={edit}>

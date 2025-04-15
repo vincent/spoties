@@ -34,14 +34,20 @@ export async function fetchEventUserAnswers(eventId: string, userId: string, opt
         }), {}))
 
     record.bookings = await BOOKINGS
-        .getFirstListItem<BookingsResponse>(
-            client.filter('user.id={:userId} && event.id={:eventId}', { userId, eventId }),
-            options,
+        .getFullList<BookingsResponse>(1, {
+            ...options,
+            filter: client.filter('user.id={:userId} && event.id={:eventId}', { userId, eventId }),
+        })
+        .then(bookings => bookings?.length
+            ? ({
+                id: bookings[0].id,
+                slots: bookings[0].slots.reduce((acc, s) => ({ ...acc, [s]: true }), {}),
+            })
+            : ({
+                id: '',
+                slots: {}
+            })
         )
-        .then(booking => ({
-            id: booking.id,
-            slots: booking.slots.reduce((acc, s) => ({ ...acc, [s]: true }), {}),
-        }))
 
     return record
 }

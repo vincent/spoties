@@ -14,6 +14,7 @@ export enum Collections {
 	Locations = "locations",
 	Posts = "posts",
 	Questions = "questions",
+	Teams = "teams",
 	TimeSlots = "time_slots",
 	Users = "users",
 }
@@ -70,6 +71,7 @@ export type BookingsRecord = {
 export type EventsRecord = {
 	description?: HTMLString
 	public_access_link?: string
+	team: RecordIdString[]
 	title: string
 }
 
@@ -90,6 +92,7 @@ export type PostsRecord = {
 
 export type QuestionsRecord<Tproperties = unknown> = {
 	answer_type: string
+	deleted?: boolean
 	entity: string
 	entity_id: string
 	event?: RecordIdString[]
@@ -98,10 +101,15 @@ export type QuestionsRecord<Tproperties = unknown> = {
 	required?: boolean
 }
 
+export type TeamsRecord = {
+	owner?: RecordIdString[]
+}
+
 export type TimeSlotsRecord = {
 	deleted?: boolean
 	description?: HTMLString
 	duration: number
+	event: RecordIdString[]
 	label: string
 	limit?: number
 	location: RecordIdString[]
@@ -111,6 +119,7 @@ export type TimeSlotsRecord = {
 export type UsersRecord = {
 	avatar?: string
 	name?: string
+	teams?: RecordIdString[]
 }
 
 // Response types include system fields and match responses from the PocketBase API
@@ -122,6 +131,7 @@ export type EventsResponse<Texpand = unknown> = Required<EventsRecord> & BaseSys
 export type LocationsResponse<Texpand = unknown> = Required<LocationsRecord> & BaseSystemFields<Texpand>
 export type PostsResponse<Texpand = unknown> = Required<PostsRecord> & BaseSystemFields<Texpand>
 export type QuestionsResponse<Tproperties = unknown, Texpand = unknown> = Required<QuestionsRecord<Tproperties>> & BaseSystemFields<Texpand>
+export type TeamsResponse<Texpand = unknown> = Required<TeamsRecord> & BaseSystemFields<Texpand>
 export type TimeSlotsResponse<Texpand = unknown> = Required<TimeSlotsRecord> & BaseSystemFields<Texpand>
 export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSystemFields<Texpand>
 
@@ -136,6 +146,7 @@ export type CollectionRecords = {
 	locations: LocationsRecord
 	posts: PostsRecord
 	questions: QuestionsRecord
+	teams: TeamsRecord
 	time_slots: TimeSlotsRecord
 	users: UsersRecord
 }
@@ -149,6 +160,7 @@ export type CollectionResponses = {
 	locations: LocationsResponse
 	posts: PostsResponse
 	questions: QuestionsResponse
+	teams: TeamsResponse
 	time_slots: TimeSlotsResponse
 	users: UsersResponse
 }
@@ -165,6 +177,7 @@ export type TypedPocketBase = PocketBase & {
 	collection(idOrName: 'locations'): RecordService<LocationsResponse>
 	collection(idOrName: 'posts'): RecordService<PostsResponse>
 	collection(idOrName: 'questions'): RecordService<QuestionsResponse>
+	collection(idOrName: 'teams'): RecordService<TeamsResponse>
 	collection(idOrName: 'time_slots'): RecordService<TimeSlotsResponse>
 	collection(idOrName: 'users'): RecordService<UsersResponse>
 }

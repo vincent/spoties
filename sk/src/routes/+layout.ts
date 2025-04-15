@@ -23,7 +23,8 @@ export const load: LayoutLoad = async ({ fetch }) => {
     };
     signupAllowed: boolean;
   } = {} as any;
-  const title = "Untitled";
+
+  const title = "Home";
   const metadata: Metadata = {
     title,
   };

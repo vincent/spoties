@@ -26,24 +26,30 @@ export function createAdminEventStore(initial: AdminEvent, pb = client) {
     return {
         ...store,
 
-        addEventQuestion: (question: Partial<QuestionsResponse> = {}) => store.update(s => ({
-            ...s,
-            questions: (s.questions || []).concat({
+        addEventQuestion: (index: number|undefined = undefined, question: Partial<QuestionsResponse> = {}) => store.update(s => {
+            index = index ?? s.questions.length - 1
+            const newQuestion = {
                 ...question,
                 label: '',
                 answer_type: '',
                 properties: {}
+            }
+            const questions = s.questions.slice()
+            questions.splice(index, 0, newQuestion)
+            return ({
+                ...s,
+                questions,
             })
-        })),
+        }),
 
-        removeEventQuestion: (index: number) => store.update(s => ({
-            ...s,
-            questions: (s.questions || []).concat({
-                label: '',
-                answer_type: '',
-                properties: {}
+        removeEventQuestion: (index: number) => store.update(s => {
+            const questions = s.questions.slice()
+            questions.splice(index, 1)
+            return ({
+                ...s,
+                questions: s.questions.map((q, i) => i !== index ? q : ({ ...q, deleted: true })),
             })
-        })),
+        }),
 
         addLocation: (location: Partial<LocationsResponse> = {}) => store.update(s => ({
             ...s,
@@ -128,8 +134,20 @@ export function createAdminEventStore(initial: AdminEvent, pb = client) {
                     
                     // props.locations[i].slots[j] = slot as any
                 }
+
             }
-                    
+
+            // // mark old slots as deleted
+            // const newSlotsIds = props.locations.flatMap(l => l.slots.map(s => s.id))
+            // const oldSlots = await SLOTS.getFullList({
+            //     filter: client.filter(`event = {:eventId}`, { eventId: props.id })
+            // })
+            // debugger;
+            // for (let i = 0; i < oldSlots.length; i++) {
+            //     if (newSlotsIds.includes(oldSlots[i].id)) continue;
+            //     await SLOTS.update(oldSlots[i].id, { deleted: true })
+            // }
+            
             store.update(s => ({ ...s, ...props }))
         }
     };

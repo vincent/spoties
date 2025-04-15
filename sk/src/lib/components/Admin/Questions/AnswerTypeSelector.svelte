@@ -12,14 +12,18 @@
 </script>
 
 <div class={divClass}>
-    <Button class="w-full">{value || 'Choose an answer type'}<ChevronDownOutline class="w-6 h-6 ms-2 text-white dark:text-white" /></Button>
+    <Button class="w-full">{value || 'Answer type'}<ChevronDownOutline class="w-6 h-6 ms-2 text-white dark:text-white" /></Button>
     <Dropdown {open} class="w-60 p-3 space-y-1 text-sm">
+        <DropdownItem onclick={() => select('just_text')} class="border-b border-gray-200 rounded-sm p-2 hover:bg-gray-100 dark:hover:bg-gray-600">
+            <span class="flex content-center"><EditIcon class="mx-2" size="16" /> Just text</span>
+            <Helper class="ps-8">A formatted text block</Helper>
+        </DropdownItem>
         <DropdownItem onclick={() => select('simple_text')} class="rounded-sm p-2 hover:bg-gray-100 dark:hover:bg-gray-600">
-            <span class="flex content-center"><EditIcon class="mx-2" size="16" /> Simple text</span>
+            <span class="flex content-center"><EditIcon class="mx-2" size="16" /> Short text answer</span>
             <Helper class="ps-8">Write a short unformatted text</Helper>
         </DropdownItem>
         <DropdownItem onclick={() => select('rich_text')} class="rounded-sm p-2 hover:bg-gray-100 dark:hover:bg-gray-600">
-            <span class="flex content-center"><TextIcon class="mx-2" size="16" /> Formatted text</span>
+            <span class="flex content-center"><TextIcon class="mx-2" size="16" /> Long text answer</span>
             <Helper class="ps-8">Write a long formatted text</Helper>
         </DropdownItem>
         <DropdownItem onclick={() => select('yes_no')} class="rounded-sm p-2 hover:bg-gray-100 dark:hover:bg-gray-600">
