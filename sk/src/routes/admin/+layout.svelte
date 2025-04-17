@@ -9,9 +9,8 @@
 <div class="bg-gray-50 antialiased dark:bg-gray-900">
   <Nav siteName={config.site?.name} siteLogo={null} />
 
-  <Sidebar />
-
-  <main class="h-auto p-4 pt-20 md:ml-64">
+  <main class="h-auto p-4 pt-20 flex">
+    <Sidebar />
     {@render children()}
   </main>
 </div>

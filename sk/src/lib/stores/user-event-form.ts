@@ -44,7 +44,7 @@ export function createUserEventStore(initial: UserEvent, pb = client) {
 
             const questions_answers = Object.values(props.questions_answers)
             for (let i = 0; i < questions_answers.length; i++) {
-                const a = questions_answers[i]
+                const a = questions_answers[i];
                 Object.assign(a, {
                     ...a,
                     user: user?.id,
@@ -64,7 +64,9 @@ export function createUserEventStore(initial: UserEvent, pb = client) {
 
             const bookings = {
                 id: props.bookings.id,
-                slots: Object.keys(props.bookings.slots).filter(sid => !!props.bookings.slots[sid])
+                user: user?.id,
+                event: props.event_id,
+                slots: Object.keys(props.bookings.slots).filter(sid => !!props.bookings.slots[sid]),
             }
             const row = props.bookings.id
                 ? await BOOKINGS.update<BookingsResponse>(props.bookings.id, bookings)

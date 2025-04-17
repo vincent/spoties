@@ -1,6 +1,5 @@
 <script>
     import { Button, Card, P } from "flowbite-svelte";
-    import { ArrowRightOutline } from "flowbite-svelte-icons";
     import { PlusCircleIcon } from "lucide-svelte";
 
     let { location, addLocation } = $props();

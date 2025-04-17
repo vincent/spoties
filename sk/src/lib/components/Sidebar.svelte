@@ -18,7 +18,7 @@
   $: activeUrl = $page.url.pathname;
 </script>
 
-<div class="fixed top-20">
+<div class="fixed top-20 w-100">
     <Sidebar {activeUrl}>
     <SidebarWrapper>
         <SidebarGroup>

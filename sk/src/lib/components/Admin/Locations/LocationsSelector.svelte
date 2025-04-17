@@ -1,5 +1,4 @@
 <script lang="ts">
-    import SelectedLocationsSummary from "../Events/EventFormSummary.svelte";
     import AvailableLocationCard from "./AvailableLocationCard.svelte";
     import SelectedLocationCard from "./SelectedLocationCard.svelte";
     import { AdminEventStore } from "$lib/stores/admin-event-form";
@@ -50,9 +49,5 @@
                 </div>
             </div>
         </div>
-
-        <SelectedLocationsSummary
-            submit={() => AdminEventStore.updateEvent($AdminEventStore)}
-        />
     </div>
 </section>

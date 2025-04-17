@@ -1,4 +1,4 @@
-import { fetchEventUserAnswers } from "$lib/domain/answers";
+import { fetchEventUserAnswers } from "$lib/domain/answers.user";
 import { fetchEvent } from "$lib/domain/events";
 import type { LayoutLoad } from "../../$types";
 import { client } from "$lib/pocketbase";
