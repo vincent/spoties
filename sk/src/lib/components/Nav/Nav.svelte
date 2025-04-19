@@ -3,12 +3,8 @@
   import NavDrawer from "./NavDrawer.svelte";
   import NavApp from "./NavApp.svelte";
   import NavSearch from "./NavSearch.svelte";
-    
-  const links = [
-    ["/", "Home"],
-    ["/posts/", "Posts"],
-    ["/hello/", "Hello"],
-  ];
+  import Language from "./Language.svelte";
+  import { DarkMode } from "flowbite-svelte";
 
   const { siteName, siteLogo } = $props();
 </script>
@@ -24,6 +20,8 @@
     <div class="flex items-center lg:order-2">
       <!-- <NavNotifications /> -->
       <!-- <NavApps /> -->
+      <Language />
+      <DarkMode />  
       <LoginBadge />
     </div>
   </div>

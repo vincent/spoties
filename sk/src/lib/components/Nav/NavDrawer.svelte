@@ -1,4 +1,5 @@
 <button
+    type="button"
     data-drawer-target="drawer-navigation"
     data-drawer-toggle="drawer-navigation"
     aria-controls="drawer-navigation"

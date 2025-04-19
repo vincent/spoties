@@ -26,7 +26,7 @@
 {#if $authModel}
   <Dialog>
     {#snippet trigger(show)}
-      <button onclick={show}>
+      <button type="button" onclick={show}>
         <Avatar
           src={client.getFileUrl($authModel, $authModel.avatar)}
         />
@@ -36,7 +36,7 @@
       <Avatar
         src={client.getFileUrl($authModel, $authModel.avatar)}
       />
-      <button onclick={logout}>Sign Out</button>
+      <button type="button" onclick={logout}>Sign Out</button>
     </div>
   </Dialog>
 {:else}

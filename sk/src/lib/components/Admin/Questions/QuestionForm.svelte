@@ -1,21 +1,23 @@
 <script lang="ts">
     import { Button, Card, Datepicker, FloatingLabelInput, Input, Range, Rating, Toggle } from "flowbite-svelte";
     import { PlusOutline, QuestionCircleOutline, TrashBinOutline } from "flowbite-svelte-icons";
+    import type { QuestionsRecord } from "$lib/pocketbase/generated-types";
     import EditInPlace from "$lib/components/Shared/EditInPlace.svelte";
     import RichText from "$lib/components/Shared/RichText.svelte";
     import AnswerTypeSelector from "./AnswerTypeSelector.svelte";
+    import type { QuestionType } from "$lib/domain/questions";
 	import { t } from "$lib/i18n";
 
-    let { removeQuestion, value = $bindable() } = $props()
+    let { removeQuestion, value = $bindable<QuestionsRecord>() } = $props()
     let question = $state(value)
 
-    function updateAnswerType(answer_type: string) {
+    function updateAnswerType(answer_type: QuestionType) {
         value = { ...value, answer_type }
 
         if (answer_type === 'just_text')
             value = { ...value, properties: { text: '' }}
 
-        if (answer_type === 'simple_text' && !value.properties?.placeholder)
+        if (['simple_text', 'private_name', 'private_age', 'private_address'].includes(answer_type) && !value.properties?.placeholder)
             value = { ...value, properties: { placeholder: '' }}
 
         if (answer_type === 'rich_text' && !value.properties?.rich_placeholder)
@@ -45,11 +47,11 @@
 
 <Card size="none" class="mt-2">
     <div class="flex justify-between mb-4">
-        <EditInPlace divClass="w-4/6 mr-auto" input="richtext" bind:value={value.label}>
+        <EditInPlace divClass="w-3/6 mr-auto" input="richtext" bind:value={value.label}>
             <h5 class="mb-2 text-xl tracking-tight text-gray-900 dark:text-white">{@html value.label || `<em>${$t('event.form.question_title')}</em>`}</h5>
         </EditInPlace>
-        <AnswerTypeSelector divClass="w-1/6 mx-2" value={value.answer_type} {updateAnswerType} />
-        <Button onclick={removeQuestion}><TrashBinOutline /></Button>
+        <AnswerTypeSelector divClass="w-2/8 mx-2" value={value.answer_type} {updateAnswerType} />
+        <button type="button" onclick={removeQuestion}><TrashBinOutline /></button>
     </div>
 
     <!-- <pre>{ JSON.stringify(value.properties) }</pre> -->

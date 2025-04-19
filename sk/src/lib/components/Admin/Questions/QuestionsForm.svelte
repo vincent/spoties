@@ -2,20 +2,40 @@
     import { AdminEventStore } from "$lib/stores/admin-event-form";
     import { Button } from "flowbite-svelte";
     import QuestionForm from "./QuestionForm.svelte";
-    import { PlusOutline } from "flowbite-svelte-icons";
+    import { DotsVerticalOutline, PlusOutline } from "flowbite-svelte-icons";
 	import { t } from "$lib/i18n";
+    import { reorder, useSortable } from "$lib/hooks/use-sortable.svelte";
 
     let { value = $bindable() } = $props()
+
+    let sortable = $state<HTMLElement | null>(null);
+
+    useSortable(() => sortable, {
+        animation: 200,
+        handle: '.my-handle',
+        ghostClass: 'opacity-0',
+        onEnd(evt) {
+            $AdminEventStore.questions = [].concat(reorder($AdminEventStore.questions, evt) as any);
+
+            console.log($AdminEventStore.questions.map(q => q.label))
+        }
+    });
 </script>
 
-<section class="p-1 antialiased">
-    {#each $AdminEventStore.questions as question, index}
+<section class="p-1 antialiased" bind:this={sortable}>
+    {#each $AdminEventStore.questions as question, index (question)}
         {#if !question.deleted}
-            <div class="space-y-4">
+            <div class="relative space-y-4">
+                <button type="button" class="my-handle outline-none">
+                    <DotsVerticalOutline />
+                </button>
                 <div class="flex justify-center between-questions">
                     <Button class="h-10 -m5" onclick={() => AdminEventStore.addEventQuestion(index)}><PlusOutline/> {$t('event.form.add_question')}</Button>
                 </div>
                 <QuestionForm bind:value={$AdminEventStore.questions[index]} removeQuestion={() => AdminEventStore.removeEventQuestion(index)}/>
+            </div>
+        {:else}
+            <div class="relative space-y-4">
             </div>
         {/if}
     {/each}
@@ -25,6 +45,11 @@
 </section>
 
 <style>
+    .my-handle {
+        position: absolute;
+        left: -20px;
+        top: 3.5rem;
+    }
     .between-questions {
         overflow: visible;
         transition: all 100ms ease-out;

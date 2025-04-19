@@ -105,6 +105,7 @@ export function createAdminEventStore(initial: AdminEvent, pb = client) {
                     event: props.id,
                     entity: 'event',
                     entity_id: props.id,
+                    rank: i,
                 })
                 Object.assign(props.questions[i], q.id
                     ? await QUESTIONS.update(q.id, q)

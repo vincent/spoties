@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Label, Input, Card, Range, Rating, Datepicker, Toggle, Radio, Checkbox, Button, Helper, MultiSelect, Badge } from "flowbite-svelte";
+	import { Label, Input, Card, Range, Rating, Datepicker, Toggle, Radio, Checkbox, Button, Helper, MultiSelect, Badge, Textarea } from "flowbite-svelte";
 	import { userEventStore as store } from "$lib/stores/user-event-form";
     import BannerPrefillEvent from "./BannerPrefillEvent.svelte";
     import { ArrowRightOutline, MapPinAltOutline } from "flowbite-svelte-icons";
@@ -57,47 +57,58 @@
 
 	<div class="mb-6">
 		{#each record.questions as q, i}
+			{@const props = q.properties || {}}
+			{@const a = $store.questions_answers[q.id]}
 			{#if !q.deleted}
 				<div class="space-y-4">
-					<Card size="none" class="mt-2 {$store.questions_answers[q.id].value !== null ? 'border-2 border-primary-600 dark:border-secondary-800' : ''}">
+					<Card size="none" class="mt-2 qtype-{q.answer_type} {(a.value !== null || q.answer_type === 'just_text') ? 'border-2 border-primary-600 dark:border-secondary-800' : ''}">
 						<div class="mb-2">{@html q.label}</div>
 
 						{#if q.answer_type === 'just_text'}
 							<p>{@html q.properties.text}</p>
 
 						{:else if q.answer_type === 'simple_text'}
-							<Input size="md" type="text" placeholder={q.properties?.placeholder} bind:value={$store.questions_answers[q.id].value} />
+							<Input size="md" type="text" placeholder={props.placeholder} bind:value={a.value} />
+
+						{:else if q.answer_type === 'private_name'}
+							<Input size="md" type="text" placeholder={props.placeholder} bind:value={a.value} />
+
+						{:else if q.answer_type === 'private_age'}
+							<Input size="md" type="number" placeholder={props.placeholder} bind:value={a.value} />
+
+						{:else if q.answer_type === 'private_address'}
+							<Textarea rows={3} placeholder={props.placeholder} bind:value={a.value} />
 
 						{:else if q.answer_type === 'rich_text'}
-							<RichText size={8} bind:value={$store.questions_answers[q.id].value} />
+							<RichText size={8} bind:value={a.value} />
 
 						{:else if q.answer_type === 'rating'}
-							<Rating size={48} bind:rating={$store.questions_answers[q.id].value} />
+							<Rating size={48} bind:rating={a.value} />
 
 						{:else if q.answer_type === 'range'}
-							<Range bind:value={$store.questions_answers[q.id].value} />
+							<Range bind:value={a.value} />
 
 						{:else if q.answer_type === 'date'}
-							<Datepicker bind:value={$store.questions_answers[q.id].value} />
+							<Datepicker bind:value={a.value} />
 
 						{:else if q.answer_type === 'time'}
-							<Datepicker bind:value={$store.questions_answers[q.id].value} />
+							<Datepicker bind:value={a.value} />
 
 						{:else if q.answer_type === 'yes_no'}
-							<Toggle bind:checked={$store.questions_answers[q.id].value}>{$store.questions_answers[q.id].value ? 'Yes' : 'No' /** FIXME */}</Toggle>
+							<Toggle bind:checked={a.value}>{a.value ? 'Yes' : 'No' /** FIXME */}</Toggle>
 
-						{:else if q.answer_type === 'checkboxes' && q.properties?.choices !== undefined}
+						{:else if q.answer_type === 'checkboxes' && props.choices !== undefined}
 							{#each q.properties.choices as choice, ci}
-								<Checkbox bind:value={$store.questions_answers[q.id].value} bind:group={q.properties}>{choice.name}</Checkbox>
+								<Checkbox bind:value={a.value} bind:group={q.properties}>{choice.name}</Checkbox>
 							{/each}
 
-						{:else if q.answer_type === 'select_one' && q.properties?.choices?.length}
+						{:else if q.answer_type === 'select_one' && props.choices?.length}
 							{#each q.properties.choices as choice, ci}
-								<Radio class="my-1" bind:group={$store.questions_answers[q.id].value} value={choice.name}>{choice.name}</Radio>
+								<Radio class="my-1" bind:group={a.value} value={choice.name}>{choice.name}</Radio>
 							{/each}
 
 						{:else if q.answer_type === 'select_many'}
-							<MultiSelect size="lg" items={multiSelectChoices(q.properties.choices)} bind:value={$store.questions_answers[q.id].value} let:item let:clear>
+							<MultiSelect size="lg" items={multiSelectChoices(q.properties.choices)} bind:value={a.value} let:item let:clear>
 								<Badge dismissable params={{ duration: 100 }} on:close={clear}>{item.name}</Badge>
 							</MultiSelect>
 						{/if}

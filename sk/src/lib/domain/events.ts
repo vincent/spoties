@@ -46,10 +46,12 @@ export async function fetchEvent(eventId: string, options: RecordListOptions) {
             description: event.description,
             public_access_link: event.public_access_link,
 
-            questions: (event.expand as any).questions_via_event.map(q => ({
-                ...q,
-                properties: q.properties || {}
-            })),
+            questions: (event.expand as any).questions_via_event
+                .map(q => ({
+                    ...q,
+                    properties: q.properties || {}
+                }))
+                .sort((a, b) => a.rank - b.rank),
 
             locations: (event.expand as any).locations_via_event.map(location => ({
                 id: location.id,
