@@ -7,6 +7,7 @@
     import NavMini from "../Nav/NavMini.svelte";
     import RichText from "../Shared/RichText.svelte";
     import RichTextView from "../Shared/RichTextView.svelte";
+	import { t } from "$lib/i18n";
 
 	let { record, userData } = $props()
 
@@ -128,11 +129,11 @@
 												{#if s.starts_at}
 													{new Intl.DateTimeFormat(undefined, { dateStyle: "full" }).format(new Date(s.starts_at))}
 												{/if}
-												{#if s.duration >= 0} - {s.duration} hours{/if}
+												{#if s.duration >= 0} - {$t('event.duration', s)}{/if}
 											</div>
 											{#if s.limit > -1}
 												<div class="mx-2">
-													{s.limit} places available
+													{$t('event.places_limit', s)}
 												</div>
 											{/if}
 										</div>	
@@ -147,6 +148,6 @@
 	{/if}
 
 	<div class="mb-8 flex justify-end-safe">
-		<Button type="submit">Submit <ArrowRightOutline class="ml-2" /></Button>
+		<Button type="submit">{$t('act.submit')} <ArrowRightOutline class="ml-2" /></Button>
 	</div>
 </form>

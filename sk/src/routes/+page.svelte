@@ -1,17 +1,18 @@
 <script lang="ts">
   import { client } from "$lib/pocketbase";
+  import { t } from "$lib/i18n";
   const { data } = $props();
 
   // you could set the metadata either here or in +page.ts
-  data.metadata.headline = `Seamless event staffing,\nfrom <span class="text-primary-600">invitation</span> to <span class="text-primary-600">location</span>.`;
-  data.metadata.subline = `Match the right staff to the right locations based on your answers, availability, and proximity. When plans change, our system helps you reassign spots — turning hours of coordination into seconds, so you can focus on what matters.`;
+  data.metadata.headline = $t("homepage.headline");
+  data.metadata.subline = $t("homepage.subline");
 
-  let next = $state({ text: 'Getting started', url: '/login' })
+  let next = $state({ text: $t("homepage.getting_started"), url: '/login' })
 
   $effect(() => {
     if (client.authStore.isValid) {
       next = {
-        text: 'Staff a new event',
+        text: $t("homepage.staff_new_event"),
         url: '/admin/events',
       }
     }

@@ -1,6 +1,7 @@
 <script lang="ts">
   import { Table, TableBody, TableBodyCell, TableBodyRow, TableHead, TableHeadCell } from 'flowbite-svelte';
   import { slide } from 'svelte/transition';
+	import { t } from "$lib/i18n";
 
   let { event, responses } = $props() 
   let openRow = $state(-1)
@@ -16,8 +17,8 @@
 
 <Table>
   <TableHead>
-    <TableHeadCell>Date</TableHeadCell>
-    <TableHeadCell>Email</TableHeadCell>
+    <TableHeadCell>{$t('data.date')}</TableHeadCell>
+    <TableHeadCell>{$t('data.email')}</TableHeadCell>
     {#each event.locations as l}
       {#each l.slots as s}
         <TableHeadCell>
@@ -34,7 +35,7 @@
         <TableHeadCell>{response.user.name}</TableHeadCell>
         {#each event.locations as l}
           {#each l.slots as s}
-            <TableHeadCell>{response.bookings.includes(s.id) ? 'Yes' : ''}</TableHeadCell>
+            <TableHeadCell>{response.bookings.includes(s.id) ? $t('data.yes') : ''}</TableHeadCell>
           {/each}
         {/each}
       </TableBodyRow>

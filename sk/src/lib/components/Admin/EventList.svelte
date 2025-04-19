@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { Timeline, TimelineItem } from "flowbite-svelte";
-
-    let { events } = $props()
+  import { Timeline, TimelineItem } from "flowbite-svelte"; 
+  import { t } from "$lib/i18n";
+  let { events } = $props()
 </script>
 
 <Timeline>
@@ -20,7 +20,7 @@
       </TimelineItem>
     </a>
   {:else}
-    <div>No event found. Create some !</div>
+    <div>{$t('event.empty_list')}</div>
   {/each}
 </Timeline>
   

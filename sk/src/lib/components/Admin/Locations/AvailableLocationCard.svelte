@@ -1,6 +1,7 @@
 <script>
     import { Button, Card, P } from "flowbite-svelte";
     import { PlusCircleIcon } from "lucide-svelte";
+    import { t } from "$lib/i18n";
 
     let { location, addLocation } = $props();
 </script>
@@ -11,6 +12,6 @@
         <P class="mb-3" weight="light" color="text-gray-500 dark:text-gray-400">{location.description}</P>
     </div>
     <Button class="mt-6 w-fit" onclick={() => addLocation(location)}>
-        Select <PlusCircleIcon class="w-6 h-6 ms-2 text-white" />
+        {$t('act.select')} <PlusCircleIcon class="w-6 h-6 ms-2 text-white" />
     </Button>
 </Card>

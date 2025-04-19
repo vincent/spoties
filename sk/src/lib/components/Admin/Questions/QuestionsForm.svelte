@@ -3,6 +3,7 @@
     import { Button } from "flowbite-svelte";
     import QuestionForm from "./QuestionForm.svelte";
     import { PlusOutline } from "flowbite-svelte-icons";
+	import { t } from "$lib/i18n";
 
     let { value = $bindable() } = $props()
 </script>
@@ -12,14 +13,14 @@
         {#if !question.deleted}
             <div class="space-y-4">
                 <div class="flex justify-center between-questions">
-                    <Button class="h-10 -m5" onclick={() => AdminEventStore.addEventQuestion(index)}><PlusOutline/> Insert question</Button>
+                    <Button class="h-10 -m5" onclick={() => AdminEventStore.addEventQuestion(index)}><PlusOutline/> {$t('event.form.add_question')}</Button>
                 </div>
                 <QuestionForm bind:value={$AdminEventStore.questions[index]} removeQuestion={() => AdminEventStore.removeEventQuestion(index)}/>
             </div>
         {/if}
     {/each}
     <div class="mt-4">
-        <Button onclick={() => AdminEventStore.addEventQuestion()}><PlusOutline class="mr-2" /> Add a question</Button>
+        <Button onclick={() => AdminEventStore.addEventQuestion()}><PlusOutline class="mr-2" /> {$t('event.form.add_question')}</Button>
     </div>
 </section>
 

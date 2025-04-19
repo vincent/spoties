@@ -4,6 +4,7 @@
     import EditInPlace from "$lib/components/Shared/EditInPlace.svelte";
     import RichText from "$lib/components/Shared/RichText.svelte";
     import AnswerTypeSelector from "./AnswerTypeSelector.svelte";
+	import { t } from "$lib/i18n";
 
     let { removeQuestion, value = $bindable() } = $props()
     let question = $state(value)
@@ -21,13 +22,13 @@
             value = { ...value, properties: { rich_placeholder: '' }}
 
         if (answer_type === 'select_one' && !value.properties?.choices)
-            value = { ...value, properties: { choices: [{ name: 'Option 1' }] }}
+            value = { ...value, properties: { choices: [{ name: $t('data.option_i', {i:1}) }] }}
 
         if (answer_type === 'select_many' && !value.properties?.choices)
-            value = { ...value, properties: { choices: [{ name: 'Option 1' }] }}
+            value = { ...value, properties: { choices: [{ name: $t('data.option_i', {i:1}) }] }}
 
         if (answer_type === 'checkboxes' && !value.properties?.choices)
-            value = { ...value, properties: { choices: [{ name: 'Option 1' }] }}
+            value = { ...value, properties: { choices: [{ name: $t('data.option_i', {i:1}) }] }}
     }
 
     function addChoiceOption() {
@@ -36,7 +37,7 @@
             properties: {
                 ...(value.properties || {}),
                 choices: (value.properties?.choices || [])
-                    .concat({ name: `Option ${(value.properties?.choices?.length || 0) + 1}` })
+                    .concat({ name: $t('data.option_i', {i:(value.properties?.choices?.length || 0) + 1}) })
             }
         }
     }
@@ -45,7 +46,7 @@
 <Card size="none" class="mt-2">
     <div class="flex justify-between mb-4">
         <EditInPlace divClass="w-4/6 mr-auto" input="richtext" bind:value={value.label}>
-            <h5 class="mb-2 text-xl tracking-tight text-gray-900 dark:text-white">{@html value.label || `<em>${'Question title'}</em>`}</h5>
+            <h5 class="mb-2 text-xl tracking-tight text-gray-900 dark:text-white">{@html value.label || `<em>${$t('event.form.question_title')}</em>`}</h5>
         </EditInPlace>
         <AnswerTypeSelector divClass="w-1/6 mx-2" value={value.answer_type} {updateAnswerType} />
         <Button onclick={removeQuestion}><TrashBinOutline /></Button>
@@ -92,7 +93,7 @@
             class="mt-3 inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-900 hover:underline dark:text-gray-400 dark:hover:text-white"
             onclick={addChoiceOption}
         >
-            <PlusOutline class="mr-2" /> Add a choice
+            <PlusOutline class="mr-2" /> {$t('event.form.add_choice')}
         </button>
 
     {:else if value.answer_type === 'select_one' && value.properties?.choices?.length}
@@ -106,7 +107,7 @@
             class="mt-3 inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-900 hover:underline dark:text-gray-400 dark:hover:text-white"
             onclick={addChoiceOption}
         >
-            <PlusOutline class="mr-2" /> Add a choice
+            <PlusOutline class="mr-2" /> {$t('event.form.add_choice')}
         </button>
 
     {:else if value.answer_type === 'select_many' && value.properties?.choices?.length}
@@ -120,13 +121,13 @@
             class="mt-3 inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-900 hover:underline dark:text-gray-400 dark:hover:text-white"
             onclick={addChoiceOption}
         >
-            <PlusOutline class="mr-2" /> Add a choice
+            <PlusOutline class="mr-2" /> {$t('event.form.add_choice')}
         </button>
     {/if}
 
     {#if value.answer_type !== 'just_text'}
         <div class="mt-4 flex justify-end">
-            <Toggle bind:checked={question.required} class="italic dark:text-gray-500">Required</Toggle>
+            <Toggle bind:checked={question.required} class="italic dark:text-gray-500">{$t('data.required')}</Toggle>
         </div>
     {/if}
 </Card>

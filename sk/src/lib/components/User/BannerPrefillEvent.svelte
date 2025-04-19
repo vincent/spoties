@@ -1,6 +1,7 @@
 <script>
     import { Banner } from "flowbite-svelte";
     import { UserCircle } from "lucide-svelte";
+	import { t } from "$lib/i18n";
     const { username } = $props();
 </script>
 <Banner>
@@ -9,8 +10,8 @@
         <UserCircle class="w-6 h-6 text-gray-500 dark:text-gray-400" />
     </span>
     <span>
-        Hi <span class="font-semibold">{username}</span>, Welcome back!<br>
-        We already filled the form with your previous answers.
+        <span>{@html $t('event.banner_1', {username})}
+        <span>{$t('event.banner_2')}
     </span>
     </p>
 </Banner>

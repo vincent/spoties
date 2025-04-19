@@ -5,6 +5,7 @@
 	import { AdminEventStore } from "$lib/stores/admin-event-form";
     import QuestionsForm from "../Questions/QuestionsForm.svelte";
     import RichText from "$lib/components/Shared/RichText.svelte";
+	import { t } from "$lib/i18n";
 
 	const { locations } = $props();
 </script>
@@ -12,30 +13,30 @@
 <form class="flex justify-center items-start" onsubmit={() => AdminEventStore.updateEvent($AdminEventStore)}>
 	<div class="w-3/4">
 		<FloatingLabelInput classDiv="mb-4" classInput="text-3xl" type="text" bind:value={$AdminEventStore.title}>
-			The event title
+			{$t('event.form.event_title')}
 		</FloatingLabelInput>
 
 		{#if $AdminEventStore.id}
 			<div class="mb-6">
-				<Label class="mb-2 block text-2xl">Public link</Label>
+				<Label class="mb-2 block text-2xl">{$t('event.form.public_link')}</Label>
 				<A target="_blank" href={`/event/${$AdminEventStore.id}`}>{`/event/${$AdminEventStore.id}`}</A>
 			</div>
 		{/if}
 
 		<div class="mb-6">
-			<Label for="event-description" class="mb-2 block text-2xl">Description</Label>
+			<Label for="event-description" class="mb-2 block text-2xl">{$t('event.form.description')}</Label>
 			<RichText bind:value={$AdminEventStore.description} />
 		</div>
 
 		<div class="mb-6">
-			<Label for="event-questions" class="mb-2 block text-2xl">Questions</Label>
+			<Label for="event-questions" class="mb-2 block text-2xl">{$t('event.form.questions')}</Label>
 			<QuestionsForm
 				bind:value={$AdminEventStore.questions}
 			/>
 		</div>
 
 		<div class="mb-6">
-			<Label for="event-locations" class="mb-2 block text-2xl">Locations</Label>
+			<Label for="event-locations" class="mb-2 block text-2xl">{$t('event.form.locations')}</Label>
 			<LocationsSelector
 				{locations}
 				bind:value={$AdminEventStore.locations}

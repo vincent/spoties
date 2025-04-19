@@ -3,6 +3,7 @@
     import SelectedLocationCard from "./SelectedLocationCard.svelte";
     import { AdminEventStore } from "$lib/stores/admin-event-form";
     import NewLocationCard from "./NewLocationCard.svelte";
+    import { t } from "$lib/i18n";
 
     type Props = {
         locations: any[]
@@ -28,14 +29,14 @@
                         locationIndex={i}
                     />
                 {:else}
-                    Add some locations to your event
+                    {$t('event.form.add_locations')}
                 {/each}
             </div>
 
             <!-- available -->
             <div class="hidden xl:mt-8 xl:block">
                 <h3 class="text-xl text-gray-900 dark:text-white">
-                    Available locations
+                    {$t('event.form.available_locations')}
                 </h3>
                 <div class="mt-6 grid grid-cols-3 gap-4 sm:mt-8">
                     <NewLocationCard onclick={() => null} />
