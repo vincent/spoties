@@ -39,7 +39,7 @@
             </div>
         {/if}
     {/each}
-    <div class="mt-4">
+    <div class="mt-4 pr-12 grid justify-items-end">
         <Button onclick={() => AdminEventStore.addEventQuestion()}><PlusOutline class="mr-2" /> {$t('event.form.add_question')}</Button>
     </div>
 </section>

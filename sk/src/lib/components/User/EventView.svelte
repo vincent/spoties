@@ -10,7 +10,7 @@
 	import { t } from "$lib/i18n";
 
 	let { record, userData } = $props()
-
+	
 	const user = client.authStore.record as any
 	const username = user.name || user.email?.split(/@/)[0]
 	const somePreviousAnswers = Object.values(userData?.questions_answers || {}).some((a: any) => a.value)
