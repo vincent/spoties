@@ -1,12 +1,10 @@
 <script lang="ts">
-  import { Datepicker, Range, TimelineItem, Tooltip } from "flowbite-svelte";
-  import { TrashBinOutline } from "flowbite-svelte-icons";
-  import { t } from "$lib/i18n";
-  import EditInPlace from "../Shared/EditInPlace.svelte";
   import { AdminEventStore } from "$lib/stores/admin-event-form.svelte";
-    import FieldErrors from "../Shared/FieldErrors.svelte";
-    import { modals } from "svelte-modals";
-    import Delete from "../Delete.svelte";
+  import { Datepicker, Range, TimelineItem } from "flowbite-svelte";
+  import DeleteButton from "../Shared/DeleteButton.svelte";
+  import EditInPlace from "../Shared/EditInPlace.svelte";
+  import FieldErrors from "../Shared/FieldErrors.svelte";
+  import { t } from "$lib/i18n";
   
   let {
     value = $bindable(),
@@ -32,11 +30,7 @@
         on:select={e => $AdminEventStore.locations[locationIndex].slots[index].starts_at = e.detail.toISOString()}
         on:clear={_ => $AdminEventStore.locations[locationIndex].slots[index].starts_at = undefined}
       />
-      <button
-        type="button"
-        class="ml-2 inline-flex items-center text-sm font-medium text-red-600 hover:underline dark:text-red-500"
-        onclick={() => modals.open(Delete, { confirm: removeLocationTimeSlot })}
-      ><TrashBinOutline /></button><Tooltip>{$t('act.delete')}</Tooltip>
+      <DeleteButton confirm={removeLocationTimeSlot} />
     </div>
   </div>
 

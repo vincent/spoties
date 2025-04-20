@@ -1,16 +1,15 @@
 <script lang="ts">
-    import { Card, Datepicker, FloatingLabelInput, Input, Range, Rating, Toggle, Tooltip } from "flowbite-svelte";
-    import { PlusOutline, QuestionCircleOutline, TrashBinOutline } from "flowbite-svelte-icons";
+    import { Card, Datepicker, FloatingLabelInput, Input, Range, Rating, Toggle } from "flowbite-svelte";
+    import { PlusOutline, QuestionCircleOutline } from "flowbite-svelte-icons";
     import type { QuestionsRecord } from "$lib/pocketbase/generated-types";
     import { AdminEventStore } from "$lib/stores/admin-event-form.svelte";
+    import DeleteButton from "$lib/components/Shared/DeleteButton.svelte";
     import EditInPlace from "$lib/components/Shared/EditInPlace.svelte";
     import FieldErrors from "$lib/components/Shared/FieldErrors.svelte";
     import RichText from "$lib/components/Shared/RichText.svelte";
     import AnswerTypeSelector from "./AnswerTypeSelector.svelte";
     import type { QuestionType } from "$lib/domain/questions";
 	import { t } from "$lib/i18n";
-    import { Modals, modals } from 'svelte-modals';
-    import Delete from "$lib/components/Delete.svelte";
 
     let { removeQuestion, questionIndex, value = $bindable<QuestionsRecord>() } = $props()
     let validation = $derived(AdminEventStore.valid($AdminEventStore))
@@ -18,10 +17,13 @@
     function updateAnswerType(answer_type: QuestionType) {
         value = { ...value, answer_type }
 
+        if (['private_name', 'private_age', 'private_address'].includes(answer_type))
+            value = { ...value, label: $t(`event.form.question_type_${answer_type}` as any) }
+
         if (answer_type === 'just_text')
             value = { ...value, properties: { text: '' }}
 
-        if (['simple_text', 'private_name', 'private_age', 'private_address'].includes(answer_type) && !value.properties?.placeholder)
+        if (['simple_text', 'private_name', 'private_age', 'private_address'].includes(answer_type))
             value = { ...value, properties: { placeholder: '' }}
 
         if (answer_type === 'rich_text' && !value.properties?.rich_placeholder)
@@ -68,11 +70,7 @@
         </div>
         <div class="flex justify-end items-start w-2/8 mx-2">
             <AnswerTypeSelector divClass="w-4/5" value={$AdminEventStore.questions[questionIndex].answer_type} {updateAnswerType} />
-            <button
-                type="button"
-                class="mt-3 ml-2 inline-flex items-center text-sm font-medium text-red-600 hover:underline dark:text-red-500"
-                onclick={() => modals.open(Delete, { confirm: removeQuestion })}
-            ><TrashBinOutline /></button><Tooltip>{$t('act.delete')}</Tooltip>
+            <DeleteButton iconClass="mt-3" confirm={removeQuestion} />
         </div>
     </div>
 

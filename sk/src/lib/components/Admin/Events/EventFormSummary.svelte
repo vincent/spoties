@@ -1,13 +1,12 @@
 <script lang="ts">
-    import { t } from "$lib/i18n";
-    import { AdminEventStore } from "$lib/stores/admin-event-form.svelte";
-    import { Button, Helper } from "flowbite-svelte";
-    import { CheckOutline } from "flowbite-svelte-icons";
+  import { t } from "$lib/i18n";
+  import { AdminEventStore } from "$lib/stores/admin-event-form.svelte";
+  import { Button, Helper } from "flowbite-svelte";
+  import { CheckOutline } from "flowbite-svelte-icons";
 
-    let { submit } = $props();
-
-    let validation = $derived(AdminEventStore.valid($AdminEventStore))
-    let totalSlots = $derived($AdminEventStore.locations.reduce((acc, loc) => acc + loc.slots?.length, 0));
+  let { submit } = $props();
+  let validation = $derived(AdminEventStore.valid($AdminEventStore))
+  let totalSlots = $derived($AdminEventStore.locations.reduce((acc, loc) => acc + loc.slots?.length, 0));
 </script>
 
 <div class="w-full flex-none max-w-xl">
