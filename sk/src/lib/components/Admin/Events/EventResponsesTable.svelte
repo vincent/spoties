@@ -1,7 +1,9 @@
 <script lang="ts">
-  import { Table, TableBody, TableBodyCell, TableBodyRow, TableHead, TableHeadCell } from 'flowbite-svelte';
+  import { Button, Dropdown, DropdownItem, Table, TableBody, TableBodyCell, TableBodyRow, TableHead, TableHeadCell } from 'flowbite-svelte';
   import { slide } from 'svelte/transition';
-	import { stripTags, t } from "$lib/i18n";
+	import { locale, stripTags, t } from "$lib/i18n";
+	import { arrayToCSV, downloadBlob, responsesToArray } from "$lib/utils/csv";
+    import { ChevronDownOutline } from 'flowbite-svelte-icons';
 
   let { event, responses } = $props() 
   let openRow = $state(-1)
@@ -9,7 +11,20 @@
   const toggleRow = (i) => {
     openRow = openRow === i ? null : i
   }
+
+  const downloadCSV = () => {
+    const csv = arrayToCSV(responsesToArray($locale, event, responses))
+    // console.log(csv)
+    downloadBlob(csv, 'export.csv', 'text/csv;charset=utf-8;')
+  }
 </script>
+
+<div class="mb-4 flex justify-end">
+  <Button>Download <ChevronDownOutline class="w-6 h-6 ms-2 text-white dark:text-white" /></Button>
+  <Dropdown>
+    <DropdownItem onclick={downloadCSV}>as CSV</DropdownItem>
+  </Dropdown>
+</div>
 
 <Table>
   <TableHead>
