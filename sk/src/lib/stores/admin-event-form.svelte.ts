@@ -99,6 +99,7 @@ export function createAdminEventStore(initial: AdminEvent, pb = client) {
                 ...question,
                 label: '',
                 answer_type: '',
+                required: true,
                 properties: {}
             }
             const questions = s.questions.slice()

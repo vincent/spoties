@@ -13,6 +13,7 @@ const en = {
   'data.date': 'Date',
   'data.email': 'Email',
   'data.yes': 'Yes',
+  'data.no': 'No',
   'data.required': 'Required',
   'data.option_i': 'Option {{i}}',
 
@@ -110,6 +111,7 @@ const fr = {
   'data.date': 'Date',
   'data.email': 'Email',
   'data.yes': 'Oui',
+  'data.no': 'Non',
   'data.required': 'Obligatoire',
   'data.option_i': 'Option {{i}}',
 

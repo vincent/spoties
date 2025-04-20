@@ -1,14 +1,21 @@
-import { goto } from "$app/navigation";
-import { client } from "$lib/pocketbase";
 import type { AnswersResponse, BookingsResponse } from "$lib/pocketbase/generated-types";
-import { writable } from 'svelte/store';
+import { z, type typeToFlattenedError, type ZodIssue } from "zod";
+import type { QuestionType } from "$lib/domain/questions";
+import { locale, translate } from "$lib/i18n";
+import { get, writable } from 'svelte/store';
+import { client } from "$lib/pocketbase";
+import { goto } from "$app/navigation";
+
+type Question = {
+    id: string
+    properties: any
+    required: boolean
+    answer_type: QuestionType
+}
 
 type UserFormAnswer = {
     id?: string
-    question: {
-        id: string
-        answer_type: string
-    }
+    question: Question
     value: any
 }
 
@@ -25,17 +32,52 @@ export function createUserEventStore(initial: UserEvent, pb = client) {
     const ANSWERS = pb.collection('answers');
     const user = client.authStore.record
 
-    function postUpdateValueFormatter(a: UserFormAnswer, row: AnswersResponse): any {
-        if (a.question.answer_type === 'date' && row.value) return new Date(Date.parse(row.value as string))
-        return row.value
+    let schema = z.object({})
+
+    function questionValidator(q: Question) {
+        if (!q.required) return z.any()
+        if (q.answer_type === 'checkboxes') return z.object({ value: z.string().array() })
+        return z.object({
+            // value: z.union([ z.number(), z.string() ], { message: translate(get(locale), 'errors.required') })
+            value: z.coerce.string()
+                .min(1)
+                .refine(val => (val !== 'null') ? val : '', { message: translate(get(locale), 'errors.required') })
+        })
     }
 
     return {
         ...store,
 
+        valid: form => {
+            const result = schema.safeParse(form)
+            const flatten = { ...result, error: result.error
+                ? result.error.flatten(i => i)
+                : {} as any
+            } as {
+                success: boolean,
+                error?: typeToFlattenedError<UserEvent, ZodIssue>
+            }
+            console.log(form, flatten)
+            return flatten
+        },
+        
         /////////////////////////
 
         reset: () => store.set({ ...initial }),
+        updateValidation: (props: UserEvent) => {
+            schema = z.object({
+                questions_answers: z.object(
+                    Object.keys(props.questions_answers)
+                        .reduce((acc, qid) => ({
+                            ...acc,
+                            [qid]: questionValidator(props.questions_answers[qid].question)
+                        }), {})
+                ),
+                bookings: z.object({
+                    slots: z.object({})
+                }),
+            })
+        },
 
         updateUserAnswer: async (props: UserEvent) => {
 
