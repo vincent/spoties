@@ -1,6 +1,6 @@
 <script lang="ts">
     import { AdminEventStore } from "$lib/stores/admin-event-form.svelte";
-    import { Button } from "flowbite-svelte";
+    import { Button, Tooltip } from "flowbite-svelte";
     import QuestionForm from "./QuestionForm.svelte";
     import { DotsVerticalOutline, PlusOutline } from "flowbite-svelte-icons";
 	import { t } from "$lib/i18n";
@@ -24,8 +24,8 @@
     {#each $AdminEventStore.questions as question, index (question)}
         {#if !question.deleted}
             <div class="relative space-y-4">
-                <button type="button" class="my-handle outline-none">
-                    <DotsVerticalOutline />
+                <button type="button" class="my-handle outline-none text-gray-600 dark:text-gray-200">
+                    <DotsVerticalOutline /><Tooltip>{$t('act.reorder')}</Tooltip>
                 </button>
                 <div class="flex justify-center between-questions">
                     <Button class="h-10 -m5" onclick={() => AdminEventStore.addEventQuestion(index)}><PlusOutline/> {$t('event.form.add_question')}</Button>

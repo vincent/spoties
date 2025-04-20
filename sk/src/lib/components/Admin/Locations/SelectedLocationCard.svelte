@@ -22,11 +22,11 @@
     <div
         class="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0"
     >
-        <MapPinAltOutline size="xl" />
+        <MapPinAltOutline size="xl" class="text-gray-600 dark:text-gray-200" />
 
         <div class="w-full min-w-0 flex-1 space-y-4 md:order-2">
-            <span>{value.name}</span>
-            <p>{@html value.description}</p>
+            <span class="text-gray-600 dark:text-gray-200">{value.name}</span>
+            <p class="text-gray-600 dark:text-gray-200">{@html value.description}</p>
 
             <div class="mt-2 flex items-center gap-4">
                 <button

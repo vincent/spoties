@@ -8,6 +8,7 @@ const en = {
   'act.delete_ask': 'Are you sure you want to delete this?',
   'act.delete_yes': `Yes, I'm sure`,
   'act.delete_no': 'No, cancel',
+  'act.reorder': 'Change order',
 
   'data.date': 'Date',
   'data.email': 'Email',
@@ -104,6 +105,7 @@ const fr = {
   'act.delete_ask': 'Souhaitez vous réellement supprimer cela ?',
   'act.delete_yes': `Oui, je suis sûr`,
   'act.delete_no': 'Non, annuler',
+  'act.reorder': 'Réordonner',
 
   'data.date': 'Date',
   'data.email': 'Email',
