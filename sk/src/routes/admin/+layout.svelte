@@ -1,6 +1,7 @@
 <script lang="ts">
   import Nav from "$lib/components/Nav/Nav.svelte";
   import Sidebar from "$lib/components/Sidebar.svelte";
+  import { Modals } from "svelte-modals";
 
   const { data, children } = $props();
   const config = $derived(data.config ?? {});
@@ -14,3 +15,5 @@
     {@render children()}
   </main>
 </div>
+
+<Modals />

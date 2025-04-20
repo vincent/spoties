@@ -1,7 +1,7 @@
 <script lang="ts">
     import AvailableLocationCard from "./AvailableLocationCard.svelte";
     import SelectedLocationCard from "./SelectedLocationCard.svelte";
-    import { AdminEventStore } from "$lib/stores/admin-event-form";
+    import { AdminEventStore } from "$lib/stores/admin-event-form.svelte";
     import NewLocationCard from "./NewLocationCard.svelte";
     import { t } from "$lib/i18n";
 
@@ -21,7 +21,7 @@
 
 <section class="p-1 antialiased">
     <div class="flex gap-6">
-        <div class="w-full flex-none lg:max-w-2xl xl:max-w-4xl">
+        <div class="w-full">
             <div class="space-y-6">
                 {#each $AdminEventStore.locations as l, i}
                     <SelectedLocationCard

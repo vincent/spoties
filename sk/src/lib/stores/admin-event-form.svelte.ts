@@ -1,6 +1,9 @@
 import type { EventsResponse, LocationsResponse, QuestionsResponse, TimeSlotsResponse } from '$lib/pocketbase/generated-types';
 import { client } from "$lib/pocketbase";
-import { writable } from 'svelte/store';
+import { derived, get, writable } from 'svelte/store';
+import { z, type typeToFlattenedError, type ZodIssue } from 'zod'
+import { QuestionTypes } from '$lib/domain/questions';
+import { locale, translate } from '$lib/i18n';
 
 type AdminEvent = Partial<EventsResponse> & {
     questions: Partial<QuestionsResponse>[]
@@ -8,6 +11,59 @@ type AdminEvent = Partial<EventsResponse> & {
         slots: Partial<TimeSlotsResponse>[]
     })[]
 }
+
+let schema = derived(locale, ($l) => z.object({
+    title: z
+        .string({ message: translate($l, 'errors.required') })
+        .trim()
+        .min(1, { message: translate($l, 'errors.required') })
+        .max(128, { message: translate($l, 'errors.too_long') }),
+    description: z.string()
+        .trim()
+        .min(20, { message: translate($l, 'errors.required') })
+        .max(20000),
+    questions: z.array(z.object({
+        label: z
+            .string()
+            .trim()
+            .min(1, { message: translate($l, 'errors.required') })
+            .max(128, { message: translate($l, 'errors.too_long') }),
+        answer_type: z
+            .nativeEnum(QuestionTypes),
+        properties: z
+            .object({}),
+        required: z
+            .boolean(),
+    })),
+    locations: z.array(z.object({
+        // label: z
+        //  .string()
+        //  .trim()
+        //  .min(1)
+        //  .max(128, { message: translate($l, 'errors.too_long') }),
+        // description: z
+        //  .string()
+        //  .trim()
+        //  .min(1)
+        //  .max(20000),
+        slots: z
+            .array(z.object({
+                label: z
+                    .string()
+                    .trim()
+                    .min(1, { message: translate($l, 'errors.required') })
+                    .max(128, { message: translate($l, 'errors.too_long') }),
+                starts_at: z.coerce.date(),
+                description: z
+                    .string()
+                    .trim()
+                    .min(0)
+                    .max(20000),
+                limit: z
+                    .number(),
+            }))
+    })),
+}))
 
 export function createAdminEventStore(initial: AdminEvent, pb = client) {
     const store = writable<AdminEvent>({
@@ -25,6 +81,17 @@ export function createAdminEventStore(initial: AdminEvent, pb = client) {
 
     return {
         ...store,
+
+        valid: form => {
+            const result = get(schema).safeParse(form)
+            return { ...result, error: result.error
+                ? result.error.flatten(i => i)
+                : {} as any
+            } as {
+                success: boolean,
+                error?: typeToFlattenedError<AdminEvent, ZodIssue>
+            }
+        },
 
         addEventQuestion: (index: number|undefined = undefined, question: Partial<QuestionsResponse> = {}) => store.update(s => {
             index = index ?? s.questions.length - 1
@@ -132,7 +199,8 @@ export function createAdminEventStore(initial: AdminEvent, pb = client) {
                     Object.assign(loc.slots[j], slot.id
                         ? await SLOTS.update(slot.id as string, slot)
                         : await SLOTS.create(slot))
-                    
+
+                    // loc.slots[j].starts_at = slot.starts_at ? new Date(Date.parse(slot.starts_at)) : undefined,                        
                     // props.locations[i].slots[j] = slot as any
                 }
 

@@ -1,34 +1,57 @@
 <script lang="ts">
-  import { Datepicker, Range, TimelineItem } from "flowbite-svelte";
+  import { Datepicker, Range, TimelineItem, Tooltip } from "flowbite-svelte";
   import { TrashBinOutline } from "flowbite-svelte-icons";
   import { t } from "$lib/i18n";
   import EditInPlace from "../Shared/EditInPlace.svelte";
+  import { AdminEventStore } from "$lib/stores/admin-event-form.svelte";
+    import FieldErrors from "../Shared/FieldErrors.svelte";
+    import { modals } from "svelte-modals";
+    import Delete from "../Delete.svelte";
   
   let {
     value = $bindable(),
+    index,
+    locationIndex,
     removeLocationTimeSlot
   } = $props()
+
+  let validation = $derived(AdminEventStore.valid($AdminEventStore))
 </script>
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <TimelineItem>
   <div class="flex justify-between mb-4 text-base font-normal text-gray-500 dark:text-gray-400">
-    <EditInPlace divClass="w-full" input="richtext" bind:value={value.label}>
-      <div class="flex">{@html value.label}</div>
+    <EditInPlace divClass="w-full" input="richtext" bind:value={$AdminEventStore.locations[locationIndex].slots[index].label}>
+      <div class="flex">{@html value.label || 'Name this slot'}</div>
     </EditInPlace>
-    <div class="flex">
-      <Datepicker bind:value={value.starts_at} />
+
+    <div class="flex slot-actions">
+      <Datepicker 
+        value={$AdminEventStore.locations[locationIndex].slots[index].starts_at ? new Date(Date.parse($AdminEventStore.locations[locationIndex].slots[index].starts_at)) : null}
+        on:select={e => $AdminEventStore.locations[locationIndex].slots[index].starts_at = e.detail.toISOString()}
+        on:clear={_ => $AdminEventStore.locations[locationIndex].slots[index].starts_at = undefined}
+      />
       <button
         type="button"
         class="ml-2 inline-flex items-center text-sm font-medium text-red-600 hover:underline dark:text-red-500"
-        onclick={removeLocationTimeSlot}
-      ><TrashBinOutline /></button>
+        onclick={() => modals.open(Delete, { confirm: removeLocationTimeSlot })}
+      ><TrashBinOutline /></button><Tooltip>{$t('act.delete')}</Tooltip>
     </div>
   </div>
 
+  {#if validation?.error?.fieldErrors?.locations}
+    <div class="mb-2">
+      {#each validation?.error?.fieldErrors?.locations as error}
+        {#if error.path[1] === locationIndex && error.path[3] === index && error.path[4] === 'label'}
+          <FieldErrors validationErrors={[error]} />
+        {/if}
+      {/each}
+    </div>
+  {/if}
+
   <div class="flex mb-4 text-base font-normal text-gray-500 dark:text-gray-400">
-    <EditInPlace divClass="w-full" input="richtext" bind:value={value.description}>
+    <EditInPlace divClass="w-full" input="richtext" bind:value={$AdminEventStore.locations[locationIndex].slots[index].description}>
       <div class="flex">{@html value.description}</div>
     </EditInPlace>
   </div>
@@ -44,3 +67,9 @@
     <Range min="0" max="10" bind:value={value.limit} />
   </div>
 </TimelineItem>
+
+<style>
+  :global(.slot-actions > .relative) {
+    width: 18rem;
+  }
+</style>

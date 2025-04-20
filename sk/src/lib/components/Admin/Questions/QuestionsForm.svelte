@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { AdminEventStore } from "$lib/stores/admin-event-form";
+    import { AdminEventStore } from "$lib/stores/admin-event-form.svelte";
     import { Button } from "flowbite-svelte";
     import QuestionForm from "./QuestionForm.svelte";
     import { DotsVerticalOutline, PlusOutline } from "flowbite-svelte-icons";
@@ -16,8 +16,6 @@
         ghostClass: 'opacity-0',
         onEnd(evt) {
             $AdminEventStore.questions = [].concat(reorder($AdminEventStore.questions, evt) as any);
-
-            console.log($AdminEventStore.questions.map(q => q.label))
         }
     });
 </script>
@@ -32,7 +30,7 @@
                 <div class="flex justify-center between-questions">
                     <Button class="h-10 -m5" onclick={() => AdminEventStore.addEventQuestion(index)}><PlusOutline/> {$t('event.form.add_question')}</Button>
                 </div>
-                <QuestionForm bind:value={$AdminEventStore.questions[index]} removeQuestion={() => AdminEventStore.removeEventQuestion(index)}/>
+                <QuestionForm questionIndex={index} bind:value={$AdminEventStore.questions[index]} removeQuestion={() => AdminEventStore.removeEventQuestion(index)}/>
             </div>
         {:else}
             <div class="relative space-y-4">

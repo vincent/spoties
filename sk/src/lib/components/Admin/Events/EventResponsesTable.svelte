@@ -1,17 +1,13 @@
 <script lang="ts">
   import { Table, TableBody, TableBodyCell, TableBodyRow, TableHead, TableHeadCell } from 'flowbite-svelte';
   import { slide } from 'svelte/transition';
-	import { t } from "$lib/i18n";
+	import { stripTags, t } from "$lib/i18n";
 
   let { event, responses } = $props() 
   let openRow = $state(-1)
 
   const toggleRow = (i) => {
     openRow = openRow === i ? null : i
-  }
-
-  function stripTags(input: string) {
-    return input.replace(/<\/?[^>]+(>|$)/g, "")
   }
 </script>
 

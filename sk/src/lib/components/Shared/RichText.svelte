@@ -5,23 +5,36 @@
 	import "@friendofsvelte/tipex/styles/EditLink.css";
 	import "@friendofsvelte/tipex/styles/CodeBlock.css";
 	import { Tipex } from '@friendofsvelte/tipex';
+    import { stripTags } from "$lib/i18n";
+
+	// https://github.com/themesberg/flowbite-svelte/blob/main/src/lib/forms/FloatingLabelInput.svelte
+	const inputColorClasses = {
+		base: 'border-gray-300 dark:border-gray-600 dark:focus:border-primary-500 focus:border-primary-600',
+		green: 'border-green-600 dark:border-green-500 dark:focus:border-green-500 focus:border-green-600',
+		red: 'border-red-600 dark:border-red-500 dark:focus:border-red-500  focus:border-red-600'
+	};
 
 	let {
 		value = $bindable(),
 		size = 50,
-		onblur = () => null,
+		color = 'base',
 	} = $props()
 
 	let tipex = $state<Tipex>();
+
+	function getHTML() {
+		const html = (tipex as any)?.getHTML()
+		const clean = stripTags(html);
+		return clean ? html : ''
+	}
 </script>
 
 <Tipex
 	body={value}
-	bind:tipex
+	bind:tipex={tipex as any}
 	controls !focal
-	class="h-[{size}vh] border border-neutral-200"
-	onblur={onblur?.()}
-	onupdate={() => value = tipex?.getHTML()}
+	class="h-[{size}vh] border border-neutral-200 {inputColorClasses[color]}"
+	onupdate={() => value = getHTML()}
 >
 	{#snippet utilities(tipex)}
 	{/snippet}

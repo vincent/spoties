@@ -4,6 +4,11 @@ const en = {
   'lang.fr': 'French',
   'act.submit': 'Submit',
   'act.select': 'Select',
+  'act.delete': 'Delete',
+  'act.delete_ask': 'Are you sure you want to delete this?',
+  'act.delete_yes': `Yes, I'm sure`,
+  'act.delete_no': 'No, cancel',
+
   'data.date': 'Date',
   'data.email': 'Email',
   'data.yes': 'Yes',
@@ -19,6 +24,8 @@ const en = {
   "homepage.staff_new_event": `Staff a new event`,
 
   "errors.we_are_on_it": "We are already working to solve the problem.",
+  "errors.required": "This field is required",
+  "errors.too_long": "This value is too long",
 
   "event.done.answers_sent": "Your answers have been sent to the organizer",
   "event.done.review_answers": "Review your answers",
@@ -36,6 +43,7 @@ const en = {
 
   'event.form.add_locations': "Add some locations to your event",
   'event.form.available_locations': "Available locations",
+  'event.form.fix_errors': "Fix form errors to submit",
   'event.form.event_title': "The event title",
   'event.form.public_link': "Public link",
   'event.form.description': "Description",
@@ -91,7 +99,12 @@ const fr = {
   'lang.en': 'Anglais',
   'lang.fr': 'Français',
   'act.submit': 'Envoyer',
+  'act.delete': 'Supprimer',
   'act.select': 'Sélectionner',
+  'act.delete_ask': 'Souhaitez vous réellement supprimer cela ?',
+  'act.delete_yes': `Oui, je suis sûr`,
+  'act.delete_no': 'Non, annuler',
+
   'data.date': 'Date',
   'data.email': 'Email',
   'data.yes': 'Oui',
@@ -107,6 +120,8 @@ const fr = {
   "homepage.staff_new_event": `Gérer un nouvel événement`,
 
   "errors.we_are_on_it": "Nous travaillons déjà à résoudre le problème.",
+  "errors.required": "Ce champ est requis",
+  "errors.too_long": "Cette valeur est trop longue",
 
   "event.done.answers_sent": "Vos réponses ont été envoyées à l'organisateur",
   "event.done.review_answers": "Vérifiez vos réponses",
@@ -124,6 +139,7 @@ const fr = {
 
   'event.form.add_locations': "Ajoutez des lieux à votre événement",
   'event.form.available_locations': "Lieux disponibles",
+  'event.form.fix_errors': "Corriger les erreurs pour sauvegarder",
   'event.form.event_title': "Titre de l'événement",
   'event.form.public_link': "Lien public",
   'event.form.description': "Description",

@@ -1,14 +1,18 @@
 <script>
     import { EditOutline, MapPinAltOutline, PlusOutline, TrashBinOutline } from "flowbite-svelte-icons";
-    import { Button, Hr, Timeline } from "flowbite-svelte";
+    import { Button, Hr, Timeline, Tooltip } from "flowbite-svelte";
     import TimeSlotForm from "../TimeSlotForm.svelte";
-    import { AdminEventStore } from "$lib/stores/admin-event-form";
+    import { AdminEventStore } from "$lib/stores/admin-event-form.svelte";
+    import { t } from "$lib/i18n";
+    import { modals } from "svelte-modals";
+    import Delete from "$lib/components/Delete.svelte";
 
     let {
         value = $bindable(),
         locationIndex,
     } = $props();
 
+    let validation = $derived(AdminEventStore.valid($AdminEventStore))
     let showSlots = $state(false)
 </script>
 
@@ -28,10 +32,10 @@
                 <button
                     type="button"
                     class="inline-flex items-center text-sm font-medium text-red-600 hover:underline dark:text-red-500"
-                    onclick={() => AdminEventStore.removeLocation(value)}
+                    onclick={() => modals.open(Delete, { confirm: () => AdminEventStore.removeLocation(value) })}
                 >
-                    <TrashBinOutline /> Remove location
-                </button>
+                    <TrashBinOutline />
+                </button><Tooltip>{$t('act.delete')}</Tooltip>
                 <button
                     type="button"
                     class="inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-900 hover:underline dark:text-gray-400 dark:hover:text-white"
@@ -47,10 +51,12 @@
         <Hr classHr="my-8" />
 
         <Timeline>
-            {#each value.slots as s, i}
+            {#each value.slots as s, index}
                 <TimeSlotForm
-                    removeLocationTimeSlot={() => AdminEventStore.removeLocationTimeSlot(value.id, i)}
-                    bind:value={$AdminEventStore.locations[locationIndex].slots[i]}
+                    {index}
+                    {locationIndex}
+                    removeLocationTimeSlot={() => AdminEventStore.removeLocationTimeSlot(value.id, index)}
+                    bind:value={$AdminEventStore.locations[locationIndex].slots[index]}
                 />
             {/each}
         </Timeline>

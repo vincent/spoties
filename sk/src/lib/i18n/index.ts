@@ -4,7 +4,7 @@ import translations, { type Lang, type Translations } from "./translations";
 export const locale = writable<Lang>('en');
 export const locales = Object.keys(translations);
 
-function translate(locale: Lang, key: keyof Translations, vars: Record<string, any>) {
+export function translate(locale: Lang, key: keyof Translations, vars: Record<string, any> = {}) {
   // Let's throw some errors if we're trying to use keys/locales that don't exist.
   // We could improve this by using Typescript and/or fallback values.
   if (!key) throw new Error("no key provided to $t()");
@@ -27,3 +27,7 @@ function translate(locale: Lang, key: keyof Translations, vars: Record<string, a
 export const t = derived(locale, ($locale) => (key: keyof Translations, vars = {}) =>
   translate($locale as any, key, vars)
 );
+
+export function stripTags(input: string) {
+  return input.replace(/<\/?[^>]+(>|$)/g, "")
+}

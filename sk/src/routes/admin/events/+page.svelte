@@ -6,7 +6,7 @@
   const { data } = $props();
 </script>
 
-<div class="mx-auto w-full max-w-(--breakpoint-xl)">
+<div class="max-w-(--breakpoint-2xl) mx-auto">
   <Navbar fluid class="ml-3">
     <NavBrand href="/admin/events/create">
       <Button><PlusOutline /> Create a new event</Button>

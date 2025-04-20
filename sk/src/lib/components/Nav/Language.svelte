@@ -15,7 +15,7 @@
   }
 </script>
 
-<button type="button" class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-hidden rounded-lg text-sm p-2.5">
+<button type="button" class="mx-2 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-hidden rounded-lg text-sm p-2.5">
   <LanguageOutline class="lang-menu dark:text-white" />
   <Dropdown bind:open triggeredBy=".lang-menu">
     {#each locales as l}

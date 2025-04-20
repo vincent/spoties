@@ -5,7 +5,7 @@
     import { t } from "$lib/i18n";
     import type { QuestionType } from "$lib/domain/questions";
 
-    let { divClass, updateAnswerType, value = $bindable<QuestionType>() } = $props()
+    let { divClass= '', updateAnswerType, value = $bindable<QuestionType>() } = $props()
     let open = $state(false)
     function select(v: QuestionType) {
         open = false

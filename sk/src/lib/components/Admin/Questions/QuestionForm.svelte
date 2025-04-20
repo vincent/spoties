@@ -1,15 +1,19 @@
 <script lang="ts">
-    import { Button, Card, Datepicker, FloatingLabelInput, Input, Range, Rating, Toggle } from "flowbite-svelte";
+    import { Card, Datepicker, FloatingLabelInput, Input, Range, Rating, Toggle, Tooltip } from "flowbite-svelte";
     import { PlusOutline, QuestionCircleOutline, TrashBinOutline } from "flowbite-svelte-icons";
     import type { QuestionsRecord } from "$lib/pocketbase/generated-types";
+    import { AdminEventStore } from "$lib/stores/admin-event-form.svelte";
     import EditInPlace from "$lib/components/Shared/EditInPlace.svelte";
+    import FieldErrors from "$lib/components/Shared/FieldErrors.svelte";
     import RichText from "$lib/components/Shared/RichText.svelte";
     import AnswerTypeSelector from "./AnswerTypeSelector.svelte";
     import type { QuestionType } from "$lib/domain/questions";
 	import { t } from "$lib/i18n";
+    import { Modals, modals } from 'svelte-modals';
+    import Delete from "$lib/components/Delete.svelte";
 
-    let { removeQuestion, value = $bindable<QuestionsRecord>() } = $props()
-    let question = $state(value)
+    let { removeQuestion, questionIndex, value = $bindable<QuestionsRecord>() } = $props()
+    let validation = $derived(AdminEventStore.valid($AdminEventStore))
 
     function updateAnswerType(answer_type: QuestionType) {
         value = { ...value, answer_type }
@@ -47,11 +51,29 @@
 
 <Card size="none" class="mt-2">
     <div class="flex justify-between mb-4">
-        <EditInPlace divClass="w-3/6 mr-auto" input="richtext" bind:value={value.label}>
-            <h5 class="mb-2 text-xl tracking-tight text-gray-900 dark:text-white">{@html value.label || `<em>${$t('event.form.question_title')}</em>`}</h5>
-        </EditInPlace>
-        <AnswerTypeSelector divClass="w-2/8 mx-2" value={value.answer_type} {updateAnswerType} />
-        <button type="button" onclick={removeQuestion}><TrashBinOutline /></button>
+        <div class="flex flex-col w-3/6 mr-auto">
+            <EditInPlace input="richtext" bind:value={$AdminEventStore.questions[questionIndex].label}>
+                <h5 class="mb-2 text-xl tracking-tight text-gray-900 dark:text-white">{@html $AdminEventStore.questions[questionIndex].label || `<em>${$t('event.form.question_title')}</em>`}</h5>
+            </EditInPlace>
+
+            {#if validation?.error?.fieldErrors?.questions}
+                <div class="mb-2">
+                    {#each validation?.error?.fieldErrors?.questions as error}
+                        {#if error.path[1] === questionIndex && error.path[2] === 'label'}
+                            <FieldErrors validationErrors={[error]} />
+                        {/if}
+                    {/each}
+                </div>
+            {/if}
+        </div>
+        <div class="flex justify-end items-start w-2/8 mx-2">
+            <AnswerTypeSelector divClass="w-4/5" value={$AdminEventStore.questions[questionIndex].answer_type} {updateAnswerType} />
+            <button
+                type="button"
+                class="mt-3 ml-2 inline-flex items-center text-sm font-medium text-red-600 hover:underline dark:text-red-500"
+                onclick={() => modals.open(Delete, { confirm: removeQuestion })}
+            ><TrashBinOutline /></button><Tooltip>{$t('act.delete')}</Tooltip>
+        </div>
     </div>
 
     <!-- <pre>{ JSON.stringify(value.properties) }</pre> -->
@@ -129,7 +151,7 @@
 
     {#if value.answer_type !== 'just_text'}
         <div class="mt-4 flex justify-end">
-            <Toggle bind:checked={question.required} class="italic dark:text-gray-500">{$t('data.required')}</Toggle>
+            <Toggle bind:checked={value.required} class="italic dark:text-gray-500">{$t('data.required')}</Toggle>
         </div>
     {/if}
 </Card>

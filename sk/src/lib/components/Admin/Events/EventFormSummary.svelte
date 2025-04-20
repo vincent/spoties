@@ -1,10 +1,12 @@
 <script lang="ts">
-    import { AdminEventStore } from "$lib/stores/admin-event-form";
-    import { Button } from "flowbite-svelte";
+    import { t } from "$lib/i18n";
+    import { AdminEventStore } from "$lib/stores/admin-event-form.svelte";
+    import { Button, Helper } from "flowbite-svelte";
     import { CheckOutline } from "flowbite-svelte-icons";
 
     let { submit } = $props();
 
+    let validation = $derived(AdminEventStore.valid($AdminEventStore))
     let totalSlots = $derived($AdminEventStore.locations.reduce((acc, loc) => acc + loc.slots?.length, 0));
 </script>
 
@@ -43,10 +45,16 @@
           </dd>
         </dl>
 
-        <Button class="mt-6 w-full" onclick={submit}>
+        <Button class="mt-6 w-full" disabled={!validation.success} onclick={submit}>
           Save <CheckOutline class="w-6 h-6 ms-2 text-white" />
         </Button>
+
+        {#if !validation.success}
+          <Helper color="red">{$t('event.form.fix_errors')}</Helper>
+        {/if}
       </div>
     </div>
   </div>
 </div>
+
+<!-- <pre>{JSON.stringify(AdminEventStore.valid($AdminEventStore), null, 2)}</pre> -->
