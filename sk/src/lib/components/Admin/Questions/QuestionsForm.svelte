@@ -24,13 +24,15 @@
     {#each $AdminEventStore.questions as question, index (question)}
         {#if !question.deleted}
             <div class="relative space-y-4">
-                <button type="button" class="my-handle outline-none text-gray-600 dark:text-gray-200">
+                <button type="button" class="my-handle outline-none text-gray-600 dark:text-gray-200 cursor-move">
                     <DotsVerticalOutline /><Tooltip>{$t('act.reorder')}</Tooltip>
                 </button>
-                <div class="flex justify-center between-questions">
-                    <Button class="h-10 -m5" onclick={() => AdminEventStore.addEventQuestion(index)}><PlusOutline/> {$t('event.form.add_question')}</Button>
+                <div class="ps-2">
+                    <div class="flex justify-center between-questions">
+                        <Button class="h-10 -m5" onclick={() => AdminEventStore.addEventQuestion(index)}><PlusOutline/> {$t('event.form.add_question')}</Button>
+                    </div>
+                    <QuestionForm questionIndex={index} bind:value={$AdminEventStore.questions[index]} removeQuestion={() => AdminEventStore.removeEventQuestion(index)}/>
                 </div>
-                <QuestionForm questionIndex={index} bind:value={$AdminEventStore.questions[index]} removeQuestion={() => AdminEventStore.removeEventQuestion(index)}/>
             </div>
         {:else}
             <div class="relative space-y-4">
@@ -45,7 +47,7 @@
 <style>
     .my-handle {
         position: absolute;
-        left: -20px;
+        left: -15px;
         top: 3.5rem;
     }
     .between-questions {

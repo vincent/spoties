@@ -12,9 +12,10 @@ export const load: LayoutLoad = async ({ params, fetch }) => {
       fetchEvent(eventId as string, options),
       fetchEventAllAnswers(eventId as string, options),
     ])
-    .then(([ locations, record, r ]) => ({
+    .then(([ locations, record, {responses} ]) => ({
+      eventId,
       locations,
-      responses: r.responses,
+      responses,
       record,
     }))
 };

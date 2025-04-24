@@ -6,8 +6,8 @@
   const { data } = $props();
 </script>
 
-<div class="max-w-(--breakpoint-2xl) mx-auto">
-  <Navbar fluid class="ml-3">
+<div class="w-full px-3 max-w-(--breakpoint-2xl) mx-auto bg-white dark:bg-gray-800">
+  <Navbar fluid>
     <NavBrand href="/admin/events/create">
       <Button><PlusOutline /> Create a new event</Button>
     </NavBrand>

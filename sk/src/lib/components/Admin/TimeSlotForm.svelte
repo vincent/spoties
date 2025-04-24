@@ -30,7 +30,7 @@
         on:select={e => $AdminEventStore.locations[locationIndex].slots[index].starts_at = e.detail.toISOString()}
         on:clear={_ => $AdminEventStore.locations[locationIndex].slots[index].starts_at = undefined}
       />
-      <DeleteButton confirm={removeLocationTimeSlot} />
+      <DeleteButton btnClass="ms-2" confirm={removeLocationTimeSlot} />
     </div>
   </div>
 

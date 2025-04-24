@@ -1,46 +1,54 @@
 <script lang="ts">
-    import { clickOutside } from "$lib/directives/click-outside";
-    import RichText from "./RichText.svelte";
-    import { Input } from "flowbite-svelte";
+  import { clickOutside } from "$lib/directives/click-outside";
+  import type { Snippet } from "svelte";
+  import RichText from "./RichText.svelte";
+  import { Input } from "flowbite-svelte";
 
-	let {
-		value = $bindable(),
-		placeholder = '',
-		input = 'input', // | richtext
-		divClass = '',
-		children,
-	} = $props()
+  let {
+    value = $bindable(),
+    placeholder = '',
+    input = 'input', // | richtext
+    divClass = '',
+    children,
+  }: {
+    value?: string | undefined,
+    placeholder?: string | undefined,
+    input?: 'input' | 'richtext',
+    divClass?: string | undefined,
+    children?: Snippet,
 
-	let editing = $state(false)
-	let element = $state()
-	let original = value;
+  } = $props()
 
-	function edit() {
-		editing = true;
-		setTimeout(() => (element as any)?.element?.focus(), 10)
-	}
+  let editing = $state(false)
+  let element = $state()
+  let original = value;
 
-	function keydown(event: KeyboardEvent) {
-		if (event.key == "Escape") {
-			event.preventDefault();
-			value = original;
-			editing = false;
-		}
-	}
+  function edit() {
+    editing = true;
+    setTimeout(() => (element as any)?.element?.focus(), 10)
+  }
+
+  function keydown(event: KeyboardEvent) {
+    if (event.key == "Escape") {
+      event.preventDefault();
+      value = original;
+      editing = false;
+    }
+  }
 </script>
 
 <div class={divClass}>
-	{#if editing && input === 'input'}
-		<Input bind:this={element} {placeholder} on:keydown={keydown} onblur={() => editing = false} bind:value={value} />
+  {#if editing && input === 'input'}
+    <Input bind:this={element} {placeholder} on:keydown={keydown} onblur={() => editing = false} bind:value={value} />
 
-	{:else if editing && input === 'richtext'}
-		<div use:clickOutside={() => editing = false}>
-			<RichText size={2} bind:value />
-		</div>
+  {:else if editing && input === 'richtext'}
+    <div use:clickOutside={() => editing = false}>
+      <RichText size={2} bind:value />
+    </div>
 
-	{:else}
-		<div onclick={edit}>
-			{@render children()}
-		</div>
-	{/if}
+  {:else}
+    <div onclick={edit}>
+      {@render children()}
+    </div>
+  {/if}
 </div>
