@@ -58,7 +58,7 @@
         {$t('event.places_limited_to', value)}
       {/if}
     </p>
-    <Range min="0" max="10" bind:value={value.limit} />
+    <Range min="0" max="10" bind:value={$AdminEventStore.locations[locationIndex].slots[index].limit} />
   </div>
 </TimelineItem>
 

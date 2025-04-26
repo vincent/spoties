@@ -43,6 +43,11 @@ const en = {
   'event.banner_1': `Hi <span class="font-semibold">{{username}}</span>, Welcome back!<br>`,
   'event.banner_2': "We already filled the form with your previous answers.",
 
+  'event.form.geo_search': 'Start typing your address...',
+  'event.form.add_slot': "Add slot",
+  'event.form.hide_slots': "Hide slots",
+  'event.form.show_slots': "{{count}} slots",
+  'event.form.new_location': "New location",
   'event.form.add_locations': "Add some locations to your event",
   'event.form.available_locations': "Available locations",
   'event.form.fix_errors': "Fix form errors to submit",
@@ -141,6 +146,11 @@ const fr = {
   'event.banner_1': `Bonjour <span class="font-semibold">{{username}}</span>, heureux de vous revoir ici!<br>`,
   'event.banner_2': "Nous avons déjà rempli le formulaire avec vos réponses précédentes.",
 
+  'event.form.geo_search': 'Recherchez une adresse ...',
+  'event.form.add_slot': "Ajouter un emplacement",
+  'event.form.hide_slots': "Masquer les emplacements",
+  'event.form.show_slots': "{{count}} emplacements",
+  'event.form.new_location': "Nouveau lieu",
   'event.form.add_locations': "Ajoutez des lieux à votre événement",
   'event.form.available_locations': "Lieux disponibles",
   'event.form.fix_errors': "Corriger les erreurs pour sauvegarder",

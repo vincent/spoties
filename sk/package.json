@@ -46,6 +46,7 @@
     "flowbite-svelte": "^0.48.4",
     "lucide": "^0.487.0",
     "lucide-svelte": "^0.487.0",
+    "places-autocomplete-svelte": "^2.2.7",
     "pocketbase": "^0.25.2",
     "svelte-modals": "^2.0.1",
     "tailwind-merge": "^3.1.0",

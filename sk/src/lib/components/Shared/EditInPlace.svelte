@@ -1,21 +1,24 @@
 <script lang="ts">
   import { clickOutside } from "$lib/directives/click-outside";
-  import type { Snippet } from "svelte";
+  import GeoLocationSearch from "./GeoLocationSearch.svelte";
   import RichText from "./RichText.svelte";
   import { Input } from "flowbite-svelte";
+  import type { Snippet } from "svelte";
 
   let {
     value = $bindable(),
+    altValue = $bindable(),
     placeholder = '',
     input = 'input', // | richtext
     divClass = '',
     children,
   }: {
     value?: string | undefined,
+    altValue?: string | undefined,
     placeholder?: string | undefined,
-    input?: 'input' | 'richtext',
+    input?: 'input' | 'richtext' | 'geo',
     divClass?: string | undefined,
-    children?: Snippet,
+    children: Snippet,
 
   } = $props()
 
@@ -46,7 +49,14 @@
       <RichText size={2} bind:value />
     </div>
 
+  {:else if editing && input === 'geo'}
+    <div use:clickOutside={() => editing = false}>
+      <GeoLocationSearch bind:textValue={value} bind:geoValue={altValue} />
+    </div>
+
   {:else}
+    <!-- svelte-ignore a11y_click_events_have_key_events -->
+    <!-- svelte-ignore a11y_no_static_element_interactions -->
     <div onclick={edit}>
       {@render children()}
     </div>
