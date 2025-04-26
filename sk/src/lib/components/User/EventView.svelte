@@ -10,6 +10,7 @@
 	import { t } from "$lib/i18n";
     import type { ZodIssue } from "zod";
     import FieldErrors from "../Shared/FieldErrors.svelte";
+    import { formatDate } from "$lib/utils/dates.svelte";
 
 	let { record, userData } = $props()
 	
@@ -162,7 +163,7 @@
 										<div class="flex flex-col items-end">
 											<div class="mx-2">
 												{#if s.starts_at}
-													{new Intl.DateTimeFormat(undefined, { dateStyle: "full" }).format(new Date(s.starts_at))}
+													{formatDate(new Date(s.starts_at))}
 												{/if}
 												{#if s.duration >= 0} - {$t('event.duration', s)}{/if}
 											</div>

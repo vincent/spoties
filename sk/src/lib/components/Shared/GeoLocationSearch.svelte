@@ -2,7 +2,7 @@
   import type { PlaceResult, ComponentOptions, RequestParams } from 'places-autocomplete-svelte/interfaces'; 
   import { PlaceAutocomplete } from 'places-autocomplete-svelte';
   import { PUBLIC_GOOGLE_MAPS_API_KEY } from '$env/static/public';
-    import { t } from '$lib/i18n';
+  import { t } from '$lib/i18n';
 
   let {
     textValue = $bindable<string>(),

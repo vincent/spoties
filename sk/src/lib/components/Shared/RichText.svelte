@@ -33,7 +33,7 @@
 	body={value}
 	bind:tipex={tipex as any}
 	controls !focal
-	class="h-[{size}vh] border border-neutral-200 {inputColorClasses[color]}"
+	class="h-[{size}vh] border border-neutral-200 bg-white dark:bg-gray-800 {inputColorClasses[color]}"
 	onupdate={() => value = getHTML()}
 >
 	{#snippet utilities(tipex)}

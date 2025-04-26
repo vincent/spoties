@@ -14,34 +14,36 @@
 
 <form class="flex justify-center items-start" onsubmit={() => AdminEventStore.updateEvent($AdminEventStore)}>
   <div class="w-3/4">
-    <div class="mb-6">
-      <FloatingLabelInput required classDiv="mb-4" classInput="text-3xl" color={validation?.error?.fieldErrors?.title ? "red" : undefined} type="text" bind:value={$AdminEventStore.title}>
-        {$t('event.form.event_title')}
-      </FloatingLabelInput>
-      <FieldErrors validationErrors={validation?.error?.fieldErrors?.title} />
-    </div>
-
-    {#if $AdminEventStore.id}
+    <div class="mb-6 p-3">
       <div class="mb-6">
-        <Label class="mb-2 block text-2xl">{$t('event.form.public_link')}</Label>
-        <A target="_blank" href={`/event/${$AdminEventStore.id}`}>{`/event/${$AdminEventStore.id}`}</A>
+        <FloatingLabelInput required classDiv="mb-4" classInput="text-3xl" color={validation?.error?.fieldErrors?.title ? "red" : undefined} type="text" bind:value={$AdminEventStore.title}>
+          {$t('event.form.event_title')}
+        </FloatingLabelInput>
+        <FieldErrors validationErrors={validation?.error?.fieldErrors?.title} />
       </div>
-    {/if}
 
-    <div class="mb-6">
-      <Label for="event-description" class="mb-2 block text-2xl">{$t('event.form.description')}</Label>
-      <RichText bind:value={$AdminEventStore.description} color={validation?.error?.fieldErrors?.description ? "red" : undefined}/>
-      <FieldErrors validationErrors={validation?.error?.fieldErrors?.description} />
+      {#if $AdminEventStore.id}
+        <div class="mb-6">
+          <Label class="mb-2 block text-2xl">{$t('event.form.public_link')}</Label>
+          <A target="_blank" href={`/event/${$AdminEventStore.id}`}>{`/event/${$AdminEventStore.id}`}</A>
+        </div>
+      {/if}
+
+      <div class="mb-6">
+        <Label for="event-description" class="mb-2 block text-2xl">{$t('event.form.description')}</Label>
+        <RichText bind:value={$AdminEventStore.description} color={validation?.error?.fieldErrors?.description ? "red" : undefined}/>
+        <FieldErrors validationErrors={validation?.error?.fieldErrors?.description} />
+      </div>
     </div>
 
-    <div class="mb-6">
+    <div class="mb-6 p-3">
       <Label for="event-questions" class="mb-2 block text-2xl">{$t('event.form.questions')}</Label>
       <QuestionsForm
         bind:value={$AdminEventStore.questions}
       />
     </div>
 
-    <div class="mb-6">
+    <div class="mb-6 p-3">
       <Label for="event-locations" class="mb-2 block text-2xl">{$t('event.form.locations')}</Label>
       <LocationsSelector
         {locations}

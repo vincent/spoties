@@ -91,12 +91,12 @@
 
   {:else if value.answer_type === 'simple_text' && value.properties?.placeholder !== undefined}
     <FloatingLabelInput type="text" bind:value={value.properties.placeholder}>
-      The placeholder
+      {$t('event.form.placeholder')}
     </FloatingLabelInput>
 
   {:else if value.answer_type === 'rich_text' && value.properties?.rich_placeholder !== undefined}
     <FloatingLabelInput type="text" bind:value={value.properties.rich_placeholder}>
-      The placeholder
+      {$t('event.form.placeholder')}
     </FloatingLabelInput>
 
   {:else if value.answer_type === 'rating'}
@@ -112,7 +112,7 @@
     <Datepicker />
 
   {:else if value.answer_type === 'yes_no'}
-    <Toggle>Toggle me</Toggle>
+    <Toggle>{$t('event.form.toggle_me')}</Toggle>
 
   {:else if value.answer_type === 'checkboxes' && value.properties?.choices !== undefined}
     {#each value.properties.choices as choice, ci}

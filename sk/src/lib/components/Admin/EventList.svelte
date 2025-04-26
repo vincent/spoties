@@ -1,5 +1,6 @@
 <script lang="ts">
   import { Timeline, TimelineItem } from "flowbite-svelte"; 
+  import { formatDate } from "$lib/utils/dates.svelte";
   import { t } from "$lib/i18n";
   let { events } = $props()
 </script>
@@ -9,7 +10,7 @@
     <a href={`/admin/events/${item.id}`}>
       <TimelineItem
         title={item.title}
-        date={new Intl.DateTimeFormat(undefined, { dateStyle: "full" }).format(new Date(item.updated))}
+        date={formatDate(item.updated)}
         classLi="hover:bg-gray-100 p-2"
       >
         <div class="mb-4 flex justify-between text-base font-normal text-gray-500 dark:text-gray-400">

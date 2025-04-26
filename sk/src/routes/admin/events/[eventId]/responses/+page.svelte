@@ -4,7 +4,7 @@
   import { arrayToCSV, responsesToArray, downloadBlob } from "$lib/utils/csv";
   import { Button, Dropdown, DropdownItem, Toggle } from "flowbite-svelte";
   import { ChevronDownOutline } from "flowbite-svelte-icons";
-  import { locale } from "$lib/i18n";
+  import { locale, t } from "$lib/i18n";
 
   const { data } = $props()
   let showOpen = $state(false)
@@ -30,24 +30,26 @@
 </script>
 
 <div class="w-full mb-4 flex justify-between">
-  <Button>Group results <ChevronDownOutline class="w-6 h-6 ms-2 text-white dark:text-white" /></Button>
+  <Button>{$t('event.results.group_by')} <ChevronDownOutline class="w-6 h-6 ms-2 text-white dark:text-white" /></Button>
   <Dropdown bind:open={groupOpen}>
-    <DropdownItem onclick={handleGroupBy('user')}>by user</DropdownItem>
-    <DropdownItem onclick={handleGroupBy('slot')}>by slot</DropdownItem>
+    <DropdownItem onclick={handleGroupBy('user')}>{$t('event.results.group_by_user')}</DropdownItem>
+    <DropdownItem onclick={handleGroupBy('slot')}>{$t('event.results.group_by_slot')}</DropdownItem>
   </Dropdown>
 
   {#if groupBy === 'slot'}
-    <Button outline class="ms-2" >add columns <ChevronDownOutline class="w-6 h-6 ms-2 text-white dark:text-white" /></Button>
+    <Button outline class="ms-2" >{$t('act.show')} <ChevronDownOutline class="w-6 h-6 ms-2 text-white dark:text-white" /></Button>
     <Dropdown bind:open={showOpen}>
       {#each data.record.questions as q}
-        <DropdownItem>
-          <Toggle bind:checked={secondaryGroups[q.id]} class="rounded-sm p-2 hover:bg-gray-100 dark:hover:bg-gray-600">{q.label}</Toggle>
-        </DropdownItem>
+        {#if q.answer_type !== 'just_text'}
+          <DropdownItem>
+            <Toggle bind:checked={secondaryGroups[q.id]} class="rounded-sm p-2 hover:bg-gray-100 dark:hover:bg-gray-600">{q.label}</Toggle>
+          </DropdownItem>
+        {/if}
       {/each}
     </Dropdown>
   {/if}
 
-  <Button class="ml-auto">Download <ChevronDownOutline class="w-6 h-6 ms-2 text-white dark:text-white" /></Button>
+  <Button class="ml-auto">{$t('act.download')} <ChevronDownOutline class="w-6 h-6 ms-2 text-white dark:text-white" /></Button>
   <Dropdown bind:open={downloadOpen}>
     <DropdownItem onclick={downloadCSV}>as CSV</DropdownItem>
   </Dropdown>

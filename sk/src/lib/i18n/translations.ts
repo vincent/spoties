@@ -2,20 +2,30 @@
 const en = {
   'lang.en': 'English',
   'lang.fr': 'French',
+
+  'act.save': 'Save',
+  'act.show': 'Show',
   'act.submit': 'Submit',
   'act.select': 'Select',
   'act.delete': 'Delete',
+  'act.download': 'Download',
   'act.delete_ask': 'Are you sure you want to delete this?',
   'act.delete_yes': `Yes, I'm sure`,
   'act.delete_no': 'No, cancel',
   'act.reorder': 'Change order',
 
+  'data.as_csv': 'as CSV',
   'data.date': 'Date',
   'data.email': 'Email',
   'data.yes': 'Yes',
   'data.no': 'No',
   'data.required': 'Required',
   'data.option_i': 'Option {{i}}',
+
+  "menu.events": `Events`,
+  "menu.form": `Form`,
+  "menu.responses": `Responses`,
+  "menu.press": `Released`,
 
   "homepage.welcome": `Welcome !`,
   "homepage.start_creating_event": `Start by creating a event`,
@@ -43,6 +53,7 @@ const en = {
   'event.banner_1': `Hi <span class="font-semibold">{{username}}</span>, Welcome back!<br>`,
   'event.banner_2': "We already filled the form with your previous answers.",
 
+  'event.form.summary': 'Summary',
   'event.form.geo_search': 'Start typing your address...',
   'event.form.add_slot': "Add slot",
   'event.form.hide_slots': "Hide slots",
@@ -56,11 +67,14 @@ const en = {
   'event.form.description': "Description",
   'event.form.questions': "Questions",
   'event.form.locations': "Locations",
+  'event.form.slots': "Slots",
   'event.form.add_question': "Add a question",
   'event.form.question_title': "Question title",
   'event.form.add_choice': "Add a choice",
 
   'event.form.text': "Text",
+  'event.form.placeholder': "Placeholder",
+  'event.form.toggle_me': "Toggle me",
   'event.form.choice': "Choice",
   'event.form.question_type': "Answer type",
   'event.form.question_type_just_text': "Just text",
@@ -79,6 +93,10 @@ const en = {
   'event.form.question_type_private_name': "Full name",
   'event.form.question_type_private_age': "Age",
   'event.form.question_type_private_address': "Address",
+
+  'event.results.group_by': "Group results",
+  'event.results.group_by_user': "by participant",
+  'event.results.group_by_slot': "by slot",
 
   'login.welcome_1': "Hi, Thank you for checking us!",
   'login.welcome_2': "To answer the form you've been invited, we need your email.",
@@ -105,14 +123,19 @@ const en = {
 const fr = {
   'lang.en': 'Anglais',
   'lang.fr': 'Français',
+
+  'act.show': 'Montrer',
+  'act.save': 'Sauvegarder',
   'act.submit': 'Envoyer',
   'act.delete': 'Supprimer',
+  'act.download': 'Télécharger',
   'act.select': 'Sélectionner',
   'act.delete_ask': 'Souhaitez vous réellement supprimer cela ?',
   'act.delete_yes': `Oui, je suis sûr`,
   'act.delete_no': 'Non, annuler',
   'act.reorder': 'Réordonner',
 
+  'data.as_csv': 'en CSV',
   'data.date': 'Date',
   'data.email': 'Email',
   'data.yes': 'Oui',
@@ -120,13 +143,18 @@ const fr = {
   'data.required': 'Obligatoire',
   'data.option_i': 'Option {{i}}',
 
+  "menu.events": `Évènements`,
+  "menu.form": `Formulaire`,
+  "menu.responses": `Réponses`,
+  "menu.press": `Documentation`,
+
   "homepage.welcome": `Bienvenue !`,
   "homepage.start_creating_event": `Commencez par créer un événement`,
   "homepage.access_admin": `Accédez à votre panneau d'administration`,
   "homepage.headline": `Gestion d'événements sans effort,\ndepuis <span class="text-primary-600">l'invitation</span> jusqu'à <span class="text-primary-600">la localisation</span>.`,
   "homepage.subline": `Assignez le bon personnel aux bons lieux selon vos réponses, disponibilités et proximité. Quand les plans changent, notre système vous aide à réaffecter les places — transformant des heures de coordination en secondes, pour que vous puissiez vous concentrer sur l'essentiel.`,
   "homepage.getting_started": `Commencer`,
-  "homepage.staff_new_event": `Gérer un nouvel événement`,
+  "homepage.staff_new_event": `Créer un nouvel événement`,
 
   "errors.we_are_on_it": "Nous travaillons déjà à résoudre le problème.",
   "errors.required": "Ce champ est requis",
@@ -146,6 +174,11 @@ const fr = {
   'event.banner_1': `Bonjour <span class="font-semibold">{{username}}</span>, heureux de vous revoir ici!<br>`,
   'event.banner_2': "Nous avons déjà rempli le formulaire avec vos réponses précédentes.",
 
+  'event.results.group_by': "Grouper les résultats",
+  'event.results.group_by_user': "par participant",
+  'event.results.group_by_slot': "par emplacement",
+
+  'event.form.summary': 'Résumé',
   'event.form.geo_search': 'Recherchez une adresse ...',
   'event.form.add_slot': "Ajouter un emplacement",
   'event.form.hide_slots': "Masquer les emplacements",
@@ -159,11 +192,14 @@ const fr = {
   'event.form.description': "Description",
   'event.form.questions': "Questions",
   'event.form.locations': "Lieux",
+  'event.form.slots': "Emplacements",
   'event.form.add_question': "Ajouter une question",
   'event.form.question_title': "Titre de la question",
   'event.form.add_choice': "Ajouter un choix",
 
   'event.form.text': "Texte",
+  'event.form.placeholder': "Placeholder",
+  'event.form.toggle_me': "Bouton",
   'event.form.choice': "Choix",
   'event.form.question_type': "Type de réponse",
   'event.form.question_type_just_text': "Juste du texte",

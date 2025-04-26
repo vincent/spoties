@@ -2,6 +2,7 @@
   import { Table, TableBody, TableBodyCell, TableBodyRow, TableHead, TableHeadCell } from 'flowbite-svelte';
   import { slide } from 'svelte/transition';
 	import { stripTags, t } from "$lib/i18n";
+    import { formatDate } from '$lib/utils/dates.svelte';
 	
   let { event, responses } = $props() 
   let openRow = $state(-1)
@@ -27,7 +28,7 @@
   <TableBody tableBodyClass="divide-y">
     {#each responses as response, i}
       <TableBodyRow on:click={() => toggleRow(i)}>
-        <TableHeadCell>{new Intl.DateTimeFormat(undefined, { dateStyle: "full" }).format(new Date(response.updated))}</TableHeadCell>
+        <TableHeadCell>{formatDate(new Date(response.updated))}</TableHeadCell>
         <TableHeadCell>{response.user.name}</TableHeadCell>
         {#each event.locations as l}
           {#each l.slots as s}
