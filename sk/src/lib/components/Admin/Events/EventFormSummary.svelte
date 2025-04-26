@@ -49,7 +49,7 @@
         </Button>
 
         {#if !validation.success}
-          <Helper color="red">{$t('event.form.fix_errors')}</Helper>
+          <Helper class="text-primary-600 dark:text-primary-500">{$t('event.form.fix_errors')}</Helper>
         {/if}
       </div>
     </div>

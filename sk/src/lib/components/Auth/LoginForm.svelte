@@ -113,9 +113,6 @@
         </div>
         <input type="hidden" name="register" value={true} />
         <div class="flex justify-between flex-wrap">
-          <p class="text-sm unstyled py-2 text-slate-500">
-            <button type="button" onclick={() => (signup = false)}>{$t('login.back_to_login')}</button>
-          </p>
           <Button type="submit" class="w-full">{$t('login.register')}</Button>
         </div>
         <div class="text-sm font-medium text-gray-500 dark:text-gray-300">

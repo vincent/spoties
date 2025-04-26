@@ -1,9 +1,9 @@
 <script lang="ts">
   import { AdminEventStore } from "$lib/stores/admin-event-form.svelte";
   import { Datepicker, Range, TimelineItem } from "flowbite-svelte";
-  import DeleteButton from "../Shared/DeleteButton.svelte";
-  import EditInPlace from "../Shared/EditInPlace.svelte";
-  import FieldErrors from "../Shared/FieldErrors.svelte";
+  import DeleteButton from "../../Shared/DeleteButton.svelte";
+  import EditInPlace from "../../Shared/EditInPlace.svelte";
+  import FieldErrors from "../../Shared/FieldErrors.svelte";
   import { t } from "$lib/i18n";
   
   let {

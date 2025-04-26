@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { clickOutside } from "$lib/directives/click-outside";
+  import { clickOutside } from "$lib/utils/click-outside";
   import GeoLocationSearch from "./GeoLocationSearch.svelte";
   import RichText from "./RichText.svelte";
   import { Input } from "flowbite-svelte";

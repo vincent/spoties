@@ -76,6 +76,7 @@ export type EventsRecord = {
 }
 
 export type LocationsRecord = {
+	deleted?: boolean
 	description?: HTMLString
 	event: RecordIdString[]
 	geo_place?: string
@@ -98,6 +99,7 @@ export type QuestionsRecord<Tproperties = unknown> = {
 	event?: RecordIdString[]
 	label: HTMLString
 	properties?: null | Tproperties
+	rank?: number
 	required?: boolean
 }
 

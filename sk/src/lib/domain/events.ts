@@ -9,6 +9,7 @@ export async function fetchEvent(eventId: string, options: RecordListOptions) {
 
     let record: Partial<EventsResponse> & any = {
         title: '',
+        team: client.authStore.record?.teams[0],
         locations: [] as any[],
         questions: [] as any[],
     };
@@ -17,10 +18,12 @@ export async function fetchEvent(eventId: string, options: RecordListOptions) {
 
         const event = await EVENTS
             .getFirstListItem<EventsResponse>(
-                client.filter('id={:eventId} || public_access_link={:eventId}', {eventId}), {
-                ...options,
-                expand: 'locations_via_event,questions_via_event'
-            })
+                client.filter('(id={:eventId} || public_access_link={:eventId})', {eventId}),
+                {
+                    ...options,
+                    expand: 'locations_via_event,questions_via_event'
+                }
+            )
 
         event.expand = event.expand || {
             locations_via_event: [],
@@ -58,6 +61,7 @@ export async function fetchEvent(eventId: string, options: RecordListOptions) {
                 name: location.name,
                 created: location.created,
                 updated: location.updated,
+                deleted: location.deleted,
                 event: location.event,
                 description: location.description,
                 geo_place: location.geo_place,

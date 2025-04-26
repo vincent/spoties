@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Timeline, TimelineItem } from "flowbite-svelte"; 
   import { formatDate } from "$lib/utils/dates.svelte";
-  import { t } from "$lib/i18n";
+  import { stripTags, t } from "$lib/i18n";
   let { events } = $props()
 </script>
 
@@ -11,10 +11,10 @@
       <TimelineItem
         title={item.title}
         date={formatDate(item.updated)}
-        classLi="hover:bg-gray-100 p-2"
+        classLi="hover:bg-gray-100 dark:hover:bg-gray-600 p-2"
       >
         <div class="mb-4 flex justify-between text-base font-normal text-gray-500 dark:text-gray-400">
-          <p>{"An event about blh bazd dazd dazd azd"}</p>
+          <p>{stripTags(item.description).slice(0, 100)}</p>
           <div class="event-actions">
           </div>
         </div>

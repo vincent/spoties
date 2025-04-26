@@ -24,10 +24,12 @@
     <div class="w-full">
       <div class="space-y-6">
         {#each $AdminEventStore.locations as l, i}
-          <SelectedLocationCard
-            bind:value={$AdminEventStore.locations[i]}
-            locationIndex={i}
-          />
+          {#if !l.deleted}
+            <SelectedLocationCard
+              bind:value={$AdminEventStore.locations[i]}
+              locationIndex={i}
+            />
+          {/if}
         {:else}
           {$t('event.form.add_locations')}
         {/each}

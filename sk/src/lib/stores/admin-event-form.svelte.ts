@@ -1,9 +1,9 @@
 import type { EventsResponse, LocationsResponse, QuestionsResponse, TimeSlotsResponse } from '$lib/pocketbase/generated-types';
-import { client } from "$lib/pocketbase";
-import { derived, get, writable } from 'svelte/store';
 import { z, type typeToFlattenedError, type ZodIssue } from 'zod'
+import { derived, get, writable } from 'svelte/store';
 import { QuestionTypes } from '$lib/domain/questions';
 import { locale, translate } from '$lib/i18n';
+import { client } from "$lib/pocketbase";
 
 type AdminEvent = Partial<EventsResponse> & {
     questions: Partial<QuestionsResponse>[]
@@ -20,7 +20,7 @@ let schema = derived(locale, ($l) => z.object({
         .max(128, { message: translate($l, 'errors.too_long') }),
     description: z.string()
         .trim()
-        .min(20, { message: translate($l, 'errors.required') })
+        // .min(20, { message: translate($l, 'errors.required') })
         .max(20000),
     questions: z.array(z.object({
         label: z
@@ -35,34 +35,44 @@ let schema = derived(locale, ($l) => z.object({
         required: z
             .boolean(),
     })),
-    locations: z.array(z.object({
-        // label: z
-        //  .string()
-        //  .trim()
-        //  .min(1)
-        //  .max(128, { message: translate($l, 'errors.too_long') }),
-        // description: z
-        //  .string()
-        //  .trim()
-        //  .min(1)
-        //  .max(20000),
-        slots: z
-            .array(z.object({
-                label: z
+    locations: z.array(
+        z.union([
+            z.object({ deleted: z.literal(true) }),
+            z.object({
+                name: z
                     .string()
                     .trim()
-                    .min(1, { message: translate($l, 'errors.required') })
+                    .min(1)
                     .max(128, { message: translate($l, 'errors.too_long') }),
-                starts_at: z.coerce.date(),
-                description: z
-                    .string()
-                    .trim()
-                    .min(0)
-                    .max(20000),
-                limit: z
-                    .number(),
-            }))
-    })),
+                    // description: z
+                    //  .string()
+                    //  .trim()
+                    //  .min(1)
+                    //  .max(20000),
+                    slots: z
+                        .array(
+                            z.union([
+                                z.object({ deleted: z.literal(true) }),
+                                z.object({
+                                    label: z
+                                        .string()
+                                        .trim()
+                                        .min(1, { message: translate($l, 'errors.required') })
+                                        .max(128, { message: translate($l, 'errors.too_long') }),
+                                    starts_at: z.coerce.date(),
+                                    description: z
+                                        .string()
+                                        .trim()
+                                        .min(0)
+                                        .max(20000),
+                                    limit: z
+                                        .number(),
+                                })
+                            ])
+                        )
+            })
+        ]),
+    )
 }))
 
 export function createAdminEventStore(initial: AdminEvent, pb = client) {
@@ -115,21 +125,27 @@ export function createAdminEventStore(initial: AdminEvent, pb = client) {
             questions.splice(index, 1)
             return ({
                 ...s,
-                questions: s.questions.map((q, i) => i !== index ? q : ({ ...q, deleted: true })),
+                questions: s.questions
+                    .map((q, i) => i !== index ? q : (q.id ? ({ ...q, deleted: true }) : null))
+                    .filter(Boolean) as any[],
             })
         }),
 
         addLocation: (location: Partial<LocationsResponse> = {}) => store.update(s => ({
             ...s,
+            deleted: false,
             locations: (s.locations || []).concat({
                 ...location,
                 slots: [],
             })
         })),
 
-        removeLocation: (location: Partial<LocationsResponse>) => store.update(s => ({
+        removeLocation: (index: number) => store.update(s => ({
             ...s,
-            locations: (s.locations || []).filter(l => l !== location && l.id !== location.id)
+            locations: s.locations
+                .map((l, i) => i !== index ? l : (l.id ? ({ ...l, deleted: true }) : null))
+                .filter(Boolean) as any[],
+
         })),
 
         addLocationTimeSlot: (locationId: string) =>  store.update(s => ({
@@ -158,9 +174,6 @@ export function createAdminEventStore(initial: AdminEvent, pb = client) {
         reset: () => store.set({ ...initial }),
 
         updateEvent: async (props: AdminEvent) => {
-
-            console.log(store)
-            debugger;
 
             Object.assign(props, props.id
                 ? await EVENTS.update(props.id, props)
@@ -196,6 +209,7 @@ export function createAdminEventStore(initial: AdminEvent, pb = client) {
                     const slot = {
                         ...loc.slots[j],
                         location: loc.id,
+                        event: props.id,
                     }
                     Object.assign(loc.slots[j], slot.id
                         ? await SLOTS.update(slot.id as string, slot)

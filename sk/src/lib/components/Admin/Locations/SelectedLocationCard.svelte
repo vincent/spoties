@@ -1,7 +1,7 @@
 <script>
   import { PlusOutline } from "flowbite-svelte-icons";
   import { Button, Hr, Timeline } from "flowbite-svelte";
-  import TimeSlotForm from "../TimeSlotForm.svelte";
+  import TimeSlotForm from "./TimeSlotForm.svelte";
   import { AdminEventStore } from "$lib/stores/admin-event-form.svelte";
   import DeleteButton from "$lib/components/Shared/DeleteButton.svelte";
   import { ListChecksIcon, MapPinCheckIcon, MapPinMinusIcon } from "lucide-svelte";
@@ -45,7 +45,7 @@
         >
           <ListChecksIcon class="mx-1" /> {$t(showSlots ? 'event.form.hide_slots' : 'event.form.show_slots', { count: $AdminEventStore.locations[locationIndex].slots.length })}
         </button>
-        <DeleteButton confirm={() => AdminEventStore.removeLocation($AdminEventStore.locations[locationIndex])} />
+        <DeleteButton confirm={() => AdminEventStore.removeLocation(locationIndex)} />
       </div>
     </div>
   </div>

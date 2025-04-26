@@ -10,7 +10,7 @@
 
 <button
   type="button"
-  class="inline-flex items-center text-sm font-medium text-red-600 hover:underline dark:text-red-500 {btnClass}"
+  class="inline-flex items-center text-sm font-medium text-primary-600 hover:underline dark:text-primary-500 {btnClass}"
   onclick={() => skip ? confirm() : modals.open(DeleteModal, { confirm })}
   ><TrashBinOutline class={iconClass} /></button>
 <Tooltip>{$t('act.delete')}</Tooltip>

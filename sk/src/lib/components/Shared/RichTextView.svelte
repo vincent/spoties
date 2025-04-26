@@ -2,7 +2,7 @@
 	let { html } = $props()
 </script>
 
-<span class="richtext-view">
+<span class="richtext-view text-gray-800 dark:text-gray-100">
 	{@html html}
 </span>
 

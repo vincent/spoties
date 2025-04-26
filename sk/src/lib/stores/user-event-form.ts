@@ -81,9 +81,6 @@ export function createUserEventStore(initial: UserEvent, pb = client) {
 
         updateUserAnswer: async (props: UserEvent) => {
 
-            console.log(store)
-            debugger;
-
             const questions_answers = Object.values(props.questions_answers)
             for (let i = 0; i < questions_answers.length; i++) {
                 const a = questions_answers[i];

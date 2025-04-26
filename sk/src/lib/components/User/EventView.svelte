@@ -85,7 +85,7 @@
 						<div class="mb-2">{@html q.label}</div>
 
 						{#if q.answer_type === 'just_text'}
-							<p>{@html q.properties.text}</p>
+							<p class="text-gray-800 dark:text-gray-100">{@html q.properties.text}</p>
 
 						{:else if q.answer_type === 'simple_text'}
 							<Input size="md" type="text" placeholder={props.placeholder} bind:value={$store.questions_answers[q.id].value} />
@@ -143,42 +143,44 @@
 	{#if record.locations.length}
 		<div class="mb-6">
 			{#each record.locations as l, i}
-				<div class="space-y-4">
-					<Card size="none" class="mt-2">
-						<div class="mb-3 flex">
-							<MapPinAltOutline size="xl" />
-							<div class="mb-2 block text-xl">{l.name}</div>
-						</div>
+				{#if !l.deleted}
+					<div class="space-y-4">
+						<Card size="none" class="mt-2 {l.slots.find(s => $store.bookings.slots[s.id]) ? 'border-2 border-primary-600 dark:border-secondary-800' : ''}">
+							<div class="mb-3 flex">
+								<MapPinAltOutline size="xl" />
+								<div class="mb-2 block text-xl">{l.name}</div>
+							</div>
 
-						<div class="mb-3 block text-md">{@html l.description}</div>
+							<div class="mb-3 block text-md">{@html l.description}</div>
 
-						{#each l.slots as s, i}
-							{#if !s.deleted}
-								<div class="my-3">
-									<Checkbox class="my-1 flex" disabled={s.limit === 0} value={s.id} bind:checked={$store.bookings.slots[s.id]}>
-										<div class="mr-auto">
-											<div>{@html s.label}</div>
-											<div>{@html s.description || ''}</div>
-										</div>
-										<div class="flex flex-col items-end">
-											<div class="mx-2">
-												{#if s.starts_at}
-													{formatDate(new Date(s.starts_at))}
-												{/if}
-												{#if s.duration >= 0} - {$t('event.duration', s)}{/if}
+							{#each l.slots as s, i}
+								{#if !s.deleted}
+									<div class="my-3">
+										<Checkbox class="my-1 flex" disabled={s.limit === 0} value={s.id} bind:checked={$store.bookings.slots[s.id]}>
+											<div class="mr-auto">
+												<div>{@html s.label}</div>
+												<div>{@html s.description || ''}</div>
 											</div>
-											{#if s.limit > -1}
+											<div class="flex flex-col items-end">
 												<div class="mx-2">
-													{$t('event.places_limit', s)}
+													{#if s.starts_at}
+														{formatDate(new Date(s.starts_at))}
+													{/if}
+													{#if s.duration >= 0} - {$t('event.duration', s)}{/if}
 												</div>
-											{/if}
-										</div>	
-									</Checkbox>
-								</div>
-							{/if}
-						{/each}
-					</Card>
-				</div>
+												{#if s.limit > -1}
+													<div class="mx-2">
+														{$t('event.places_limit', s)}
+													</div>
+												{/if}
+											</div>	
+										</Checkbox>
+									</div>
+								{/if}
+							{/each}
+						</Card>
+					</div>
+				{/if}
 			{/each}
 		</div>
 	{/if}

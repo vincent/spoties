@@ -25,7 +25,7 @@ const en = {
   "menu.events": `Events`,
   "menu.form": `Form`,
   "menu.responses": `Responses`,
-  "menu.press": `Released`,
+  "menu.press": `Releases`,
 
   "homepage.welcome": `Welcome !`,
   "homepage.start_creating_event": `Start by creating a event`,

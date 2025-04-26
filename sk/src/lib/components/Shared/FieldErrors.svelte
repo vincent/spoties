@@ -5,7 +5,7 @@
 
 <!-- <pre>{JSON.stringify(validationErrors)}</pre> -->
 {#if validationErrors}
-  <Helper class="mt-2" color="red">
+  <Helper class="mt-2 text-primary-600 dark:text-primary-500">
     {#each validationErrors as error}
       {error.message}
     {/each}

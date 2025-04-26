@@ -1,7 +1,7 @@
 <script lang="ts">
   import { PlusOutline } from "flowbite-svelte-icons";
   import { Button, Navbar, NavBrand, NavLi, NavUl } from "flowbite-svelte";
-  import EventList from "$lib/components/Admin/EventList.svelte";
+  import EventList from "$lib/components/Admin/Events/EventList.svelte";
   import { t } from "$lib/i18n/index.js";
 
   const { data } = $props();
