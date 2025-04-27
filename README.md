@@ -18,7 +18,7 @@ is static and backend is a single compiled Golang binary (JAMstack baby!).
   - file storage (local filesystem or S3)
   - Extend with hooks and API endpoints in ...
     - [JavaScript](https://pocketbase.io/docs/js-overview/) for easy development.
-      See the example [main.pb.ts](./pb/pb_hooks/main.pb.ts).
+      See the example [main.pb.ts](./backend/pb_hooks/main.pb.ts).
     - OR [Golang](https://pocketbase.io/docs/go-overview/) for full performance
       See `main.go`
 - PocketBase can be downloaded as binary, and yet be extended with JavaScript.
@@ -28,10 +28,10 @@ is static and backend is a single compiled Golang binary (JAMstack baby!).
 - A full live development setup is included
   - Hot Module Reloading (HMR) of your frontend app when you edit Svelte code (including proxying requests to the PocketBase backend via `vite`)
   - Hot reloading (restarting) of the PocketBase server using `modd` when you edit Go code
-  - Hot reloading (restarting) of the PocketBase server when JS code is changed in `./pb/pb_hooks`
+  - Hot reloading (restarting) of the PocketBase server when JS code is changed in `./backend/pb_hooks`
 
-To understand the backend, see [./pb/README.md](./pb/README.md) ("pb" == PocketBase)
-To understand the frontend, see [./sk/README.md](./sk/README.md) ("sk" == SvelteKit)
+To understand the backend, see [./backend/README.md](./backend/README.md) ("backend" == PocketBase)
+To understand the frontend, see [./frontend/README.md](./frontend/README.md) ("frontend" == SvelteKit)
 
 Read those README files before proceeding.
 
@@ -49,12 +49,12 @@ Make sure your Docker daemon is running then complete the following steps:
    Also, if you wish, copy `docker-compose.override.yml` to `docker-compose.override.yml`
    and edit it to your taste before proceeding.
    And then just run `docker compose up -d`.
-2. Open a new terminal and navigate to the `/sk` directory. Install dependencies by
+2. Open a new terminal and navigate to the `/frontend` directory. Install dependencies by
    running `npx pnpm install`
 3. In the same terminal, after the dependencies are installed, run the command `npm run dev:backend`
-   This runs `go build` in the `/pb` directory and runs `modd` for live development on a
+   This runs `go build` in the `/backend` directory and runs `modd` for live development on a
    backend server
-4. Open a seperate terminal, navigate to the `/sk` directory, and run the command `npm run dev`.
+4. Open a seperate terminal, navigate to the `/frontend` directory, and run the command `npm run dev`.
    This starts the frontend dev server.
 5. Both sides are working if you navigate to the "Hello" page on the development server
    and there is an API response that says "Hello World!"
@@ -65,13 +65,13 @@ This method is a good alternative for simple use cases that don't use either Doc
 
 1. [Download the latest version of PocketBase.](https://github.com/pocketbase/pocketbase/releases/latest)
    - The versions support Darwin, Linux, and Windows. Make sure that you download the correct version that supports itself within the OS that you are using.
-2. Extract the `pocketbase.exe` from the `.zip` file you downloaded into the `/pb` folder within your project.
+2. Extract the `pocketbase.exe` from the `.zip` file you downloaded into the `/backend` folder within your project.
 3. Set up the backend
-   - Open a new terminal, navigate to the `/sk` directory and run the command `npm run backend`
-     - _For Windows:_ You will have to edit the `"backend"` script in the `./sk/package.json` file to `cd .. && cd pb && pocketbase serve --publicDir=../sk/build`
+   - Open a new terminal, navigate to the `/frontend` directory and run the command `npm run backend`
+     - _For Windows:_ You will have to edit the `"backend"` script in the `./frontend/package.json` file to `cd .. && cd backend && pocketbase serve --publicDir=../frontend/build`
      - _For Mac:_ _Please contribute_
 4. Set up the frontend
-   - Open a new terminal, navigate to the `/sk` directory and run the following
+   - Open a new terminal, navigate to the `/frontend` directory and run the following
      - First install dependencies using `npx pnpm install`
      - Then, `npm run dev`
 5. Extend JavaScript by [checking out this documentation here.](https://pocketbase.io/docs/js-overview/).
@@ -81,14 +81,14 @@ This method is a good alternative for simple use cases that don't use either Doc
 This method works if you have Go Tools installed and want to set up the machine directly on your specific OS and you don't want to use Docker.
 
 1. Verify that the Go compiler is installed on your machine by opening a terminal and running `go version`. If there is an error, set up the go compiler in acccordance with the type of OS you are using.
-2. Make sure you `go.mod` file is ready to be built by navigating to the `/pb` directory and running `go mod tidy` in the terminal, especially if the file is throwing errors.
+2. Make sure you `go.mod` file is ready to be built by navigating to the `/backend` directory and running `go mod tidy` in the terminal, especially if the file is throwing errors.
 3. In the same terminal, run `go build`. This may take a moment
-   - If you want to use `modd` for live devlopment, after building, install the latest version by running `go install github.com/cortesi/modd/cmd/modd@latest`, test the installation by running `modd`. If successful, data migration should occur and a backend development server should be running. You can learn more by reading about it in the README located in the `/pb` directory.
-4. Open a new terminal, and run `cd sk && npm run develop`. When you open the localhost page in your browser, the “Hello” page should have an “Hello World” message coming from the API response
+   - If you want to use `modd` for live devlopment, after building, install the latest version by running `go install github.com/cortesi/modd/cmd/modd@latest`, test the installation by running `modd`. If successful, data migration should occur and a backend development server should be running. You can learn more by reading about it in the README located in the `/backend` directory.
+4. Open a new terminal, and run `cd frontend && npm run develop`. When you open the localhost page in your browser, the “Hello” page should have an “Hello World” message coming from the API response
 
 # Developing
 
-Visit http://localhost:5173 (sk) or http://localhost:8090 (pb)
+Visit http://localhost:5173 (frontend) or http://localhost:8090 (backend)
 
 If you are running `modd`, making changes in the Svelte code (frontend) or Go code (backend) will show
 results (almost) immediately.
@@ -114,7 +114,7 @@ See the build process details in the README files for backend and frontend.
 
 # Configurable Hooks
 
-Please read about the "hooks" system in [./pb/README.md](./pb/README.md)
+Please read about the "hooks" system in [./backend/README.md](./backend/README.md)
 It is a very easy and powerful way to extend your application with minimal
 configuration and perhaps no code.
 

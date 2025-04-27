@@ -50,7 +50,7 @@ Before you can run the actual backend, you must run the migrations using `./pock
 
 ## Run the backend
 
-You can run the PocketBase backend direct with `./pocketbase serve` or using `npm run backend` in the `sk` directory. Note that `npm run backend` it is included by default, but if you want the backend to also serve the frontend assets, then you must add the `--publicDir ../frontend/build` option. (Read more about this in [sk/package.json](../sk/package.json).)
+You can run the PocketBase backend direct with `./pocketbase serve` or using `npm run backend` in the `frontend` directory. Note that `npm run backend` it is included by default, but if you want the backend to also serve the frontend assets, then you must add the `--publicDir ../frontend/build` option. (Read more about this in [frontend/package.json](../frontend/package.json).)
 
 ## Docker
 

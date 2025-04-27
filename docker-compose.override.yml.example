@@ -1,12 +1,12 @@
 # version: "3.5"
 
 services:
-  sk:
+  frontend:
     # for live development
     command: sh -c "npx pnpm install && npm run dev -- --host 0.0.0.0"
     expose:
       - 5173
-    # labels for traefik reverse proxying. Move to "pb" or "sk" depending where you're doing live development
+    # labels for traefik reverse proxying. Move to "backend" or "frontend" depending where you're doing live development
     labels:
       - traefik.enable=true
       - traefik.http.routers.${COMPOSE_PROJECT_NAME}.rule=Host(`${HTTP_HOSTNAME}`)
@@ -15,7 +15,7 @@ services:
       - traefik_default
       - default
   # uncomment to enable live development in Go
-  # pb:
+  # backend:
   #   image: golang:1.22-alpine
   #   command: modd
 

@@ -4,7 +4,7 @@ import { defineConfig, type UserConfig } from "vite";
 import fs from "node:fs";
 
 const pocketbase_url = fs.existsSync("/.dockerenv")
-  ? "http://pb:8090"
+  ? "http://backend:8090"
   : "http://127.0.0.1:8090";
 
 export default defineConfig({
