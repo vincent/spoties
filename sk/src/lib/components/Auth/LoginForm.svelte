@@ -2,14 +2,16 @@
   import { goto } from "$app/navigation";
   import type { UsersResponse } from "$lib/pocketbase/generated-types";
   import { client, providerLogin } from "../../pocketbase";
-  import { Label, Input, Button, Card } from 'flowbite-svelte';
+  import { Label, Input, Button, Card, Alert } from 'flowbite-svelte';
 	import { t } from "$lib/i18n";
 
   const { returnUrl, authCollection = 'users' } = $props();
   const collection = client.collection(authCollection);
  
-  let forFormLink = returnUrl?.match(/^\/event\/\w/)
+  let forFormLink = returnUrl?.match(/^\/event\/\w/);
   let signup = $state(false);
+  let issue = $state(null);
+
   const form = $state({
     email: '',
     name: '',
@@ -21,17 +23,25 @@
   async function submit(e: SubmitEvent) {
     e.preventDefault();
     let user: UsersResponse
-    if (signup) {
-      user = await collection.create({ ...form });
-      await client.collection('teams').create({ owner: user.id });
+
+    try {
+      if (signup) {
+        user = await collection.create({ ...form });
+      }
+
+      user = (await collection.authWithPassword<UsersResponse>(form.email, form.password, { expand: 'teams' })).record;
+
+      if (signup) {
+        const team = await client.collection('teams').create({ owner: user.id });
+        await collection.update(user.id, { ...user, teams: [team.id] });
+      }
+
+      goto(returnUrl || '/welcome')
+
+    } catch (error: any) {
+      console.log(error)
+      issue = error.toString()
     }
-    // signin
-    if (form.admin) {
-      await client.admins.authWithPassword(form.email, form.password);
-    } else {
-      await collection.authWithPassword(form.email, form.password, { expand: 'teams' });
-    }
-    goto(returnUrl || '/welcome')
   }
 </script>
 
@@ -79,7 +89,7 @@
         </div>
         <div class="mb-6">
           <Label for="password" class="block mb-2">{$t('login.your_password')}</Label>
-          <Input id="password" size="lg" placeholder="******" bind:value={form.password} required />
+          <Input id="password" type="password" size="lg" placeholder="******" bind:value={form.password} required />
         </div>
         <div class="flex justify-between flex-wrap">
           <Button type="submit" class="w-full">{$t('login.login')}</Button>
@@ -95,11 +105,11 @@
         </div>
         <div class="mb-6">
           <Label for="password" class="block mb-2">{$t('login.your_password')}</Label>
-          <Input id="password" size="lg" placeholder="******" bind:value={form.password} required />
+          <Input id="password" type="password" size="lg" placeholder="******" bind:value={form.password} required />
         </div>
         <div class="mb-6">
           <Label for="password" class="block mb-2">{$t('login.confirm_password')}</Label>
-          <Input id="password" size="lg" placeholder="******" bind:value={form.passwordConfirm} required />
+          <Input id="password" type="password" size="lg" placeholder="******" bind:value={form.passwordConfirm} required />
         </div>
         <div class="mb-6">
           <Label for="email" class="block mb-2">{$t('login.your_name')}</Label>
@@ -118,6 +128,12 @@
         <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
           {$t('login.have_an_account')} <a href="#" onclick={() => (signup = false)} class="font-medium text-primary-600 hover:underline dark:text-primary-500">{$t('login.login_here')}</a>
         </div>
+      {/if}
+
+      {#if issue}
+        <Alert color="red">
+          {$t('login.error')}
+        </Alert>
       {/if}
     </form>
   </div>

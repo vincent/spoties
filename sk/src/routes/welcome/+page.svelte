@@ -2,7 +2,7 @@
   import { t } from "$lib/i18n";
 </script>
 
-<section class="bg-white px-4 py-8 antialiased dark:bg-gray-900 md:py-16">
+<section class="h-screen bg-white px-4 py-8 antialiased dark:bg-gray-900 md:py-16">
   <div class="mx-auto grid max-w-screen-xl rounded-lg bg-gray-50 p-4 dark:bg-gray-800 md:p-8 lg:grid-cols-12 lg:gap-8 lg:p-16 xl:gap-16">
     <div class="lg:col-span-5 lg:mt-0">
       <a href="#">

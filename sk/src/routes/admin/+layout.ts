@@ -4,7 +4,6 @@ import { goto } from '$app/navigation';
 
 export async function load(event: ServerLoadEvent) {
 	if (!client.authStore.isValid) {
-		debugger;
 		console.log(`unverified user attempt to load ${event.url}`)
 		goto('/')
 	}

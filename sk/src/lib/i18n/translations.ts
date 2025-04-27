@@ -116,6 +116,7 @@ const en = {
   'login.register_here': "Register here",
   'login.login_here': "Login here",
   'login.have_an_account': "Already have an account?",
+  'login.error': "Oh no, there was an error signing you in. Double check your credentials or retry in a moment.",
 
   "end": "."
 }
@@ -237,6 +238,7 @@ const fr = {
   'login.register_here': "Inscrivez-vous ici",
   'login.login_here': "Connectez-vous ici",
   'login.have_an_account': "Vous avez déjà un compte ?",
+  'login.error': "Oh non! Il a eu un problème pour vous connecter. Vérifiez les données envoyées, ou ressayez dans quelques instants.",
 
   "end": "."
 }
