@@ -1,6 +1,5 @@
 import PocketBase, { type AuthProviderInfo, RecordService } from "pocketbase";
 import type {
-  AdminModel,
   AuthModel,
   ListResult,
   RecordListOptions,
@@ -16,7 +15,7 @@ export const client = new PocketBase(
   browser ? window.location.origin + base : undefined
 );
 
-export const authModel = readable<AuthModel | AdminModel | null>(
+export const authModel = readable<AuthModel | null>(
   null,
   function (set, update) {
     client.authStore.onChange((token, model) => {

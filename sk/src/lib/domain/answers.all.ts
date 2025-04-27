@@ -1,8 +1,10 @@
-import type { UsersResponse } from "$lib/pocketbase/generated-types";
+import type { AnswersResponse, BookingsResponse, ParticipantsResponse } from "$lib/pocketbase/generated-types";
 import type { RecordListOptions } from "pocketbase";
 import { client } from "$lib/pocketbase";
 
-const USERS = client.collection('users');
+const ANSWERS = client.collection('answers');
+const BOOKINGS = client.collection('bookings');
+const PARTICIPANTS = client.collection('participants');
 
 export async function fetchEventAllAnswers(eventId: string, options: RecordListOptions) {
 
@@ -11,26 +13,59 @@ export async function fetchEventAllAnswers(eventId: string, options: RecordListO
         responses: [] as any[],
     };
 
-    data.responses = await USERS
-        .getFullList<UsersResponse>({
+    data.responses = await BOOKINGS
+        .getFullList<BookingsResponse>({
             ...options,
-            filter: client.filter('answers_via_user.event.id = {:eventId}', { eventId }),
-            expand: 'answers_via_user.question, bookings_via_user',
+            filter: client.filter('event.id = {:eventId}', { eventId }),
         })
-        .then(users => users.reduce((acc, u) => acc.concat({
-            id: u.id,
-            updated: (u.expand as any)?.answers_via_user.reduce((acc, a) => a.updated > acc ? a.updated : acc, ''),
-            user: {
-                id: u.id,
-                name: u.name,
-            },
-            answers: (u.expand as any)?.answers_via_user.reduce((acc, a: any) => ({
-                ...acc,
-                [a.question]: a.value,
-            }), {}),
-            bookings: (u.expand as any)?.bookings_via_user?.[0]?.slots || [],
+        .then(async bookings => {
+            const users = await PARTICIPANTS
+                .getFullList<ParticipantsResponse>({
+                    ...options,
+                    filter: client.filter('event = {:eventId}', { eventId }),
+                })
+                .then(ps => ps.reduce((acc, { id, name, email, avatar }) => ({
+                    ...acc,
+                    [id]: { id, name, email, avatar }
+                }), {}));
 
-        }), [] as any[]))
+            const answersByUser = await ANSWERS
+                .getFullList<AnswersResponse>({
+                    ...options,
+                    filter: client.filter('event.id = {:eventId}', { eventId }),
+                    expand: 'question'
+                })
+                .then(allAnswers => allAnswers.reduce((acc, a) => {
+                    const qid = a.question.toString()
+                    const uid = a.user.toString()
+                    acc[uid] ||= { updated: '' }
+                    return {
+                        ...acc,
+                        [uid]: {
+                            ...acc[uid],
+                            [qid]: a.value,
+                            updated: a.updated < acc[uid].updated
+                                ? acc[uid].updated
+                                : a.updated
+                        }
+                    }
+                }, {}));
+
+            return bookings
+                .reduce((acc, b) => {
+                    const user = users[b.user.toString()]
+                    if (!user) return acc;
+
+                    return acc.concat({
+                        updated: answersByUser[user.id].updated,
+                        answers: answersByUser[user.id],
+                        bookings: b.slots || [],
+                        id: b.id,
+                        user,
+                    })
+                },
+                [] as any[])
+        })
 
     return data
 }

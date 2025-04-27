@@ -36,13 +36,13 @@ func Register(app *pocketbase.PocketBase) {
 			return nil
 		}
 	}
-	app.OnBeforeServe().Add(func(e *core.ServeEvent) error {
-		ensureSchema(app.Dao().DB())
+	app.OnServe().BindFunc(func(e *core.ServeEvent) error {
+		ensureSchema(app.DB())
 		// watch insert/update/delete of rows of all collections
-		app.OnModelAfterCreate().Add(modelHandler("insert"))
-		app.OnModelAfterUpdate().Add(modelHandler("update"))
-		app.OnModelAfterDelete().Add(modelHandler("delete"))
-		return nil
+		app.OnModelAfterCreateSuccess().BindFunc(modelHandler("insert"))
+		app.OnModelAfterUpdateSuccess().BindFunc(modelHandler("update"))
+		app.OnModelAfterDeleteSuccess().BindFunc(modelHandler("delete"))
+		return e.Next()
 	})
 }
 

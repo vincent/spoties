@@ -25,9 +25,10 @@ export async function fetchEvent(eventId: string, options: RecordListOptions) {
                 }
             )
 
-        event.expand = event.expand || {
+        event.expand = {
             locations_via_event: [],
             questions_via_event: [],
+            ...(event.expand || {})
         }
             
         for (let i = 0; i < (event.expand as any)?.locations_via_event?.length; i++) {

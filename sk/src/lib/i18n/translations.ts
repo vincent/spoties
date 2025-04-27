@@ -28,6 +28,7 @@ const en = {
   "menu.press": `Releases`,
 
   "homepage.welcome": `Welcome !`,
+  "homepage.please_verify_email": `Please check the mail we just sent you to verify your email.`,
   "homepage.start_creating_event": `Start by creating a event`,
   "homepage.access_admin": `Access your admin panel`,
   "homepage.headline": `Seamless event staffing,\nfrom <span class="text-primary-600">invitation</span> to <span class="text-primary-600">location</span>.`,
@@ -150,6 +151,7 @@ const fr = {
   "menu.press": `Documentation`,
 
   "homepage.welcome": `Bienvenue !`,
+  "homepage.please_verify_email": `Veuillez utiliser le mail que nous venons de vous envoyer pour vérifier votre email.`,
   "homepage.start_creating_event": `Commencez par créer un événement`,
   "homepage.access_admin": `Accédez à votre panneau d'administration`,
   "homepage.headline": `Gestion d'événements sans effort,\ndepuis <span class="text-primary-600">l'invitation</span> jusqu'à <span class="text-primary-600">la localisation</span>.`,

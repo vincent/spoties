@@ -27,6 +27,7 @@
     try {
       if (signup) {
         user = await collection.create({ ...form });
+        await collection.requestVerification(form.email)
       }
 
       user = (await collection.authWithPassword<UsersResponse>(form.email, form.password, { expand: 'teams' })).record;
@@ -64,6 +65,7 @@
     </figure>
   {/if}
   <div class="w-100">
+    <h3 class="text-xl font-semibold text-gray-900 dark:text-white p-0 mb-5">{$t('login.sign_in')}</h3>
     {#await collection.listAuthMethods({ $autoCancel: false }) then methods}
       {#if methods.oauth2?.providers.length}
         <p class="font-semibold">{$t('login.login_with')}</p>
@@ -77,12 +79,21 @@
           <span class="bg-surface-100-800-token p-2 text-sm">{$t('login.with_email')}</span>
         </div>
       {/if}
+      {#if methods.otp?.enabled}
+        <p class="font-semibold">{$t('login.login_with')}</p>
+        <div class="flex flex-wrap space-y-4 space-x-0 md:flex-nowrap md:space-x-4 md:space-y-0">
+          TODO: Use OTP
+        </div>
+        <div class="text-center">
+          <hr class="-mb-4" />
+          <span class="bg-surface-100-800-token p-2 text-sm">{$t('login.with_email')}</span>
+        </div>
+      {/if}
     {:catch}
       <!-- pocketbase not working -->
     {/await}
     <form class="space-y-4" onsubmit={submit}>
       {#if !signup}
-        <h3 class="text-xl font-semibold text-gray-900 dark:text-white p-0 mb-5">{$t('login.sign_in')}</h3>
         <div class="mb-6">
           <Label for="email" class="block mb-2">{$t('login.your_email')}</Label>
           <Input id="email" size="lg" placeholder="your-email@example.com" bind:value={form.email} required />

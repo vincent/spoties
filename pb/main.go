@@ -8,7 +8,6 @@ import (
 	"strings"
 
 	"github.com/dop251/goja"
-	"github.com/labstack/echo/v5"
 	"github.com/pocketbase/pocketbase"
 	"github.com/pocketbase/pocketbase/apis"
 	"github.com/pocketbase/pocketbase/core"
@@ -84,14 +83,6 @@ func main() {
 		"fallback the request to index.html on missing static path (eg. when pretty urls are used with SPA)",
 	)
 
-	var queryTimeout int
-	app.RootCmd.PersistentFlags().IntVar(
-		&queryTimeout,
-		"queryTimeout",
-		30,
-		"the default SELECT queries timeout in seconds",
-	)
-
 	app.RootCmd.ParseFlags(os.Args[1:])
 
 	// load js files to allow loading external JavaScript migrations
@@ -110,37 +101,23 @@ func main() {
 	})
 
 	/*
-	 * Use this only if you want to do audit logging of tables named in AUDITLOG
-	 * env var (e.g. AUDITLOG=users,posts) impelemented in Go.
-	 * Keep in mind that there is already a JSVM implementation of this feature in ./pb_hooks dir.
-	 */
-	// auditlog.Register(app)
-
-	/*
 	 * Use this only if you want to use the "hooks" implemented in Go.
 	 * It's probably better to use hooks in JSVM though. See "auditlog" example
 	 * in ./pb_hooks.
 	 */
 	// hooks.Register(app)
 
-	app.OnBeforeServe().Add(func(e *core.ServeEvent) error {
+	app.OnServe().BindFunc(func(e *core.ServeEvent) error {
 		// serves static files from the provided public dir (if exists)
-		e.Router.GET("/*", apis.StaticDirectoryHandler(os.DirFS(publicDir), indexFallback))
+		e.Router.GET("/*", apis.Static(os.DirFS(publicDir), indexFallback))
 
 		// custom endpoint
-		e.Router.AddRoute(echo.Route{
-			Method: http.MethodGet,
-			Path:   "/api/go-hello",
-			Handler: func(c echo.Context) error {
-				obj := map[string]interface{}{"message": "Hello world from Go!"}
-				return c.JSON(http.StatusOK, obj)
-			},
-			// Middlewares: []echo.MiddlewareFunc{
-			// 	apis.RequireAdminOrUserAuth(),
-			// },
+		e.Router.GET("/api/go-hello", func(e *core.RequestEvent) error {
+			obj := map[string]interface{}{"message": "Hello world from Go!"}
+			return e.JSON(http.StatusOK, obj)
 		})
 
-		return nil
+		return e.Next()
 	})
 
 	if err := app.Start(); err != nil {

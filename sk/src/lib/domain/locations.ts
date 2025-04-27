@@ -4,10 +4,13 @@ import { client } from "$lib/pocketbase";
 
 const LOCATIONS = client.collection('locations');
 
-export async function fetchLocations(options: RecordListOptions) {
+export async function fetchLocations(eventId: string, options: RecordListOptions) {
 
     // const filter = client.filter('org_id = {:eventId}', { eventId }); // fixme
-    let locations: LocationsRecord[] = await LOCATIONS.getFullList<LocationsResponse>(1000, options);
+    let locations: LocationsRecord[] = await LOCATIONS.getFullList<LocationsResponse>(1000, {
+        ...options,
+        filter: client.filter('event = {:eventId}', { eventId })
+    });
 
     return locations as LocationsResponse[]
 }
