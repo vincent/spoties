@@ -2,33 +2,8 @@
   import { Table, TableBody, TableBodyCell, TableBodyRow, TableHead, TableHeadCell } from 'flowbite-svelte';
   import { slide } from 'svelte/transition';
 	import { stripTags, t } from "$lib/i18n";
-  import { groupByMulti } from '$lib/utils/iterators';
 
   let { event, responses, secondaryGroups } = $props() 
-
-  // let slots = $derived(event.locations.flatMap(l => l.slots))
-  // let rows = $derived(groupByMulti(slots, ['car', 'year', 'model']))
-
-  // function groupSlotsByAnswers(qids: number[]) {
-  //   const slots = event.locations.flatMap(l => l.slots)
-  //   const rows = qids.flatMap(qid => event.questions.map(q => ({ slot, q })))
-
-  //   const headers = ['slot', 'q_label_1', 'q_label_2', 'users names']
-  //   const rrows = [
-  //     {
-  //       slot: {},
-  //       columns: [
-  //         {  }
-  //       ]
-  //     }
-  //   ]
-  //   return 
-  //     .map(slot => ({
-  //       ...slot,
-  //       columns: qids.map(mapper => )
-  //     }))
-  // }
-
   let slotsOccupation = $derived(event.locations.flatMap(l => l.slots).reduce((acc, slot) => ({
     ...acc,
     [slot.id]: {
@@ -83,6 +58,7 @@
                           <TableBodyCell>{r.answers[qid]}</TableBodyCell>
                         {/each}
                       {/if}
+                      <TableBodyCell class="filler"></TableBodyCell>
                     </TableBodyRow>
                   {/each}
                 </TableBody>
@@ -95,3 +71,9 @@
     {/each}
   </TableBody>
 </Table>
+
+<style>
+  :global(td:not(.filler)) {
+    width: 200px;
+  }
+</style>

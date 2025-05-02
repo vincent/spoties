@@ -42,7 +42,7 @@ export async function fetchEvent(eventId: string, options: RecordListOptions) {
 
         record = {
             ...record,
-            event,
+            // event,
             id: event.id,
             title: event.title,
             created: event.created,

@@ -30,14 +30,14 @@
 </script>
 
 <div class="w-full mb-4 flex justify-between">
-  <Button>{$t('event.results.group_by')} <ChevronDownOutline class="w-6 h-6 ms-2 text-white dark:text-white" /></Button>
+  <Button>{$t('event.results.group_by')} <ChevronDownOutline class="w-6 h-6 ms-2 text-white dark:text-primary" /></Button>
   <Dropdown bind:open={groupOpen}>
     <DropdownItem onclick={handleGroupBy('user')}>{$t('event.results.group_by_user')}</DropdownItem>
     <DropdownItem onclick={handleGroupBy('slot')}>{$t('event.results.group_by_slot')}</DropdownItem>
   </Dropdown>
 
   {#if groupBy === 'slot'}
-    <Button outline class="ms-2" >{$t('act.show')} <ChevronDownOutline class="w-6 h-6 ms-2 text-white dark:text-white" /></Button>
+    <Button outline class="ms-2" >{$t('act.show')} <ChevronDownOutline class="w-6 h-6 ms-2 text-white dark:text-primary" /></Button>
     <Dropdown bind:open={showOpen}>
       {#each data.record.questions as q}
         {#if q.answer_type !== 'just_text'}

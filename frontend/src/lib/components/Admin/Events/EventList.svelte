@@ -5,7 +5,7 @@
   let { events } = $props()
 </script>
 
-<Timeline>
+<Timeline class="mt-3 ms-3">
   {#each $events.items as item}
     <a href={`/admin/events/${item.id}`}>
       <TimelineItem
@@ -15,7 +15,9 @@
       >
         <div class="mb-4 flex justify-between text-base font-normal text-gray-500 dark:text-gray-400">
           <p>{stripTags(item.description).slice(0, 100)}</p>
-          <div class="event-actions">
+          <div class="flex flex-col">
+            <span>{$t('event.locations', { count: (item.expand?.locations_via_event?.length || 0) })}</span>
+            <span>{$t('event.bookings', { count: (item.expand?.bookings_via_event?.length || 0) })}</span>
           </div>
         </div>
       </TimelineItem>

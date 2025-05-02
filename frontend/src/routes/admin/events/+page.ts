@@ -3,10 +3,10 @@ import { client, watch } from "$lib/pocketbase";
 import type { PageLoad } from "./$types";
 
 export const load: PageLoad = async ({ parent, fetch }) => {
-  const filter = client.filter("user != ''", {});
-  const expand = "user";
+  const filter = client.filter("team = {:team}", { team: client.authStore.record?.teams[0] });
+  const expand = "bookings_via_event,locations_via_event";
   const queryParams = {
-    // filter,
+    filter,
     expand,
     fetch,
   };

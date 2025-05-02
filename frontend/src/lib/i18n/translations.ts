@@ -26,6 +26,7 @@ const en = {
   "menu.form": `Form`,
   "menu.responses": `Responses`,
   "menu.press": `Releases`,
+  "menu.user_settings": `Settings`,
 
   "homepage.welcome": `Welcome !`,
   "homepage.please_verify_email": `Please check the mail we just sent you to verify your email.`,
@@ -50,6 +51,8 @@ const en = {
   'event.places_limited_to': "Limited to {{limit}} places",
   'event.places_unlimited': "Unlimited places",
   'event.duration': "{{duration}} hours",
+  'event.bookings': "{{count}} bookings",
+  'event.locations': "{{count}} locations",
 
   'event.banner_1': `Hi <span class="font-semibold">{{username}}</span>, Welcome back!<br>`,
   'event.banner_2': "We already filled the form with your previous answers.",
@@ -108,6 +111,7 @@ const en = {
   'login.your_email': "Your email",
   'login.your_password': "Your password",
   'login.login': "Login",
+  'login.logout': "Logout",
   'login.create_an_account': "Create an account",
   'login.confirm_password': "Confirm password",
   'login.your_name': "Name",
@@ -149,6 +153,7 @@ const fr = {
   "menu.form": `Formulaire`,
   "menu.responses": `Réponses`,
   "menu.press": `Documentation`,
+  "menu.user_settings": `Préférences`,
 
   "homepage.welcome": `Bienvenue !`,
   "homepage.please_verify_email": `Veuillez utiliser le mail que nous venons de vous envoyer pour vérifier votre email.`,
@@ -173,6 +178,8 @@ const fr = {
   'event.places_limited_to': "Limité à {{limit}} places",
   'event.places_unlimited': "Places illimitées",
   'event.duration': "{{duration}} heures",
+  'event.bookings': "{{count}} inscrits",
+  'event.locations': "{{count}} emplacements",
 
   'event.banner_1': `Bonjour <span class="font-semibold">{{username}}</span>, heureux de vous revoir ici!<br>`,
   'event.banner_2': "Nous avons déjà rempli le formulaire avec vos réponses précédentes.",
@@ -231,6 +238,7 @@ const fr = {
   'login.your_email': "Votre email",
   'login.your_password': "Votre mot de passe",
   'login.login': "Connexion",
+  'login.logout': "Déconnexion",
   'login.create_an_account': "Créer un compte",
   'login.confirm_password': "Confirmer le mot de passe",
   'login.your_name': "Nom",

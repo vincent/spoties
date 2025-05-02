@@ -1,47 +1,24 @@
 <script lang="ts">
 	import { Input, Card, Range, Rating, Datepicker, Toggle, Radio, Checkbox, Button, MultiSelect, Badge, Textarea } from "flowbite-svelte";
+    import { ArrowRightOutline, MapPinAltOutline } from "flowbite-svelte-icons";
 	import { userEventStore as store } from "$lib/stores/user-event-form";
     import BannerPrefillEvent from "./BannerPrefillEvent.svelte";
-    import { ArrowRightOutline, MapPinAltOutline } from "flowbite-svelte-icons";
-    import { client } from "$lib/pocketbase";
-    import NavMini from "../Nav/NavMini.svelte";
-    import RichText from "../Shared/RichText.svelte";
     import RichTextView from "../Shared/RichTextView.svelte";
-	import { t } from "$lib/i18n";
-    import type { ZodIssue } from "zod";
     import FieldErrors from "../Shared/FieldErrors.svelte";
     import { formatDate } from "$lib/utils/dates.svelte";
+    import RichText from "../Shared/RichText.svelte";
+    import NavMini from "../Nav/NavMini.svelte";
+    import { client } from "$lib/pocketbase";
+    import type { ZodIssue } from "zod";
+	import { t } from "$lib/i18n";
 
-	let { record, userData } = $props()
-	
-	const user = client.authStore.record as any
-	const username = user.name || user.email?.split(/@/)[0]
-	const somePreviousAnswers = Object.values(userData?.questions_answers || {}).some((a: any) => a.value)
+	let { record, userData } = $props();
 
-	// Public store for handling event form data
-	const initial = {
-		event_id: record.id,
-		questions_answers: {
-			...record.questions.reduce((acc, question) => ({
-				...acc,
-				[question.id]: {
-					question,
-					value: question.answer_type === 'select_many' ? [] : null,
-				}
-			}), {}),
-			...(userData.questions_answers || {})
-		},
-		bookings: {
-			...record.locations.map(l => l.slots).flat().reduce((acc, s) => ({
-				...acc,
-				[s.id]: null
-			}), {}),
-			...(userData.bookings || {})
-		},
-	};
+	const user = client.authStore.record as any;
+	const username = user.name || user.email?.split(/@/)[0];
+	const somePreviousAnswers = Object.values(userData?.questions_answers || {}).some((a: any) => a.value);
 
-	store.set(initial);
-	store.updateValidation(initial);
+	store.init(record, userData);
 
 	let validation = $derived(store.valid($store))
 	let qValidation = $derived<Record<string, ZodIssue>>(
@@ -77,7 +54,7 @@
 	</div>
 
 	<div class="mb-6">
-		{#each record.questions as q, i}
+		{#each record.questions as q}
 			{#if !q.deleted}
 				{@const props = q.properties || {}}
 				<div class="space-y-4">
@@ -147,13 +124,12 @@
 					<div class="space-y-4">
 						<Card size="none" class="mt-2 {l.slots.find(s => $store.bookings.slots[s.id]) ? 'border-2 border-primary-600 dark:border-secondary-800' : ''}">
 							<div class="mb-3 flex">
-								<MapPinAltOutline size="xl" />
-								<div class="mb-2 block text-xl">{l.name}</div>
+								<MapPinAltOutline size="xl" /> <div class="mb-2 block text-xl">{l.name}</div>
 							</div>
 
 							<div class="mb-3 block text-md">{@html l.description}</div>
 
-							{#each l.slots as s, i}
+							{#each l.slots as s}
 								{#if !s.deleted}
 									<div class="my-3">
 										<Checkbox class="my-1 flex" disabled={s.limit === 0} value={s.id} bind:checked={$store.bookings.slots[s.id]}>
@@ -173,7 +149,7 @@
 														{$t('event.places_limit', s)}
 													</div>
 												{/if}
-											</div>	
+											</div>
 										</Checkbox>
 									</div>
 								{/if}
@@ -186,7 +162,7 @@
 	{/if}
 
 	<div class="mb-8 flex justify-end-safe">
-		<Button type="submit" disabled={!validation.success}>{$t('act.submit')} <ArrowRightOutline class="ml-2" /></Button>
+		<Button type="submit" size="lg" disabled={!validation.success}>{$t('act.submit')} <ArrowRightOutline class="ml-2" /></Button>
 	</div>
 </form>
 

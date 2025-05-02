@@ -1,44 +1,30 @@
 <script lang="ts">
-  import { onDestroy } from "svelte";
+  import { Avatar, Dropdown, DropdownDivider, DropdownHeader, DropdownItem } from "flowbite-svelte";
   import { authModel, client } from "../../pocketbase";
-  import Alerts, { alerts } from "../Alerts.svelte";
+  import { goto } from "$app/navigation";
+  import Alerts from "../Alerts.svelte";
   import Dialog from "../Dialog.svelte";
-    import { Avatar } from "flowbite-svelte";
+    import { t } from "$lib/i18n";
 
   const { signupAllowed = true } = $props();
 
-  async function logout() {
+  const logout = () => {
     client.authStore.clear();
+    goto('/login')
   }
-
-  const unsubscribe = client.authStore.onChange((token, model) => {
-    if (model) {
-      const { name, username } = model;
-      alerts.success(`Signed in as ${name || username || "Admin"}`, 5000);
-    } else {
-      alerts.success(`Signed out`, 5000);
-    }
-  }, false);
-
-  onDestroy(() => unsubscribe());
 </script>
 
 {#if $authModel}
-  <Dialog>
-    {#snippet trigger(show)}
-      <button type="button" onclick={show}>
-        <Avatar
-          src={client.getFileUrl($authModel, $authModel.avatar)}
-        />
-      </button>
-    {/snippet}
-    <div class="wrapper">
-      <Avatar
-        src={client.getFileUrl($authModel, $authModel.avatar)}
-      />
-      <button type="button" onclick={logout}>Sign Out</button>
-    </div>
-  </Dialog>
+  <Avatar id="user-drop" src={client.files.getURL($authModel, $authModel.avatar)} class="cursor-pointer" />
+  <Dropdown triggeredBy="#user-drop">
+    <DropdownHeader>
+      <span class="block text-sm">{$authModel.name}</span>
+      <span class="block truncate text-sm font-medium">{$authModel.email}</span>
+    </DropdownHeader>
+    <DropdownItem>{$t('menu.user_settings')}</DropdownItem>
+    <DropdownDivider />
+    <DropdownItem onclick={logout}>{$t('login.logout')}</DropdownItem>
+  </Dropdown>
 {:else}
   <Dialog>
     {#snippet trigger(show)}

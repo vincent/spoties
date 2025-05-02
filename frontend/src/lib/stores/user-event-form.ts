@@ -1,4 +1,4 @@
-import type { AnswersResponse, BookingsResponse } from "$lib/pocketbase/generated-types";
+import type { AnswersResponse, BookingsResponse, EventsResponse, LocationsResponse, QuestionsResponse, TimeSlotsResponse } from "$lib/pocketbase/generated-types";
 import { z, type typeToFlattenedError, type ZodIssue } from "zod";
 import type { QuestionType } from "$lib/domain/questions";
 import { locale, translate } from "$lib/i18n";
@@ -21,8 +21,13 @@ type UserFormAnswer = {
 
 type UserEvent = {
     questions_answers: Record<string, UserFormAnswer>
-    bookings: { id: string, slots: Record<string, boolean> }
+    bookings: { id: string, updated: Date, slots: Record<string, boolean> }
     event_id: string
+}
+
+type InputEventObject = EventsResponse & {
+    questions: QuestionsResponse[]
+    locations: (LocationsResponse & { slots: TimeSlotsResponse[] })[]
 }
 
 export function createUserEventStore(initial: UserEvent, pb = client) {
@@ -45,6 +50,21 @@ export function createUserEventStore(initial: UserEvent, pb = client) {
         })
     }
 
+    function updateValidation(props: UserEvent) {
+        schema = z.object({
+            questions_answers: z.object(
+                Object.keys(props.questions_answers)
+                    .reduce((acc, qid) => ({
+                        ...acc,
+                        [qid]: questionValidator(props.questions_answers[qid].question)
+                    }), {})
+            ),
+            bookings: z.object({
+                slots: z.object({})
+            }),
+        })
+    }
+
     return {
         ...store,
 
@@ -57,29 +77,49 @@ export function createUserEventStore(initial: UserEvent, pb = client) {
                 success: boolean,
                 error?: typeToFlattenedError<UserEvent, ZodIssue>
             }
-            console.log(form, flatten)
+
             return flatten
         },
-        
+
         /////////////////////////
 
         reset: () => store.set({ ...initial }),
-        updateValidation: (props: UserEvent) => {
-            schema = z.object({
-                questions_answers: z.object(
-                    Object.keys(props.questions_answers)
-                        .reduce((acc, qid) => ({
-                            ...acc,
-                            [qid]: questionValidator(props.questions_answers[qid].question)
-                        }), {})
-                ),
-                bookings: z.object({
-                    slots: z.object({})
-                }),
-            })
+
+        init: (record: InputEventObject, userData: UserEvent) => {
+            const initial = {
+                event_id: record.id,
+                questions_answers: {
+                    ...record.questions.reduce((acc, question) => ({
+                        ...acc,
+                        [question.id]: {
+                            question,
+                            value: question.answer_type === 'select_many' ? [] : null,
+                        }
+                    }), {}),
+                    ...(userData.questions_answers || {})
+                },
+                bookings: {
+                    ...record.locations.map(l => l.slots).flat().reduce((acc, s) => ({
+                        ...acc,
+                        [s.id]: null
+                    }), {}),
+                    ...(userData.bookings || {})
+                },
+            }
+            store.set(initial);
+            updateValidation(initial);
         },
 
         updateUserAnswer: async (props: UserEvent) => {
+
+            const isUpdating = !!props.bookings.id
+            let alertOwner = !isUpdating
+
+            if (isUpdating) {
+                const dateUpdated = +(new Date(props.bookings.updated))
+                const twelveHoursAgo = +(new Date()) - (12 * 60 * 60 * 1000)
+                alertOwner = dateUpdated < twelveHoursAgo
+            }
 
             const questions_answers = Object.values(props.questions_answers)
             for (let i = 0; i < questions_answers.length; i++) {
@@ -118,6 +158,10 @@ export function createUserEventStore(initial: UserEvent, pb = client) {
 
             store.update(s => ({ ...s, ...props }))
 
+            if (alertOwner) {
+                await client.send(`/api/events/${props.event_id}/notify-owner`, { method: 'post', body: { isUpdating } });
+            }
+
             goto(`/event/${props.event_id}/done`)
         }
     };
@@ -125,6 +169,6 @@ export function createUserEventStore(initial: UserEvent, pb = client) {
 
 export const userEventStore = createUserEventStore({
     questions_answers: {},
-    bookings: { id: '', slots: {} },
+    bookings: { id: '', updated: new Date, slots: {} },
     event_id: '',
 })

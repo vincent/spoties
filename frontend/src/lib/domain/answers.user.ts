@@ -15,7 +15,7 @@ export async function fetchEventUserAnswers(eventId: string, userId: string, opt
     let record = {
         event_id: eventId,
         questions_answers: {}, // Record<string, UserFormAnswer>
-        bookings: { id: '', slots: {} }, // { id: string, slots: Record<string, boolean> }
+        bookings: { id: '', updated: new Date(), slots: {} }, // { id: string, slots: Record<string, boolean> }
     };
 
     record.questions_answers = await ANSWERS
@@ -42,10 +42,12 @@ export async function fetchEventUserAnswers(eventId: string, userId: string, opt
             ? ({
                 id: bookings[0].id,
                 slots: bookings[0].slots.reduce((acc, s) => ({ ...acc, [s]: true }), {}),
+                updated: new Date(Date.parse(bookings[0].updated)),
             })
             : ({
                 id: '',
-                slots: {}
+                slots: {},
+                updated: new Date()
             })
         )
 
