@@ -139,7 +139,7 @@
 							{#each l.slots as s}
 								{#if !s.deleted}
 									<div class="my-3">
-										<Checkbox class="my-1 flex" disabled={s.limit === 0} value={s.id} bind:checked={$store.bookings.slots[s.id]}>
+										<Checkbox class="my-1 flex" disabled={s.limit > 0 && s.available_seats <= 0} value={s.id} bind:checked={$store.bookings.slots[s.id]}>
 											<div class="mr-auto">
 												<div>{@html s.label}</div>
 												<div>{@html s.description || ''}</div>
@@ -151,7 +151,7 @@
 													{/if}
 													{#if s.duration >= 0} - {$t('event.duration', s)}{/if}
 												</div>
-												{#if s.limit > -1}
+												{#if s.limit > 0 && s.available_seats > -1}
 													<div class="mx-2">
 														{$t('event.places_limit', s)}
 													</div>

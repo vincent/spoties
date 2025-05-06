@@ -18,6 +18,8 @@ export const load: LayoutLoad = async ({ url, params, fetch }) => {
   const { publicLink } = params;
   const options = { fetch };
   const record = await fetchEvent(publicLink as string, options)
+  
+  if (!record.id) redirect(303, '/')
   const userAnswers = await fetchEventUserAnswers(record.id, client.authStore.record?.id as string, options)
 
   return {

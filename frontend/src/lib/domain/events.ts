@@ -1,13 +1,14 @@
 import type { EventsResponse, TimeSlotsResponse } from "$lib/pocketbase/generated-types";
 import type { RecordListOptions } from "pocketbase";
 import { client } from "$lib/pocketbase";
+import type { InputEventObject } from "$lib/pocketbase/types";
 
 const SLOTS = client.collection('time_slots');
 const EVENTS = client.collection('events');
 
 export async function fetchEvent(eventId: string, options: RecordListOptions) {
 
-    let record: Partial<EventsResponse> & any = {
+    let record: Partial<InputEventObject> = {
         title: '',
         team: client.authStore.record?.teams[0],
         locations: [] as any[],
@@ -35,6 +36,7 @@ export async function fetchEvent(eventId: string, options: RecordListOptions) {
             const location = (event.expand as any).locations_via_event[i];
             location.slots = await SLOTS.getFullList<TimeSlotsResponse>(1000, {
                 ...options,
+                expand: 'bookings_via_slots',
                 filter: client.filter('location.id = {:id}', location),
                 sort: 'starts_at'
             })
@@ -71,6 +73,7 @@ export async function fetchEvent(eventId: string, options: RecordListOptions) {
                     id: slot.id,
                     label: slot.label,
                     limit: slot.limit,
+                    available_seats: slot.limit - (slot.expand?.bookings_via_slots || []).length,
                     created: slot.created,
                     updated: slot.updated,
                     deleted: slot.deleted,

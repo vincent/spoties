@@ -1,17 +1,9 @@
-import type { EventsResponse, LocationsResponse, QuestionsResponse, TimeSlotsResponse } from '$lib/pocketbase/generated-types';
+import type { LocationsResponse, QuestionsResponse } from '$lib/pocketbase/generated-types';
+import { QuestionTypes, type AdminEvent } from '$lib/pocketbase/types';
 import { z, type typeToFlattenedError, type ZodIssue } from 'zod'
 import { derived, get, writable } from 'svelte/store';
-import { QuestionTypes } from '$lib/pocketbase/types';
 import { locale, translate } from '$lib/i18n';
 import { client } from "$lib/pocketbase";
-
-type AdminEvent = Partial<EventsResponse> & {
-    loading: boolean,
-    questions: Partial<QuestionsResponse<any>>[]
-    locations: (Partial<LocationsResponse> & {
-        slots: Partial<TimeSlotsResponse>[]
-    })[]
-}
 
 let schema = derived(locale, ($l) => z.object({
     title: z
@@ -117,7 +109,7 @@ export function createAdminEventStore(initial: AdminEvent, pb = client) {
                 properties: {}
             }
             const questions = s.questions.slice()
-            questions.splice(index, 0, newQuestion)
+            questions.splice(index, 0, newQuestion as any)
             return ({
                 ...s,
                 questions,
@@ -141,7 +133,7 @@ export function createAdminEventStore(initial: AdminEvent, pb = client) {
             locations: (s.locations || []).concat({
                 ...location,
                 slots: [],
-            })
+            } as any)
         })),
 
         removeLocation: (index: number) => store.update(s => ({
@@ -162,7 +154,7 @@ export function createAdminEventStore(initial: AdminEvent, pb = client) {
                     starts_at: '',
                     duration: 4 * 60,
                     limit: 0,
-                })
+                } as any)
             }))
         })),
     
@@ -255,4 +247,4 @@ export const AdminEventStore = createAdminEventStore({
     loading: false,
     locations: [],
     questions: [],
-})
+} as any)

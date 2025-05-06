@@ -49,7 +49,7 @@ const en = {
   "event.done.thx": "Thank you !",
 
   "event.empty_list": "No event found. Create some !",
-  'event.places_limit': "{{limit}} places available",
+  'event.places_limit': "{{available_seats}} places available",
   'event.places_limited_to': "Limited to {{limit}} places",
   'event.places_unlimited': "Unlimited places",
   'event.duration': "{{duration}} hours",
@@ -178,7 +178,7 @@ const fr = {
   "event.done.thx": "Merci !",
 
   "event.empty_list": "Aucun événement trouvé. Créez-en un !",
-  'event.places_limit': "{{limit}} places disponibles",
+  'event.places_limit': "{{available_seats}} places disponibles",
   'event.places_limited_to': "Limité à {{limit}} places",
   'event.places_unlimited': "Places illimitées",
   'event.duration': "{{duration}} heures",
@@ -307,7 +307,7 @@ const es = {
   "event.done.thx": "¡Gracias!",
 
   "event.empty_list": "No se encontraron eventos. ¡Crea uno!",
-  'event.places_limit': "{{limit}} plazas disponibles",
+  'event.places_limit': "{{available_seats}} plazas disponibles",
   'event.places_limited_to': "Limitado a {{limit}} plazas",
   'event.places_unlimited': "Plazas ilimitadas",
   'event.duration': "{{duration}} horas",
@@ -436,7 +436,7 @@ const ca = {
   "event.done.thx": "Gràcies!",
 
   "event.empty_list": "No s'han trobat esdeveniments. Crea'n un!",
-  'event.places_limit': "{{limit}} places disponibles",
+  'event.places_limit': "{{available_seats}} places disponibles",
   'event.places_limited_to': "Limitat a {{limit}} places",
   'event.places_unlimited': "Places il·limitades",
   'event.duration': "{{duration}} hores",

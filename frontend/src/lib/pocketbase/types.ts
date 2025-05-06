@@ -40,9 +40,17 @@ export type UserEvent = {
     event_id: string
 }
 
+export type TimeSlotsResponseWithAvailability = TimeSlotsResponse & {
+    available_seats: number
+}
+
 export type InputEventObject = EventsResponse & {
     questions: QuestionsResponse<any>[]
-    locations: (LocationsResponse & { slots: TimeSlotsResponse[] })[]
+    locations: (LocationsResponse & { slots: TimeSlotsResponseWithAvailability[] })[]
+}
+
+export type AdminEvent = InputEventObject & {
+    loading: boolean
 }
 
 export type UserBookingResponse = {

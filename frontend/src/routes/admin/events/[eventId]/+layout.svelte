@@ -7,7 +7,7 @@
   const activeClass = 'rounded-none md:border-b-2 border-primary-600 dark:border-primary-500 text-primary-700';
   const { data, children } = $props();
   let activeUrl = $derived(page.url.pathname)
-  AdminEventStore.reset(data.record)
+  AdminEventStore.reset(data.record as any)
 </script>
 
 <div class="w-full max-w-(--breakpoint-2xl) mx-auto">
