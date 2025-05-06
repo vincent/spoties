@@ -20,15 +20,15 @@
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <TimelineItem>
   <div class="flex justify-between mb-4 text-base font-normal text-gray-500 dark:text-gray-400">
-    <EditInPlace divClass="w-full" input="richtext" bind:value={$AdminEventStore.locations[locationIndex].slots[index].label}>
-      <div class="flex">{@html value.label || 'Name this slot'}</div>
+    <EditInPlace divClass="w-3/5" bind:value={$AdminEventStore.locations[locationIndex].slots[index].label}>
+      <div class="flex">{@html value.label || $t('event.form.add_slot_name')}</div>
     </EditInPlace>
-
+  
     <div class="flex slot-actions">
       <Datepicker 
         value={$AdminEventStore.locations[locationIndex].slots[index].starts_at ? new Date(Date.parse($AdminEventStore.locations[locationIndex].slots[index].starts_at)) : null}
         on:select={e => $AdminEventStore.locations[locationIndex].slots[index].starts_at = e.detail.toISOString()}
-        on:clear={_ => $AdminEventStore.locations[locationIndex].slots[index].starts_at = undefined}
+        on:clear={_ => $AdminEventStore.locations[locationIndex].slots[index].starts_at = ''}
       />
       <DeleteButton btnClass="ms-2" confirm={removeLocationTimeSlot} />
     </div>
@@ -46,7 +46,7 @@
 
   <div class="flex mb-4 text-base font-normal text-gray-500 dark:text-gray-400">
     <EditInPlace divClass="w-full" input="richtext" bind:value={$AdminEventStore.locations[locationIndex].slots[index].description}>
-      <div class="flex">{@html value.description}</div>
+      <div class="flex">{@html value.description || $t('event.form.add_slot_desc')}</div>
     </EditInPlace>
   </div>
 
