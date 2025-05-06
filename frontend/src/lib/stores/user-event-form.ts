@@ -1,34 +1,10 @@
-import type { AnswersResponse, BookingsResponse, EventsResponse, LocationsResponse, QuestionsResponse, TimeSlotsResponse } from "$lib/pocketbase/generated-types";
+import type { AnswersResponse, BookingsResponse } from "$lib/pocketbase/generated-types";
+import type { InputEventObject, Question, UserEvent } from "$lib/pocketbase/types";
 import { z, type typeToFlattenedError, type ZodIssue } from "zod";
-import type { QuestionType } from "$lib/domain/questions";
 import { locale, translate } from "$lib/i18n";
 import { get, writable } from 'svelte/store';
 import { client } from "$lib/pocketbase";
 import { goto } from "$app/navigation";
-
-type Question = {
-    id: string
-    properties: any
-    required: boolean
-    answer_type: QuestionType
-}
-
-type UserFormAnswer = {
-    id?: string
-    question: Question
-    value: any
-}
-
-type UserEvent = {
-    questions_answers: Record<string, UserFormAnswer>
-    bookings: { id: string, updated: Date, slots: Record<string, boolean> }
-    event_id: string
-}
-
-type InputEventObject = EventsResponse & {
-    questions: QuestionsResponse[]
-    locations: (LocationsResponse & { slots: TimeSlotsResponse[] })[]
-}
 
 export function createUserEventStore(initial: UserEvent, pb = client) {
     const store = writable<UserEvent>();

@@ -47,6 +47,8 @@ export async function fetchEvent(eventId: string, options: RecordListOptions) {
             // event,
             id: event.id,
             title: event.title,
+            published: event.published,
+            sealed: event.sealed,
             created: event.created,
             updated: event.updated,
             description: event.description,

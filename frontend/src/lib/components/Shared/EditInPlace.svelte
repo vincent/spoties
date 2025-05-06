@@ -1,6 +1,7 @@
 <script lang="ts">
   import { clickOutside } from "$lib/utils/click-outside";
   import GeoLocationSearch from "./GeoLocationSearch.svelte";
+  import { PUBLIC_GOOGLE_MAPS_API_KEY } from '$env/static/public';
   import RichText from "./RichText.svelte";
   import { Input } from "flowbite-svelte";
   import type { Snippet } from "svelte";
@@ -41,7 +42,7 @@
 </script>
 
 <div class={divClass}>
-  {#if editing && input === 'input'}
+  {#if editing && (input === 'input' || (input == 'geo' && !PUBLIC_GOOGLE_MAPS_API_KEY))}
     <Input bind:this={element} {placeholder} on:keydown={keydown} onblur={() => editing = false} bind:value={value} />
 
   {:else if editing && input === 'richtext'}

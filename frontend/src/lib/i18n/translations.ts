@@ -5,6 +5,7 @@ const en = {
   'lang.es': 'Español',
   'lang.ca': 'Català',
 
+  'act.share': 'Share',
   'act.save': 'Save',
   'act.show': 'Show',
   'act.submit': 'Submit',
@@ -44,6 +45,9 @@ const en = {
   "errors.required": "This field is required",
   "errors.too_long": "This value is too long",
 
+  'event.published': 'Published',
+  'event.sealed': 'Sealed, will not accept new answers',
+  "event.warning_sealed": "This form does not accept new answers.",
   "event.done.answers_sent": "Your answers have been sent to the organizer",
   "event.done.review_answers": "Review your answers",
   "event.done.close_window": "close this window",
@@ -148,6 +152,7 @@ const fr = {
   'act.delete_yes': `Oui, je suis sûr`,
   'act.delete_no': 'Non, annuler',
   'act.reorder': 'Réordonner',
+  'act.share': 'Partager',
 
   'data.as_csv': 'en CSV',
   'data.date': 'Date',
@@ -175,6 +180,10 @@ const fr = {
   "errors.we_are_on_it": "Nous travaillons déjà à résoudre le problème.",
   "errors.required": "Ce champ est requis",
   "errors.too_long": "Cette valeur est trop longue",
+
+  "event.published": "Publié",
+  "event.sealed": "Figé, n'accepte plus de réponses",
+  "event.warning_sealed": "Ce formulaire n'accepte plus de nouvelles réponses.",
 
   "event.done.answers_sent": "Vos réponses ont été envoyées à l'organisateur",
   "event.done.review_answers": "Vérifiez vos réponses",
@@ -280,6 +289,7 @@ const es = {
   'act.delete_yes': 'Sí, estoy seguro',
   'act.delete_no': 'No, cancelar',
   'act.reorder': 'Cambiar orden',
+  'act.share': 'Compartir',
 
   'data.as_csv': 'como CSV',
   'data.date': 'Fecha',
@@ -307,6 +317,10 @@ const es = {
   "errors.we_are_on_it": "Ya estamos trabajando para resolver el problema.",
   "errors.required": "Este campo es obligatorio",
   "errors.too_long": "Este valor es demasiado largo",
+
+  "event.published": "Publicado",
+  "event.sealed": "Sellado, no acepta nuevas respuestas",
+  "event.warning_sealed": "Este formulario no acepta nuevas respuestas.",
 
   "event.done.answers_sent": "Tus respuestas han sido enviadas al organizador",
   "event.done.review_answers": "Revisa tus respuestas",
@@ -412,6 +426,7 @@ const ca = {
   'act.delete_yes': 'Sí, n\'estic segur',
   'act.delete_no': 'No, cancel·la',
   'act.reorder': 'Canvia l\'ordre',
+  'act.share': 'Compartir',
 
   'data.as_csv': 'com a CSV',
   'data.date': 'Data',
@@ -439,6 +454,10 @@ const ca = {
   "errors.we_are_on_it": "Ja estem treballant per resoldre el problema.",
   "errors.required": "Aquest camp és obligatori",
   "errors.too_long": "Aquest valor és massa llarg",
+
+  "event.published": "Publicat",
+  "event.sealed": "Segellat, no accepta noves respostes",
+  "event.warning_sealed": "Aquest formulari no accepta noves respostes.",
 
   "event.done.answers_sent": "Les teves respostes s'han enviat a l'organitzador",
   "event.done.review_answers": "Revisa les teves respostes",

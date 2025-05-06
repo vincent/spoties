@@ -1,5 +1,5 @@
 <script lang="ts">
-  import SelectedLocationsSummary from "../Events/EventFormSummary.svelte";
+  import EventFormSummary from "../Events/EventFormSummary.svelte";
   import LocationsSelector from "../Locations/LocationsSelector.svelte";
   import { AdminEventStore } from "$lib/stores/admin-event-form.svelte";
   import FieldErrors from "$lib/components/Shared/FieldErrors.svelte";
@@ -7,6 +7,7 @@
   import QuestionsForm from "../Questions/QuestionsForm.svelte";
   import RichText from "$lib/components/Shared/RichText.svelte";
   import { t } from "$lib/i18n";
+    import { Link2Icon } from "lucide-svelte";
 
   const { locations, config } = $props();
   let validation = $derived(AdminEventStore.valid($AdminEventStore))
@@ -25,7 +26,7 @@
     {#if $AdminEventStore.id}
       <div class="mb-6">
         <Label class="mb-2 block text-2xl">{$t('event.form.public_link')}</Label>
-        <A target="_blank" href={publicLink}>{publicLink}</A>
+        <A target="_blank" href={publicLink}><Link2Icon class="mr-2" /> {publicLink}</A>
       </div>
     {/if}
 
@@ -52,7 +53,7 @@
     </div>
   </div>
   <div class="ml-3 w-1/4 sticky top-18">
-    <SelectedLocationsSummary submit={() => AdminEventStore.updateEvent($AdminEventStore)} />
+    <EventFormSummary submit={() => AdminEventStore.updateEvent($AdminEventStore)} />
   </div>
 </form>
 

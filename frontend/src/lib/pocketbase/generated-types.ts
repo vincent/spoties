@@ -132,6 +132,8 @@ export type EventsRecord = {
 	description?: HTMLString
 	id: string
 	public_access_link?: string
+	published?: boolean
+	sealed?: boolean
 	team: RecordIdString
 	title: string
 	updated?: IsoDateString
