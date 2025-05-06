@@ -2,10 +2,20 @@
   import { Table, TableBody, TableBodyCell, TableBodyRow, TableHead, TableHeadCell } from 'flowbite-svelte';
   import { slide } from 'svelte/transition';
 	import { stripTags, t } from "$lib/i18n";
-    import { formatDate } from '$lib/utils/dates.svelte';
+  import { formatDate } from '$lib/utils/dates.svelte';
+  import type { UserBookingResponse } from '$lib/pocketbase/types';
+    import { BadgeCheckIcon } from 'lucide-svelte';
 	
-  let { event, responses } = $props() 
+  let {
+    event,
+    responses
+  }: {
+    event,
+    responses: UserBookingResponse[]
+  } = $props()
+
   let openRow = $state(-1)
+  let slotSpan = $derived(event.locations.reduce((acc, l) => acc + l.slots.length, 0))
 
   const toggleRow = (i) => {
     openRow = openRow === i ? null : i
@@ -29,7 +39,9 @@
     {#each responses as response, i}
       <TableBodyRow on:click={() => toggleRow(i)}>
         <TableHeadCell>{formatDate(new Date(response.updated))}</TableHeadCell>
-        <TableHeadCell>{response.user.name}</TableHeadCell>
+        <TableHeadCell>
+          <span class="flex gap-1">{response.user.name} {#if response.confirmed}<BadgeCheckIcon size={16} class="text-primary-700" />{/if}</span>
+        </TableHeadCell>
         {#each event.locations as l}
           {#each l.slots as s}
             <TableHeadCell>{response.bookings.includes(s.id) ? $t('data.yes') : ''}</TableHeadCell>
@@ -38,7 +50,7 @@
       </TableBodyRow>
       {#if openRow === i}
         <TableBodyRow>
-          <TableBodyCell colspan={2 + 4} class="p-6">
+          <TableBodyCell colspan={2 + slotSpan} class="p-6">
             <div class="grid pt-8 text-left md:gap-16 dark:border-gray-700 md:grid-cols-2" transition:slide={{ duration: 300, axis: 'y' }}>
               <div>
                 {#each event.questions as q}

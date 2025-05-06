@@ -2,6 +2,7 @@
 	import { Input, Card, Range, Rating, Datepicker, Toggle, Radio, Checkbox, Button, MultiSelect, Badge, Textarea } from "flowbite-svelte";
     import { ArrowRightOutline, MapPinAltOutline } from "flowbite-svelte-icons";
 	import { userEventStore as store } from "$lib/stores/user-event-form";
+    import type { InputEventObject, UserEvent } from "$lib/pocketbase/types";
     import BannerPrefillEvent from "./BannerPrefillEvent.svelte";
     import RichTextView from "../Shared/RichTextView.svelte";
     import FieldErrors from "../Shared/FieldErrors.svelte";
@@ -12,7 +13,13 @@
     import type { ZodIssue } from "zod";
 	import { t } from "$lib/i18n";
 
-	let { record, userData } = $props();
+	let {
+		record,
+		userData
+	}: {
+		record: InputEventObject,
+		userData: UserEvent,
+	} = $props();
 
 	const user = client.authStore.record as any;
 	const username = user.name || user.email?.split(/@/)[0];
@@ -62,7 +69,7 @@
 						<div class="mb-2">{@html q.label}</div>
 
 						{#if q.answer_type === 'just_text'}
-							<p class="text-gray-800 dark:text-gray-100">{@html q.properties.text}</p>
+							<p class="text-gray-800 dark:text-gray-100">{@html props.text}</p>
 
 						{:else if q.answer_type === 'simple_text'}
 							<Input size="md" type="text" placeholder={props.placeholder} bind:value={$store.questions_answers[q.id].value} />
@@ -95,17 +102,17 @@
 							<Toggle bind:checked={$store.questions_answers[q.id].value}>{$store.questions_answers[q.id].value ? $t('data.yes') : $t('data.no')}</Toggle>
 
 						{:else if q.answer_type === 'checkboxes' && props.choices !== undefined}
-							{#each q.properties.choices as choice, ci}
+							{#each q.properties?.choices as choice, ci}
 								<Checkbox bind:value={$store.questions_answers[q.id].value} bind:group={q.properties}>{choice.name}</Checkbox>
 							{/each}
 
 						{:else if q.answer_type === 'select_one' && props.choices?.length}
-							{#each q.properties.choices as choice, ci}
+							{#each q.properties?.choices as choice, ci}
 								<Radio class="my-1" bind:group={$store.questions_answers[q.id].value} value={choice.name}>{choice.name}</Radio>
 							{/each}
 
 						{:else if q.answer_type === 'select_many'}
-							<MultiSelect size="lg" items={multiSelectChoices(q.properties.choices)} bind:value={$store.questions_answers[q.id].value} let:item let:clear>
+							<MultiSelect size="lg" items={multiSelectChoices(q.properties?.choices)} bind:value={$store.questions_answers[q.id].value} let:item let:clear>
 								<Badge dismissable params={{ duration: 100 }} on:close={clear}>{item.name}</Badge>
 							</MultiSelect>
 						{/if}

@@ -8,7 +8,7 @@
   import FieldErrors from "$lib/components/Shared/FieldErrors.svelte";
   import RichText from "$lib/components/Shared/RichText.svelte";
   import AnswerTypeSelector from "./AnswerTypeSelector.svelte";
-  import type { QuestionType } from "$lib/domain/questions";
+  import type { QuestionType } from "$lib/pocketbase/types";
   import { t } from "$lib/i18n";
 
   let { removeQuestion, questionIndex, value = $bindable<QuestionsRecord>() } = $props()

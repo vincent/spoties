@@ -8,7 +8,7 @@
     "backend": "AUDITLOG=users,posts ../backend/entrypoint.sh ./pocketbase serve --publicDir=../frontend/build",
     "build": "vite build",
     "build:backend": "cd ../backend && go build",
-    "typegen": "pocketbase-typegen --db ../backend/backend_data/data.db --out ./src/lib/pocketbase/generated-types.ts",
+    "typegen": "pocketbase-typegen --db ../backend/pb_data/data.db --out ./src/lib/pocketbase/generated-types.ts",
     "test": "playwright test",
     "preview": "vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",

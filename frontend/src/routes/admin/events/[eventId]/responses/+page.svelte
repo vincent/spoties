@@ -4,7 +4,8 @@
   import { arrayToCSV, responsesToArray, downloadBlob } from "$lib/utils/csv";
   import { Button, Dropdown, DropdownItem, Toggle } from "flowbite-svelte";
   import { ChevronDownOutline } from "flowbite-svelte-icons";
-  import { locale, t } from "$lib/i18n";
+  import { locale, stripTags, t } from "$lib/i18n";
+  import { type UserBookingResponse } from "$lib/pocketbase/types";
 
   const { data } = $props()
   let showOpen = $state(false)
@@ -42,7 +43,7 @@
       {#each data.record.questions as q}
         {#if q.answer_type !== 'just_text'}
           <DropdownItem>
-            <Toggle bind:checked={secondaryGroups[q.id]} class="rounded-sm p-2 hover:bg-gray-100 dark:hover:bg-gray-600">{q.label}</Toggle>
+            <Toggle bind:checked={secondaryGroups[q.id]} class="rounded-sm p-2 hover:bg-gray-100 dark:hover:bg-gray-600">{stripTags(q.label).slice(0, 30)}</Toggle>
           </DropdownItem>
         {/if}
       {/each}
@@ -56,7 +57,7 @@
 </div>
 
 {#if groupBy === 'user'}
-  <EventResponsesTableByUser event={data.record} responses={data.responses} />
+  <EventResponsesTableByUser event={data.record} responses={data.responses as UserBookingResponse[]} />
 {:else if groupBy === 'slot'}
-  <EventResponsesTableBySlot event={data.record} responses={data.responses} secondaryGroups={Object.entries(secondaryGroups).filter(([q, toggled]) => toggled).map(([q]) => q)} />
+  <EventResponsesTableBySlot event={data.record} responses={data.responses as UserBookingResponse[]} secondaryGroups={Object.entries(secondaryGroups).filter(([q, toggled]) => toggled).map(([q]) => q)} />
 {/if}

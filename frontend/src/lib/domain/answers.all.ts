@@ -1,4 +1,5 @@
 import type { AnswersResponse, BookingsResponse, ParticipantsResponse } from "$lib/pocketbase/generated-types";
+import type { UserBookingResponse } from "$lib/pocketbase/types";
 import type { RecordListOptions } from "pocketbase";
 import { client } from "$lib/pocketbase";
 
@@ -10,7 +11,7 @@ export async function fetchEventAllAnswers(eventId: string, options: RecordListO
 
     let data = {
         event_id: eventId,
-        responses: [] as any[],
+        responses: [] as UserBookingResponse[],
     };
 
     data.responses = await BOOKINGS
@@ -60,11 +61,12 @@ export async function fetchEventAllAnswers(eventId: string, options: RecordListO
                         updated: answersByUser[user.id].updated,
                         answers: answersByUser[user.id],
                         bookings: b.slots || [],
+                        confirmed: b.confirmed,
                         id: b.id,
                         user,
                     })
                 },
-                [] as any[])
+                [] as UserBookingResponse[])
         })
 
     return data

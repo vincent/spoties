@@ -118,6 +118,7 @@ export type AnswersRecord<Tvalue = unknown> = {
 }
 
 export type BookingsRecord = {
+	confirmed?: boolean
 	created?: IsoDateString
 	event: RecordIdString
 	id: string

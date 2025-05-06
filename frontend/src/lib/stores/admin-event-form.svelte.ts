@@ -1,12 +1,13 @@
 import type { EventsResponse, LocationsResponse, QuestionsResponse, TimeSlotsResponse } from '$lib/pocketbase/generated-types';
 import { z, type typeToFlattenedError, type ZodIssue } from 'zod'
 import { derived, get, writable } from 'svelte/store';
-import { QuestionTypes } from '$lib/domain/questions';
+import { QuestionTypes } from '$lib/pocketbase/types';
 import { locale, translate } from '$lib/i18n';
 import { client } from "$lib/pocketbase";
 
 type AdminEvent = Partial<EventsResponse> & {
-    questions: Partial<QuestionsResponse>[]
+    loading: boolean,
+    questions: Partial<QuestionsResponse<any>>[]
     locations: (Partial<LocationsResponse> & {
         slots: Partial<TimeSlotsResponse>[]
     })[]
@@ -75,6 +76,7 @@ let schema = derived(locale, ($l) => z.object({
     )
 }))
 
+export const dirty = writable(false)
 export function createAdminEventStore(initial: AdminEvent, pb = client) {
     const store = writable<AdminEvent>({
         ...initial,
@@ -88,6 +90,8 @@ export function createAdminEventStore(initial: AdminEvent, pb = client) {
     const QUESTIONS = pb.collection('questions');
     const SLOTS = pb.collection('time_slots');
     const EVENTS = pb.collection('events');
+
+    store.subscribe(_ => dirty.set(true))
 
     return {
         ...store,
@@ -171,73 +175,84 @@ export function createAdminEventStore(initial: AdminEvent, pb = client) {
 
         /////////////////////////
 
-        reset: () => store.set({ ...initial }),
+        reset: (props?: AdminEvent) => {
+            store.set(props || { ...initial })
+            dirty.set(false)
+        },
 
         updateEvent: async (props: AdminEvent) => {
+            try {
+                store.update(s => ({ ...s, loading: true }))
 
-            Object.assign(props, props.id
-                ? await EVENTS.update(props.id, props)
-                : await EVENTS.create(props))
+                Object.assign(props, props.id
+                    ? await EVENTS.update(props.id, props)
+                    : await EVENTS.create(props))
 
-            for (let i = 0; i < props.questions.length; i++) {
-                const q = props.questions[i]
-                Object.assign(q, {
-                    ...q,
-                    event: props.id,
-                    entity: 'event',
-                    entity_id: props.id,
-                    rank: i,
-                })
-                Object.assign(props.questions[i], q.id
-                    ? await QUESTIONS.update(q.id, q)
-                    : await QUESTIONS.create(q))
-            }
-
-            for (let i = 0; i < props.locations.length; i++) {
-                const loc = props.locations[i]
-                Object.assign(loc, {
-                    ...loc,
-                    event: props.id
-                })
-                Object.assign(props.locations[i], loc.id
-                    ? await LOCATIONS.update(loc.id, loc)
-                    : await LOCATIONS.create(loc))
-
-                // props.locations[i] = loc as any
-                
-                for (let j = 0; j < loc.slots.length; j++) {
-                    const slot = {
-                        ...loc.slots[j],
-                        location: loc.id,
+                for (let i = 0; i < props.questions.length; i++) {
+                    const q = props.questions[i]
+                    Object.assign(q, {
+                        ...q,
                         event: props.id,
-                    }
-                    Object.assign(loc.slots[j], slot.id
-                        ? await SLOTS.update(slot.id as string, slot)
-                        : await SLOTS.create(slot))
-
-                    // loc.slots[j].starts_at = slot.starts_at ? new Date(Date.parse(slot.starts_at)) : undefined,                        
-                    // props.locations[i].slots[j] = slot as any
+                        entity: 'event',
+                        entity_id: props.id,
+                        rank: i,
+                    })
+                    Object.assign(props.questions[i], q.id
+                        ? await QUESTIONS.update(q.id, q)
+                        : await QUESTIONS.create(q))
                 }
 
-            }
+                for (let i = 0; i < props.locations.length; i++) {
+                    const loc = props.locations[i]
+                    Object.assign(loc, {
+                        ...loc,
+                        event: props.id
+                    })
+                    Object.assign(props.locations[i], loc.id
+                        ? await LOCATIONS.update(loc.id, loc)
+                        : await LOCATIONS.create(loc))
 
-            // // mark old slots as deleted
-            // const newSlotsIds = props.locations.flatMap(l => l.slots.map(s => s.id))
-            // const oldSlots = await SLOTS.getFullList({
-            //     filter: client.filter(`event = {:eventId}`, { eventId: props.id })
-            // })
-            // debugger;
-            // for (let i = 0; i < oldSlots.length; i++) {
-            //     if (newSlotsIds.includes(oldSlots[i].id)) continue;
-            //     await SLOTS.update(oldSlots[i].id, { deleted: true })
-            // }
-            
-            store.update(s => ({ ...s, ...props }))
+                    // props.locations[i] = loc as any
+                    
+                    for (let j = 0; j < loc.slots.length; j++) {
+                        const slot = {
+                            ...loc.slots[j],
+                            location: loc.id,
+                            event: props.id,
+                        }
+                        Object.assign(loc.slots[j], slot.id
+                            ? await SLOTS.update(slot.id as string, slot)
+                            : await SLOTS.create(slot))
+
+                        // loc.slots[j].starts_at = slot.starts_at ? new Date(Date.parse(slot.starts_at)) : undefined,                        
+                        // props.locations[i].slots[j] = slot as any
+                    }
+
+                }
+
+                // // mark old slots as deleted
+                // const newSlotsIds = props.locations.flatMap(l => l.slots.map(s => s.id))
+                // const oldSlots = await SLOTS.getFullList({
+                //     filter: client.filter(`event = {:eventId}`, { eventId: props.id })
+                // })
+                // debugger;
+                // for (let i = 0; i < oldSlots.length; i++) {
+                //     if (newSlotsIds.includes(oldSlots[i].id)) continue;
+                //     await SLOTS.update(oldSlots[i].id, { deleted: true })
+                // }
+                
+                store.update(s => ({ ...s, ...props }))
+
+            } finally {
+                store.update(s => ({ ...s, loading: false }))
+                dirty.set(false)
+            }
         }
     };
 }
 
 export const AdminEventStore = createAdminEventStore({
+    loading: false,
     locations: [],
     questions: [],
 })

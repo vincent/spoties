@@ -1,8 +1,9 @@
 <script lang="ts">
   import { t } from "$lib/i18n";
-  import { AdminEventStore } from "$lib/stores/admin-event-form.svelte";
-  import { Button, Helper } from "flowbite-svelte";
+  import { AdminEventStore, dirty } from "$lib/stores/admin-event-form.svelte";
+  import { Button, Helper, Spinner } from "flowbite-svelte";
   import { CheckOutline } from "flowbite-svelte-icons";
+    import { get } from "svelte/store";
 
   let { submit } = $props();
   let validation = $derived(AdminEventStore.valid($AdminEventStore))
@@ -44,8 +45,8 @@
           </dd>
         </dl>
 
-        <Button class="mt-6 w-full" disabled={!validation.success} onclick={submit}>
-          {$t('act.save')} <CheckOutline class="w-6 h-6 ms-2 text-white" />
+        <Button class="mt-6 w-full" disabled={!validation.success || $AdminEventStore.loading} onclick={submit}>
+          {$t('act.save')} {#if $AdminEventStore.loading}<Spinner size="4" class="w-6 h-6 ms-2 text-white" />{:else if !$dirty}<CheckOutline class="w-6 h-6 ms-2 text-white" />{/if}
         </Button>
 
         {#if !validation.success}
