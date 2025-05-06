@@ -6,7 +6,7 @@
   let open = $state(false)
 </script>
 
-<Sidebar activeUrl={$page.url.pathname} class="top-20 w-50 z-40 sticky top-18 h-screen transition-transform -translate-x-full md:translate-x-0 {open ? 'open' : 'closed'}">
+<Sidebar activeUrl={$page.url.pathname} class="top-20 w-50 z-40 sticky top-18 h-auto transition-transform -translate-x-full md:translate-x-0 {open ? 'open' : 'closed'}">
   <SidebarWrapper>
     <SidebarGroup>
     <SidebarItem label={$t('menu.events')} href="/admin/events">
