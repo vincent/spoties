@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { Table, TableBody, TableBodyCell, TableBodyRow, TableHead, TableHeadCell } from 'flowbite-svelte';
+  import { Table, TableBody, TableBodyCell, TableBodyRow, TableHead, TableHeadCell, Tooltip } from 'flowbite-svelte';
   import { slide } from 'svelte/transition';
 	import { stripTags, t } from "$lib/i18n";
-    import { BadgeCheckIcon } from 'lucide-svelte';
+  import { BadgeCheckIcon } from 'lucide-svelte';
 
   let { event, responses, secondaryGroups } = $props() 
   let slotsOccupation = $derived(event.locations.flatMap(l => l.slots).reduce((acc, slot) => ({
@@ -54,7 +54,7 @@
                   {#each slotsOccupation[s.id].bookedBy as r}
                     <TableBodyRow class="border-0">
                       <TableBodyCell class="w-50">
-                        <span class="flex gap-1">{r.user.name} {#if r.confirmed}<BadgeCheckIcon size={16} class="text-primary-700" />{/if}</span>
+                        <span class="flex gap-1">{r.user.name} {#if r.confirmed}<BadgeCheckIcon size={16} class="text-green-700" /><Tooltip>{$t('act.confirmed')}</Tooltip>{/if}</span>
                       </TableBodyCell>
                       {#if secondaryGroups?.length}
                         {#each secondaryGroups as qid}

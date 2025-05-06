@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { Table, TableBody, TableBodyCell, TableBodyRow, TableHead, TableHeadCell } from 'flowbite-svelte';
+  import { Table, TableBody, TableBodyCell, TableBodyRow, TableHead, TableHeadCell, Tooltip } from 'flowbite-svelte';
   import { slide } from 'svelte/transition';
 	import { stripTags, t } from "$lib/i18n";
   import { formatDate } from '$lib/utils/dates.svelte';
   import type { UserBookingResponse } from '$lib/pocketbase/types';
-    import { BadgeCheckIcon } from 'lucide-svelte';
+  import { BadgeCheckIcon, CircleCheckIcon } from 'lucide-svelte';
 	
   let {
     event,
@@ -40,11 +40,11 @@
       <TableBodyRow on:click={() => toggleRow(i)}>
         <TableHeadCell>{formatDate(new Date(response.updated))}</TableHeadCell>
         <TableHeadCell>
-          <span class="flex gap-1">{response.user.name} {#if response.confirmed}<BadgeCheckIcon size={16} class="text-primary-700" />{/if}</span>
+          <span class="flex gap-1">{response.user.name} {#if response.confirmed}<BadgeCheckIcon size={16} class="text-green-700" /><Tooltip>{$t('act.confirmed')}</Tooltip>{/if}</span>
         </TableHeadCell>
         {#each event.locations as l}
           {#each l.slots as s}
-            <TableHeadCell>{response.bookings.includes(s.id) ? $t('data.yes') : ''}</TableHeadCell>
+            <TableHeadCell>{#if response.bookings.includes(s.id)}<CircleCheckIcon class="text-primary-700"/> {/if}</TableHeadCell>
           {/each}
         {/each}
       </TableBodyRow>
