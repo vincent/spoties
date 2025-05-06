@@ -17,6 +17,7 @@ export const load: LayoutLoad = async ({ fetch }) => {
   };
   let config: {
     site: {
+      url: string;
       name: string;
       copyright: string;
       year: number;

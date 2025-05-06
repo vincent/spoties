@@ -8,8 +8,9 @@
   import RichText from "$lib/components/Shared/RichText.svelte";
   import { t } from "$lib/i18n";
 
-  const { locations } = $props();
+  const { locations, config } = $props();
   let validation = $derived(AdminEventStore.valid($AdminEventStore))
+  let publicLink = $derived(`${config.site?.url}/event/${$AdminEventStore.id}`)
 </script>
 
 <form class="flex justify-center items-start" onsubmit={() => AdminEventStore.updateEvent($AdminEventStore)}>
@@ -24,7 +25,7 @@
     {#if $AdminEventStore.id}
       <div class="mb-6">
         <Label class="mb-2 block text-2xl">{$t('event.form.public_link')}</Label>
-        <A target="_blank" href={`/event/${$AdminEventStore.id}`}>{`/event/${$AdminEventStore.id}`}</A>
+        <A target="_blank" href={publicLink}>{publicLink}</A>
       </div>
     {/if}
 

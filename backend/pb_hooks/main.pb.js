@@ -17,6 +17,7 @@ routerAdd(
     const { parseJSONFile } = require(`${__hooks}/util`);
     const config = parseJSONFile(`${__hooks}/config.json`);
     const settings = $app.settings();
+    config.site.url = settings.meta.appURL;
     config.site.name = settings.meta.appName;
     config.site.copyright = settings.meta.appName;
     c.json(200, config);

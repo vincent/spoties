@@ -4,7 +4,7 @@
   import { page } from "$app/state";
   import { t } from "$lib/i18n/index.js";
 
-  const activeClass = 'rounded-none md:border-b-2 border-primary-600 dark:border-primary-500 text-primary-700';
+  const activeClass = 'rounded-none md:border-b-2 border-primary-600 text-primary-600';
   const { data, children } = $props();
   let activeUrl = $derived(page.url.pathname)
   AdminEventStore.reset(data.record as any)
