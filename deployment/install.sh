@@ -69,7 +69,7 @@ sudo systemctl restart pocketbase
 sudo systemctl restart caddy
 
 # create or reset Pocketbase admin
-$PROJECT_DIR/current/pocketbase superuser upsert $POCKETBASE_ADMIN_EMAIL $POCKETBASE_ADMIN_PASSWORD
+$PROJECT_DIR/current/backend/pocketbase superuser upsert $POCKETBASE_ADMIN_EMAIL $POCKETBASE_ADMIN_PASSWORD
 
 # cleanup old deployments
 find $PROJECT_DIR -maxdepth 1 -ctime +120 | grep -v "$DEPLOY_ID" | xargs -0 -r rm -rf
