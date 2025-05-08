@@ -24,7 +24,7 @@ if [ -d "$DEPLOY_DIR" ]; then
 fi
 
 # install Caddy
-if ! command -v go &> /dev/null; then
+if ! command -v /usr/local/go/bin/go &> /dev/null; then
     sudo rm -rf /usr/local/go
     sudo wget https://go.dev/dl/go1.24.3.linux-amd64.tar.gz
     sudo tar -C /usr/local -xzf go1.24.3.linux-amd64.tar.gz
@@ -62,6 +62,9 @@ sudo cp $PROJECT_DIR/current/deployment/Caddyfile /etc/caddy/Caddyfile
 sudo systemctl daemon-reload
 sudo systemctl start pocketbase
 sudo systemctl restart caddy
+
+# create or reset Pocketbase admin
+$PROJECT_DIR/current/pocketbase superuser upsert $POCKETBASE_ADMIN_EMAIL $POCKETBASE_ADMIN_PASSWORD
 
 # cleanup old deployments
 find $PROJECT_DIR -maxdepth 1 -ctime +120 | grep -v "$DEPLOY_ID" | xargs -0 -r rm -rf
