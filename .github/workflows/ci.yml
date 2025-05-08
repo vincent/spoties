@@ -7,7 +7,7 @@ on:
   pull_request:
 
 jobs:
-  main:
+  build:
     runs-on: ubuntu-latest
     steps:
 
@@ -20,8 +20,6 @@ jobs:
           node-version: 24
           cache-dependency-path: "frontend"
           cache: 'npm'
-
-      # build
 
       - name: Copy secrets
         working-directory: ./frontend
@@ -36,7 +34,10 @@ jobs:
         working-directory: ./frontend
         run: npm run build
 
-      # deploy
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+
       - name: Prepare
         run: |
           mkdir -p next/backend
@@ -46,8 +47,6 @@ jobs:
           cp -Rf ./backend/data          ./next/backend/
           cp -Rf ./backend/pocketbase    ./next/backend/
           cp -Rf ./backend/modd*         ./next/backend/
-
-      # deploy
 
       - name: Copy artefacts
         uses: appleboy/scp-action@v0.1.7

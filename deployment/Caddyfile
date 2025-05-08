@@ -1,36 +1,21 @@
-(cors) {
-	@origin header Origin {args[0]}
-	header @origin Access-Control-Allow-Origin spoti.es
-	header @origin Access-Control-Allow-Methods "OPTIONS,HEAD,GET,POST,PUT,PATCH,DELETE"
-}
+spoti.es {
 
+    tls {
+        dns cloudflare TOKEN
+        resolvers 1.1.1.1
+    }
 
-*.spoti.es {
-	tls {
-		dns cloudflare TOKEN
-	}
-
-	@api host api.spoti.es
-	handle @api {
-        request_body {
-            max_size 10MB
+    handle /api/* {
+        reverse_proxy localhost:8090/api/ {
+            header_up Host {upstream_hostport}
+            header_up X-Real-IP {remote_host}
+            header_up X-Forwarded-For {remote_host}
         }
-		reverse_proxy localhost:8090/api/ {
-			header_up X-Real-IP {remote}
-			header_up X-Forwarded-Proto {scheme}
-		}
-		import cors spoti.es
-	}
+    }
 
-	@www host spoti.es
-	handle @www {
-		root * /srv/spoties/current/frontend
-		try_files {path} {path}/ /index.html
-		file_server
-	}
-
-	# Fallback for otherwise unhandled domains
-	handle {
-		abort
-	}
+    handle /* {
+        root * /srv/spoties/current/frontend
+        try_files {path} {path}/ /index.html
+        file_server
+    }
 }

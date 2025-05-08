@@ -24,6 +24,15 @@ if [ -d "$DEPLOY_DIR" ]; then
 fi
 
 # install Caddy
+if ! command -v go &> /dev/null; then
+    sudo rm -rf /usr/local/go
+    sudo wget https://go.dev/dl/go1.24.3.linux-amd64.tar.gz
+    sudo tar -C /usr/local -xzf go1.24.3.linux-amd64.tar.gz
+    sudo rm go1.24.3.linux-amd64.tar.gz
+    sudo sh -c 'echo export PATH=\$PATH:/usr/local/go/bin >> /etc/profile'
+fi
+
+# install Caddy
 if ! command -v caddy &> /dev/null; then
     sudo apt install -yq debian-keyring debian-archive-keyring apt-transport-https curl
     curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
@@ -45,12 +54,13 @@ fi
 mv $PROJECT_DIR/next $DEPLOY_DIR
 rm -f $PROJECT_DIR/current && ln -s $DEPLOY_DIR $PROJECT_DIR/current
 
-# restart pocketbase
-sudo systemctl start pocketbase
-
 # use Caddy to serve apps
 sed -i "s/dns cloudflare .*/dns cloudflare $CLOUDFLARE_DNS_TOKEN/" $PROJECT_DIR/current/deployment/Caddyfile
 sudo cp $PROJECT_DIR/current/deployment/Caddyfile /etc/caddy/Caddyfile
+
+# restart services
+sudo systemctl daemon-reload
+sudo systemctl start pocketbase
 sudo systemctl restart caddy
 
 # cleanup old deployments

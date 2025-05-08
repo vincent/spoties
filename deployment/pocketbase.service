@@ -8,10 +8,10 @@ Group            = root
 LimitNOFILE      = 4096
 Restart          = always
 RestartSec       = 5s
-StandardOutput   = append:/srv/spoties/backend/std.log
-StandardError    = append:/srv/spoties/backend/std.log
-WorkingDirectory = /srv/spoties/backend
-ExecStart        = /srv/spoties/backend/modd
+StandardOutput   = append:/srv/spoties/current/backend/std.log
+StandardError    = append:/srv/spoties/current/backend/std.log
+WorkingDirectory = /srv/spoties/current/backend
+ExecStart        = /srv/spoties/current/backend/modd
 
 [Install]
 WantedBy = multi-user.target
