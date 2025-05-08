@@ -5,7 +5,7 @@ spoti.es {
         resolvers 1.1.1.1
     }
 
-    handle /api/* {
+    route /api/* {
         reverse_proxy localhost:8090/api/ {
             header_up Host {upstream_hostport}
             header_up X-Real-IP {remote_host}
@@ -13,7 +13,7 @@ spoti.es {
         }
     }
 
-    handle /* {
+    route /* {
         root * /srv/spoties/current/frontend
         try_files {path} {path}/ /index.html
         file_server

@@ -39,8 +39,11 @@ jobs:
           mkdir -p next/backend
           cp -Rf ./deployment            ./next/deployment
           cp -Rf ./frontend/build        ./next/frontend
-          cp -Rf ./backend/pb_*          ./next/backend/
           cp -Rf ./backend/data          ./next/backend/
+          cp -Rf ./backend/pb_*          ./next/backend/
+          cp -Rf ./backend/go.mod        ./next/backend/
+          cp -Rf ./backend/go.sum        ./next/backend/
+          cp -Rf ./backend/main.go       ./next/backend/
           cp -Rf ./backend/pocketbase    ./next/backend/
           cp -Rf ./backend/modd*         ./next/backend/
 
