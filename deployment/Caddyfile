@@ -9,6 +9,16 @@ spoti.es {
         reverse_proxy 127.0.0.1:8090
     }
 
+    route /_app/* {
+        root * /srv/spoties/current/frontend
+        try_files {path} {path}/ /index.html
+        file_server 
+    }
+
+    route /_* {
+        reverse_proxy 127.0.0.1:8090
+    }
+
     route /* {
         root * /srv/spoties/current/frontend
         try_files {path} {path}/ /index.html
