@@ -23,6 +23,11 @@ jobs:
 
       # build
 
+      - name: copy secrets
+        working-directory: ./frontend
+        run: |
+          echo PUBLIC_GOOGLE_MAPS_API_KEY=${{ secrets.PUBLIC_GOOGLE_MAPS_API_KEY }} > .env
+
       - name: install dependencies
         working-directory: ./frontend
         run: npm ci
