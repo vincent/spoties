@@ -40,9 +40,9 @@ jobs:
       - name: Prepare
         run: |
           mkdir -p next/backend
+          cp -Rf ./deployment            ./next/deployment
           cp -Rf ./frontend/build        ./next/frontend
-          cp -Rf ./backend/pb_hooks      ./next/backend/
-          cp -Rf ./backend/pb_migrations ./next/backend/
+          cp -Rf ./backend/pb_*          ./next/backend/
           cp -Rf ./backend/data          ./next/backend/
           cp -Rf ./backend/pocketbase    ./next/backend/
           cp -Rf ./backend/modd*         ./next/backend/
@@ -56,7 +56,8 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           host: ${{ secrets.SSH_HOST }}
           key: ${{ secrets.SSH_KEY }}
-          source: "next,deployment"
+          strip_components: 1
+          source: "next"
           rm: true
           target: /srv/spoties/next
 
