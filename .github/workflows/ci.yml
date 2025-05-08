@@ -1,0 +1,43 @@
+name: CI
+on:
+  push:
+    branches:
+      # change this if your primary branch is not main
+      - main
+  pull_request:
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      # build
+
+      - name: install dependencies
+        run: cd frontend && npm ci
+
+      - name: build frontend
+        run: cd frontend && npm run build
+
+      # deploy
+
+      - name: Copy artefacts
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          username: ${{ secrets.SSH_USERNAME }}
+          port: ${{ secrets.SSH_PORT }}
+          host: ${{ secrets.SSH_HOST }}
+          key: ${{ secrets.SSH_KEY }}
+          strip_components: 1
+          source: "backend,frontend/build"
+          rm: true
+          target: /srv/spoties/next
