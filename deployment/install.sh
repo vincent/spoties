@@ -50,17 +50,22 @@ if [ ! -f "/lib/systemd/system/pocketbase.service" ]; then
     sudo systemctl enable pocketbase.service
 fi
 
+# use Caddy to serve apps
+sed -i "s/dns cloudflare .*/dns cloudflare $CLOUDFLARE_DNS_TOKEN/" $PROJECT_DIR/next/deployment/Caddyfile
+sudo cp $PROJECT_DIR/next/deployment/Caddyfile /etc/caddy/Caddyfile
+
+# setup pocketbase datadir
+sudo mkdir -p $POCKETBASE_DATADIR
+sudo chown -Rf debian:debian $POCKETBASE_DATADIR
+sed -i "s/serve/serve --dir $POCKETBASE_DATADIR/" $PROJECT_DIR/next/backend/modd.conf
+
 # install new artefacts
 mv $PROJECT_DIR/next $DEPLOY_DIR
 rm -f $PROJECT_DIR/current && ln -s $DEPLOY_DIR $PROJECT_DIR/current
 
-# use Caddy to serve apps
-sed -i "s/dns cloudflare .*/dns cloudflare $CLOUDFLARE_DNS_TOKEN/" $PROJECT_DIR/current/deployment/Caddyfile
-sudo cp $PROJECT_DIR/current/deployment/Caddyfile /etc/caddy/Caddyfile
-
 # restart services
 sudo systemctl daemon-reload
-sudo systemctl start pocketbase
+sudo systemctl restart pocketbase
 sudo systemctl restart caddy
 
 # create or reset Pocketbase admin
