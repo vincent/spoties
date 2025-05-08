@@ -1,0 +1,17 @@
+[Unit]
+Description = pocketbase
+
+[Service]
+Type             = simple
+User             = root
+Group            = root
+LimitNOFILE      = 4096
+Restart          = always
+RestartSec       = 5s
+StandardOutput   = append:/srv/spoties/backend/std.log
+StandardError    = append:/srv/spoties/backend/std.log
+WorkingDirectory = /srv/spoties/backend
+ExecStart        = /srv/spoties/backend/modd
+
+[Install]
+WantedBy = multi-user.target

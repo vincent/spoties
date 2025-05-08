@@ -23,18 +23,29 @@ jobs:
 
       # build
 
-      - name: copy secrets
+      - name: Copy secrets
         working-directory: ./frontend
         run: |
           echo PUBLIC_GOOGLE_MAPS_API_KEY=${{ secrets.PUBLIC_GOOGLE_MAPS_API_KEY }} > .env
 
-      - name: install dependencies
+      - name: Install dependencies
         working-directory: ./frontend
         run: npm ci
 
-      - name: build frontend
+      - name: Build frontend
         working-directory: ./frontend
         run: npm run build
+
+      # deploy
+      - name: Prepare
+        run: |
+          mkdir -p next/backend
+          cp -Rf ./frontend/build        ./next/frontend
+          cp -Rf ./backend/pb_hooks      ./next/backend/
+          cp -Rf ./backend/pb_migrations ./next/backend/
+          cp -Rf ./backend/data          ./next/backend/
+          cp -Rf ./backend/pocketbase    ./next/backend/
+          cp -Rf ./backend/modd*         ./next/backend/
 
       # deploy
 
@@ -45,7 +56,15 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           host: ${{ secrets.SSH_HOST }}
           key: ${{ secrets.SSH_KEY }}
-          strip_components: 1
-          source: "backend,frontend/build"
+          source: "next,deployment"
           rm: true
           target: /srv/spoties/next
+
+      - name: Deploy to server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          username: ${{ secrets.SSH_USERNAME }}
+          port: ${{ secrets.SSH_PORT }}
+          host: ${{ secrets.SSH_HOST }}
+          key: ${{ secrets.SSH_KEY }}
+          script: CLOUDFLARE_DNS_TOKEN="${{ secrets.CLOUDFLARE_DNS_TOKEN }}" bash /srv/spoties/next/deployment/install.sh

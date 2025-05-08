@@ -1,0 +1,57 @@
+#!/bin/sh -xe
+
+PROJECT_DIR=/srv/spoties
+PROJECT_PARENT="$(dirname $PROJECT_DIR)"
+DEPLOY_ID="$(date +%F-%N)"
+DEPLOY_DIR="$PROJECT_DIR/$DEPLOY_ID"
+export DEBIAN_FRONTEND=noninteractive
+
+# ensure target is writable
+sudo chgrp sudo $PROJECT_PARENT
+sudo chmod g+w $PROJECT_PARENT
+mkdir -p $PROJECT_DIR
+
+# check artefacts exist
+if [ ! -d "$PROJECT_DIR/next" ]; then
+    echo no artefacts found in $PROJECT_DIR/next. deployment failed
+    exit 1
+fi
+
+# check deploy_dir does not exist
+if [ -d "$DEPLOY_DIR" ]; then
+    echo deployment target $DEPLOY_DIR already exists. deployment failed
+    exit 1
+fi
+
+# install Caddy
+if ! command -v caddy &> /dev/null; then
+    sudo apt install -yq debian-keyring debian-archive-keyring apt-transport-https curl
+    curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+    curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list
+    sudo apt update
+    sudo apt install -yq caddy
+
+    # install Cloudflare module
+    sudo caddy add-package github.com/caddy-dns/cloudflare
+fi
+
+# install Pocketbase
+if [ ! -f "/lib/systemd/system/pocketbase.service" ]; then
+    sudo cp $PROJECT_DIR/current/deployment/pocketbase.service /lib/systemd/system/
+    sudo systemctl enable pocketbase.service
+fi
+
+# install new artefacts
+mv $PROJECT_DIR/next $DEPLOY_DIR
+rm -f $PROJECT_DIR/current && ln -s $DEPLOY_DIR $PROJECT_DIR/current
+
+# restart pocketbase
+sudo systemctl start pocketbase
+
+# use Caddy to serve apps
+sed -i "s/dns cloudflare .*/dns cloudflare $CLOUDFLARE_DNS_TOKEN/" $PROJECT_DIR/current/deployment/Caddyfile
+sudo cp $PROJECT_DIR/current/deployment/Caddyfile /etc/caddy/Caddyfile
+sudo systemctl restart caddy
+
+# cleanup old deployments
+find $PROJECT_DIR -maxdepth 1 -ctime +120 | grep -v "$DEPLOY_ID" | xargs -0 -r rm -rf
