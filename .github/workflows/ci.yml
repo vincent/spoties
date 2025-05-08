@@ -7,7 +7,7 @@ on:
   pull_request:
 
 jobs:
-  build:
+  main:
     runs-on: ubuntu-latest
     steps:
 
@@ -33,11 +33,6 @@ jobs:
       - name: Build frontend
         working-directory: ./frontend
         run: npm run build
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
 
       - name: Prepare
         run: |
