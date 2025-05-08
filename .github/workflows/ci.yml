@@ -17,16 +17,19 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
+          cache-dependency-path: "app"
           cache: 'npm'
 
       # build
 
       - name: install dependencies
-        run: cd frontend && npm ci
+        working-directory: ./frontend
+        run: npm ci
 
       - name: build frontend
-        run: cd frontend && npm run build
+        working-directory: ./frontend
+        run: npm run build
 
       # deploy
 
