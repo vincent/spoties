@@ -8,7 +8,7 @@
 </script>
 
 <div class="min-h-screen bg-gray-50 antialiased dark:bg-gray-900">
-  <Nav siteName={config.site?.name} siteLogo={null} />
+  <Nav siteName={config.site?.name} siteLogo="/spoties_logo.png" />
 
   <main class="h-auto p-4 pt-14 flex">
     <Sidebar />
