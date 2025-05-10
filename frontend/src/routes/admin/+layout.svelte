@@ -16,4 +16,5 @@
   </main>
 </div>
 
-<Modals />
+<style>
+</style>

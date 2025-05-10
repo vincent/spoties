@@ -19,6 +19,7 @@
 		disabled = false,
 		size = 50,
 		color = 'base',
+		...props
 	} = $props()
 
 	let tipex = $state<Tipex>();
@@ -35,15 +36,21 @@
 		body={value}
 		bind:tipex={tipex as any}
 		controls !focal
-		class="h-[{size}vh] border border-neutral-200 bg-white dark:bg-gray-800 {inputColorClasses[color]}"
+		autofocus={false}
+		class="h-[{size}vh] border border-neutral-200 bg-white dark:bg-gray-800 {inputColorClasses[color]} {props.class || ''}"
 		onupdate={() => value = getHTML()}
+		{...props}
 	>
 		{#snippet utilities(tipex)}
+			<!--  -->
 		{/snippet}
 	</Tipex>
 {/if}
 
 <style>
+	:global(.tipex-editor:not([class*=rounded])) {
+		border-radius: 0;
+	}
 	:global(.tipex-button-rigid) {
 		height: 1.8rem;
 		width: 1.9rem;

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Input, Card, Range, Rating, Datepicker, Toggle, Radio, Checkbox, Button, MultiSelect, Badge, Textarea, Alert } from "flowbite-svelte";
+	import { Input, Card, Range, Rating, Datepicker, Toggle, Radio, Checkbox, Button, MultiSelect, Badge, Textarea, Alert, Label, Spinner } from "flowbite-svelte";
     import { ArrowRightOutline, InfoCircleSolid, MapPinAltOutline } from "flowbite-svelte-icons";
 	import { userEventStore as store } from "$lib/stores/user-event-form";
     import type { InputEventObject, UserEvent } from "$lib/pocketbase/types";
@@ -27,7 +27,8 @@
 
 	store.init(record, userData);
 
-	let disabled = $derived(record.sealed)
+	let empty = $derived(!record.questions?.length)
+	let disabled = $derived(record.sealed || empty)
 	let validation = $derived(store.valid($store))
 	let qValidation = $derived<Record<string, ZodIssue>>(
 		(validation?.error?.fieldErrors?.questions_answers || []).reduce((acc, qe) => ({
@@ -46,9 +47,20 @@
 	function multiSelectChoices(choices: any[]) {
 		return choices.map(({ name }) => ({ name, value: name }))
 	}
+
+	function onsubmit(e) {
+		e.preventDefault()
+		store.updateUserAnswer($store)
+	}
 </script>
 
-{#if disabled}
+{#if empty}
+	<Alert border class="my-5" color="orange">
+		{#snippet icon()}<InfoCircleSolid class="h-5 w-5" />{/snippet}
+		<span class="font-medium">Oops!</span>
+		{$t('event.warning_empty')}
+	</Alert>
+{:else if disabled}
 	<Alert border class="my-5" color="orange">
 		{#snippet icon()}<InfoCircleSolid class="h-5 w-5" />{/snippet}
 		<span class="font-medium">Oops!</span>
@@ -62,7 +74,7 @@
 	<h1 class="mt-6 mb-10 block text-4xl text-gray-800 dark:text-gray-100">{record.title}</h1>
 </NavMini>
 
-<form class="mt-4" onsubmit={() => store.updateUserAnswer($store)}>
+<form class="mt-4" {onsubmit}>
 	<div class="mb-6">
 		<RichTextView html={record.description} />
 	</div>
@@ -72,8 +84,8 @@
 			{#if !q.deleted}
 				{@const props = q.properties || {}}
 				<div class="space-y-4">
-					<Card size="xl" class="mt-2 qtype-{q.answer_type} {(considerAnswered($store.questions_answers[q.id]?.value) || q.answer_type === 'just_text') ? 'border-2 border-primary-600 dark:border-secondary-800' : ''}">
-						<div class="mb-2">{@html q.label}</div>
+					<Card size="xl" class="p-4 mt-2 qtype-{q.answer_type} {(considerAnswered($store.questions_answers[q.id]?.value) || q.answer_type === 'just_text') ? 'border-2 border-primary-600 dark:border-secondary-800' : ''}">
+						<Label class="mb-2">{@html q.label}</Label>
 
 						{#if q.answer_type === 'just_text'}
 							<p class="text-gray-800 dark:text-gray-100">{@html props.text}</p>
@@ -91,7 +103,7 @@
 							<Textarea {disabled} rows={3} placeholder={props.placeholder} bind:value={$store.questions_answers[q.id].value} />
 
 						{:else if q.answer_type === 'rich_text' && !disabled}
-							<RichText size={8} bind:value={$store.questions_answers[q.id].value} />
+							<RichText class="rounded-lg border border-gray-300 dark:border-gray-500" size={8} bind:value={$store.questions_answers[q.id].value} />
 
 						{:else if q.answer_type === 'rating' && !disabled}
 							<Rating size={48} rating={$store.questions_answers[q.id].value} />
@@ -106,11 +118,11 @@
 							<Datepicker {disabled} bind:value={$store.questions_answers[q.id].value} />
 
 						{:else if q.answer_type === 'yes_no'}
-							<Toggle {disabled} bind:checked={$store.questions_answers[q.id].value}>{$store.questions_answers[q.id].value ? $t('data.yes') : $t('data.no')}</Toggle>
+							<Toggle {disabled} checked={$store.questions_answers[q.id].value || false} onchange={e => $store.questions_answers[q.id].value = (e?.target as any)?.checked}>{$store.questions_answers[q.id].value ? $t('data.yes') : $t('data.no')}</Toggle>
 
 						{:else if q.answer_type === 'checkboxes' && props.choices !== undefined}
 							{#each q.properties?.choices as choice, ci}
-								<Checkbox {disabled} value={$store.questions_answers[q.id].value} bind:group={q.properties}>{choice.name}</Checkbox>
+								<Checkbox {disabled} value={$store.questions_answers[q.id].value} group={q.properties} onchange={e => q.properties = { ...(q.properties||{}), [$store.questions_answers[q.id].value]: (e?.target as any)?.checked }}>{choice.name}</Checkbox>
 							{/each}
 
 						{:else if q.answer_type === 'select_one' && props.choices?.length}
@@ -134,7 +146,7 @@
 			{#each record.locations as l, i}
 				{#if !l.deleted}
 					<div class="space-y-4">
-						<Card size="xl" class="mt-2 {l.slots.find(s => $store.bookings.slots[s.id]) ? 'border-2 border-primary-600 dark:border-secondary-800' : ''}">
+						<Card size="xl" class="p-4 mt-2 {l.slots.find(s => $store.bookings.slots[s.id]) ? 'border-2 border-primary-600 dark:border-secondary-800' : ''}">
 							<div class="mb-3 flex">
 								<MapPinAltOutline size="xl" /> <div class="mb-2 block text-xl">{l.name}</div>
 							</div>
@@ -144,7 +156,7 @@
 							{#each l.slots as s}
 								{#if !s.deleted}
 									<div class="my-3">
-										<Checkbox class="my-1 flex" disabled={disabled || (s.limit > 0 && s.available_seats <= 0)} value={s.id} bind:checked={$store.bookings.slots[s.id]}>
+										<Checkbox class="my-1 flex" disabled={disabled || (s.limit > 0 && s.available_seats <= 0)} value={s.id} checked={$store.bookings.slots[s.id]} onchange={e => $store.bookings.slots[s.id] = (e?.target as any)?.checked}>
 											<div class="mr-auto">
 												<div>{@html s.label}</div>
 												<div>{@html s.description || ''}</div>
@@ -174,7 +186,11 @@
 
 	{#if !disabled}
 		<div class="mb-8 flex justify-end-safe">
-			<Button type="submit" size="lg" disabled={!validation.success}>{$t('act.submit')} <ArrowRightOutline class="ml-2" /></Button>
+			<Button
+				size="lg"
+				type="submit"
+				disabled={!validation.success || $store.loading}
+			>{$t('act.submit')} {#if $store.loading}<Spinner size="4" class="w-6 h-6 ms-2 text-white" />{:else}<ArrowRightOutline class="ml-2" />{/if}</Button>
 		</div>
 	{/if}
 </form>

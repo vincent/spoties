@@ -16,7 +16,7 @@
 
   let secondaryGroups = $state<Record<string, boolean>>({})
 
-  const handleGroupBy = g => _ => {
+  const handleGroupBy = g => () => {
     groupOpen = false
     groupBy = g
   }
@@ -32,15 +32,15 @@
 
 <div class="w-full mb-4 flex justify-between">
   <Button>{$t('event.results.group_by')} <ChevronDownOutline class="w-6 h-6 ms-2 text-white dark:text-primary" /></Button>
-  <Dropdown bind:open={groupOpen}>
+  <Dropdown simple>
     <DropdownItem onclick={handleGroupBy('user')}>{$t('event.results.group_by_user')}</DropdownItem>
     <DropdownItem onclick={handleGroupBy('slot')}>{$t('event.results.group_by_slot')}</DropdownItem>
   </Dropdown>
 
   {#if groupBy === 'slot'}
     <Button outline class="ms-2" >{$t('act.show')} <ChevronDownOutline class="w-6 h-6 ms-2 text-white dark:text-primary" /></Button>
-    <Dropdown bind:open={showOpen}>
-      {#each data.record.questions as q}
+    <Dropdown simple>
+      {#each data.record?.questions || [] as q}
         {#if q.answer_type !== 'just_text'}
           <DropdownItem>
             <Toggle bind:checked={secondaryGroups[q.id]} class="rounded-sm p-2 hover:bg-gray-100 dark:hover:bg-gray-600">{stripTags(q.label).slice(0, 30)}</Toggle>
@@ -51,7 +51,7 @@
   {/if}
 
   <Button class="ml-auto">{$t('act.download')} <ChevronDownOutline class="w-6 h-6 ms-2 text-white dark:text-white" /></Button>
-  <Dropdown bind:open={downloadOpen}>
+  <Dropdown simple>
     <DropdownItem onclick={downloadCSV}>as CSV</DropdownItem>
   </Dropdown>
 </div>

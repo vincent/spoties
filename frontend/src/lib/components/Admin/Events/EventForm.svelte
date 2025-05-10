@@ -41,7 +41,7 @@
         <AccordionItem>
           {#snippet header()}{$t('event.form.description')}{/snippet}
           <RichText bind:value={$AdminEventStore.description} color={validation?.error?.fieldErrors?.description ? "base" : undefined}/>
-          <FieldErrors validationErrors={validation?.error?.fieldErrors?.description} />
+          <FieldErrors helperClass="px-2 mb-2" validationErrors={validation?.error?.fieldErrors?.description} />
         </AccordionItem>
         <AccordionItem>
           {#snippet header()}{$t('event.form.questions')}{/snippet}
@@ -58,7 +58,7 @@
       </Accordion>
     </div>
   </div>
-  <div class="mt-3 w-full xl:mt-0 xl:ml-3 xl:w-1/4 xl:sticky xl:top-18">
+  <div class="mt-3 w-full xl:mt-0 xl:ml-3 xl:w-1/4 xl:sticky xl:top-18 xl:ps-4">
     <EventFormSummary submit={() => AdminEventStore.updateEvent($AdminEventStore)} />
   </div>
 </form>
@@ -66,5 +66,14 @@
 <style>
   :global(.accordion .group:first-child + div div.p-5) {
     padding: 0 !important;
+  }
+  :global(
+    .accordion,
+    .accordion > div,
+    .accordion .group,
+    .accordion .group > button,
+    .accordion .group + div > div
+  ) {
+    border: none;
   }
 </style>

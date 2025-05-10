@@ -23,9 +23,9 @@
   }
 </script>
 
-<DropdownItem class="min-w-50" onclick={() => selectHandler(key)}>
+<DropdownItem class="min-w-50 w-full" onclick={() => selectHandler(key)}>
   <span class="flex content-center">{@render children?.()} {$t(`event.form.question_type_${key}` as any)}</span>
   {#if helper}
-    <Helper class="ps-8">{helper}</Helper>
+    <Helper class="ps-8 text-end">{helper}</Helper>
   {/if}
 </DropdownItem>

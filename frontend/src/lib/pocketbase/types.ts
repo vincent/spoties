@@ -38,6 +38,7 @@ export type UserEvent = {
     questions_answers: Record<string, UserFormAnswer>
     bookings: { id: string, updated: Date, slots: Record<string, boolean> }
     event_id: string
+    loading?: boolean
 }
 
 export type TimeSlotsResponseWithAvailability = TimeSlotsResponse & {

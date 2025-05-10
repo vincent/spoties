@@ -35,11 +35,11 @@
       {#each l.slots as s}
         <TableBodyRow onclick={() => toggleRow(s)}>
 
-          <TableBodyCell class="align-top">
+          <TableBodyCell class="align-top py-3">
             {stripTags(l.name)} <div class="text-xs"> - {stripTags(s.label)}
           </TableBodyCell>
 
-          <TableBodyCell class="whitespace-nowrap font-medium">
+          <TableBodyCell class="whitespace-nowrap font-medium py-3">
             {#if slotsOccupation[s.id]?.bookedBy}
               <Table>
                 <TableHead class="hidden">
@@ -53,7 +53,7 @@
                 <TableBody class="divide-y">
                   {#each slotsOccupation[s.id].bookedBy as r}
                     <TableBodyRow class="border-0">
-                      <TableBodyCell class="w-50">
+                      <TableBodyCell class="p-1 w-50">
                         <span class="flex gap-1">{r.user.name} {#if r.confirmed}<BadgeCheckIcon size={16} class="text-green-700" /><Tooltip>{$t('act.confirmed')}</Tooltip>{/if}</span>
                       </TableBodyCell>
                       {#if secondaryGroups?.length}

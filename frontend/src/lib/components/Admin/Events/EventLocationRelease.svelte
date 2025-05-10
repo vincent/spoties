@@ -83,10 +83,10 @@
   </section>
 
   <div class="ml-3 sticky top-18">
-    <Card class="space-y-2">
-      <div>{$t('act.show')}</div>
+    <Card class="p-3 space-y-2">
+      <div class="text-gray-400">{$t('act.show')}</div>
       {#each event.locations as l}
-        <div>{stripTags(l.name)}</div>
+        <div class="text-gray-500">{stripTags(l.name)}</div>
         {#each l.slots as s}
           <Toggle bind:checked={options[s.id]}>{stripTags(s.label)}</Toggle>
         {/each}

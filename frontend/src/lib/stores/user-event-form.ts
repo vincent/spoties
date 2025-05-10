@@ -63,6 +63,7 @@ export function createUserEventStore(initial: UserEvent, pb = client) {
 
         init: (record: InputEventObject, userData: UserEvent) => {
             const initial = {
+                loading: true,
                 event_id: record.id,
                 questions_answers: {
                     ...record.questions.reduce((acc, question) => ({
@@ -84,9 +85,12 @@ export function createUserEventStore(initial: UserEvent, pb = client) {
             }
             store.set(initial);
             updateValidation(initial);
+            store.set({ ...initial, loading: false });
         },
 
         updateUserAnswer: async (props: UserEvent) => {
+
+            store.update(s => ({ ...s, loading: true }));
 
             const isUpdating = !!props.bookings.id
             let alertOwner = !isUpdating
@@ -132,7 +136,7 @@ export function createUserEventStore(initial: UserEvent, pb = client) {
                 id: row.id,
             })
 
-            store.update(s => ({ ...s, ...props }))
+            store.update(s => ({ ...s, ...props, loading: false }))
 
             if (alertOwner) {
                 await client.send(`/api/events/${props.event_id}/notify-owner`, { method: 'post', body: { isUpdating } });
@@ -144,6 +148,7 @@ export function createUserEventStore(initial: UserEvent, pb = client) {
 }
 
 export const userEventStore = createUserEventStore({
+    loading: false,
     questions_answers: {},
     bookings: { id: '', updated: new Date, slots: {} },
     event_id: '',

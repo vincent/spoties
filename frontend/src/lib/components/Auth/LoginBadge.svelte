@@ -15,8 +15,8 @@
 </script>
 
 {#if $authModel}
-  <Avatar id="user-drop" src={client.files.getURL($authModel, $authModel.avatar)} class="cursor-pointer" />
-  <Dropdown triggeredBy="#user-drop">
+  <Avatar id="user-drop" src={client.files.getURL($authModel, $authModel.avatar)} class="ms-3 cursor-pointer" />
+  <Dropdown simple triggeredBy="#user-drop">
     <DropdownHeader>
       <span class="block text-sm">{$authModel.name}</span>
       <span class="block truncate text-sm font-medium">{$authModel.email}</span>

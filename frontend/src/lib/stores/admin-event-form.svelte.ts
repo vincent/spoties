@@ -4,6 +4,7 @@ import { z, type typeToFlattenedError, type ZodIssue } from 'zod'
 import { derived, get, writable } from 'svelte/store';
 import { locale, translate } from '$lib/i18n';
 import { client } from "$lib/pocketbase";
+import { goto } from '$app/navigation';
 
 let schema = derived(locale, ($l) => z.object({
     title: z
@@ -173,8 +174,11 @@ export function createAdminEventStore(initial: AdminEvent, pb = client) {
         },
 
         updateEvent: async (props: AdminEvent) => {
+            const isNew = !props.id;
+
             try {
                 store.update(s => ({ ...s, loading: true }))
+
 
                 Object.assign(props, props.id
                     ? await EVENTS.update(props.id, props)
@@ -238,6 +242,8 @@ export function createAdminEventStore(initial: AdminEvent, pb = client) {
             } finally {
                 store.update(s => ({ ...s, loading: false }))
                 dirty.set(false)
+
+                if (isNew) goto(`/admin/events/${props.id}/`)
             }
         }
     };

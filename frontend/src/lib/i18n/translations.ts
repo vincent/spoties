@@ -48,6 +48,7 @@ const en = {
   'event.published': 'Published',
   'event.sealed': 'Sealed, will not accept new answers',
   "event.warning_sealed": "This form does not accept new answers.",
+  "event.warning_empty": "This form does not contain any question yet.",
   "event.done.answers_sent": "Your answers have been sent to the organizer",
   "event.done.review_answers": "Review your answers",
   "event.done.close_window": "close this window",
@@ -185,6 +186,7 @@ const fr = {
   "event.published": "Publié",
   "event.sealed": "Figé, n'accepte plus de réponses",
   "event.warning_sealed": "Ce formulaire n'accepte plus de nouvelles réponses.",
+  "event.warning_empty": "Ce formulaire ne contient aucune question pour l'instant.",
 
   "event.done.answers_sent": "Vos réponses ont été envoyées à l'organisateur",
   "event.done.review_answers": "Vérifiez vos réponses",
@@ -323,6 +325,7 @@ const es = {
   "event.published": "Publicado",
   "event.sealed": "Sellado, no acepta nuevas respuestas",
   "event.warning_sealed": "Este formulario no acepta nuevas respuestas.",
+  "event.warning_empty": "Este formulario aún no contiene ninguna pregunta.",
 
   "event.done.answers_sent": "Tus respuestas han sido enviadas al organizador",
   "event.done.review_answers": "Revisa tus respuestas",
@@ -461,6 +464,7 @@ const ca = {
   "event.published": "Publicat",
   "event.sealed": "Segellat, no accepta noves respostes",
   "event.warning_sealed": "Aquest formulari no accepta noves respostes.",
+  "event.warning_empty": "Aquest formulari encara no conté cap pregunta.",
 
   "event.done.answers_sent": "Les teves respostes s'han enviat a l'organitzador",
   "event.done.review_answers": "Revisa les teves respostes",

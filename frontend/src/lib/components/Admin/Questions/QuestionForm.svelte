@@ -87,7 +87,7 @@
   <!-- <pre>{ JSON.stringify(value.properties) }</pre> -->
 
   {#if value.answer_type === 'just_text'}
-    <RichText bind:value={value.properties.text} />
+    <RichText class="rounded-lg" bind:value={value.properties.text} />
 
   {:else if value.answer_type === 'simple_text' && value.properties?.placeholder !== undefined}
     <FloatingLabelInput type="text" bind:value={value.properties.placeholder}>
