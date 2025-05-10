@@ -35,9 +35,9 @@
       {/each}
     {/each}
   </TableHead>
-  <TableBody tableBodyClass="divide-y">
+  <TableBody class="divide-y">
     {#each responses as response, i}
-      <TableBodyRow on:click={() => toggleRow(i)}>
+      <TableBodyRow onclick={() => toggleRow(i)}>
         <TableHeadCell>{formatDate(new Date(response.updated))}</TableHeadCell>
         <TableHeadCell>
           <span class="flex gap-1">{response.user.name} {#if response.confirmed}<BadgeCheckIcon size={16} class="text-green-700" /><Tooltip>{$t('act.confirmed')}</Tooltip>{/if}</span>

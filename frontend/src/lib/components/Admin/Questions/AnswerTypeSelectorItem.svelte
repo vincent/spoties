@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { QuestionType } from "$lib/domain/questions";
+  import type { QuestionType } from "$lib/pocketbase/types";
   import { DropdownItem, Helper } from "flowbite-svelte";
   import type { Snippet } from "svelte";
   import { t } from "$lib/i18n";

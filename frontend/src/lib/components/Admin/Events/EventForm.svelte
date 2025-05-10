@@ -1,24 +1,24 @@
 <script lang="ts">
-  import EventFormSummary from "../Events/EventFormSummary.svelte";
+  import { Label, FloatingLabelInput, A, Accordion, AccordionItem } from "flowbite-svelte";
   import LocationsSelector from "../Locations/LocationsSelector.svelte";
   import { AdminEventStore } from "$lib/stores/admin-event-form.svelte";
   import FieldErrors from "$lib/components/Shared/FieldErrors.svelte";
-  import { Label, FloatingLabelInput, A, Accordion, AccordionItem } from "flowbite-svelte";
+  import ThemePicker from "$lib/components/Shared/ThemePicker.svelte";
+  import EventFormSummary from "../Events/EventFormSummary.svelte";
   import QuestionsForm from "../Questions/QuestionsForm.svelte";
   import RichText from "$lib/components/Shared/RichText.svelte";
+  import { Link2Icon } from "lucide-svelte";
   import { t } from "$lib/i18n";
-    import { Link2Icon } from "lucide-svelte";
-    import ThemePicker from "$lib/components/Shared/ThemePicker.svelte";
 
   const { locations, config } = $props();
   let validation = $derived(AdminEventStore.valid($AdminEventStore))
   let publicLink = $derived(`${config.site?.url}/event/${$AdminEventStore.id}`)
 </script>
 
-<form class="flex justify-center items-start" onsubmit={() => AdminEventStore.updateEvent($AdminEventStore)}>
-  <div class="w-3/4">
+<form class="flex justify-center items-start flex-col xl:flex-row" onsubmit={() => AdminEventStore.updateEvent($AdminEventStore)}>
+  <div class="w-full xl:w-3/4">
     <div class="mb-6">
-      <FloatingLabelInput required classDiv="mb-4" classInput="text-3xl" color={validation?.error?.fieldErrors?.title ? "base" : undefined} type="text" bind:value={$AdminEventStore.title}>
+      <FloatingLabelInput required class="mb-4" inputClass="text-3xl" color={validation?.error?.fieldErrors?.title ? "default" : undefined} type="text" bind:value={$AdminEventStore.title}>
         {$t('event.form.event_title')}
       </FloatingLabelInput>
       <FieldErrors validationErrors={validation?.error?.fieldErrors?.title} />
@@ -27,7 +27,7 @@
     {#if $AdminEventStore.id}
       <div class="mb-6 flex justify-between">
         <div>
-          <Label class="mb-2 block text-2xl">{$t('event.form.public_link')}</Label>
+          <Label class="hidden md:block mb-2 text-2xl">{$t('event.form.public_link')}</Label>
           <A target="_blank" href={publicLink}><Link2Icon class="mr-2" /> {publicLink}</A>
         </div>
         <div>
@@ -39,16 +39,16 @@
     <div class="mb-6 accordion">
       <Accordion>
         <AccordionItem>
-          <span slot="header">{$t('event.form.description')}</span>
+          {#snippet header()}{$t('event.form.description')}{/snippet}
           <RichText bind:value={$AdminEventStore.description} color={validation?.error?.fieldErrors?.description ? "base" : undefined}/>
           <FieldErrors validationErrors={validation?.error?.fieldErrors?.description} />
         </AccordionItem>
         <AccordionItem>
-          <span slot="header">{$t('event.form.questions')}</span>
+          {#snippet header()}{$t('event.form.questions')}{/snippet}
           <QuestionsForm bind:value={$AdminEventStore.questions} />
         </AccordionItem>
         <AccordionItem>
-          <span slot="header">{$t('event.form.locations')}</span>
+          {#snippet header()}{$t('event.form.locations')}{/snippet}
           <LocationsSelector
             {locations}
             bind:value={$AdminEventStore.locations}
@@ -58,7 +58,7 @@
       </Accordion>
     </div>
   </div>
-  <div class="ml-3 w-1/4 sticky top-18">
+  <div class="mt-3 w-full xl:mt-0 xl:ml-3 xl:w-1/4 xl:sticky xl:top-18">
     <EventFormSummary submit={() => AdminEventStore.updateEvent($AdminEventStore)} />
   </div>
 </form>

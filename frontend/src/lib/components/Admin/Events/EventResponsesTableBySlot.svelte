@@ -30,16 +30,16 @@
     <TableHeadCell>{$t('event.form.locations')}</TableHeadCell>
     <TableHeadCell>{'participants'}</TableHeadCell>
   </TableHead>
-  <TableBody tableBodyClass="divide-y">
+  <TableBody class="divide-y">
     {#each event.locations as l}
       {#each l.slots as s}
-        <TableBodyRow on:click={() => toggleRow(s)}>
+        <TableBodyRow onclick={() => toggleRow(s)}>
 
           <TableBodyCell class="align-top">
             {stripTags(l.name)} <div class="text-xs"> - {stripTags(s.label)}
           </TableBodyCell>
 
-          <TableBodyCell tdClass="whitespace-nowrap font-medium">
+          <TableBodyCell class="whitespace-nowrap font-medium">
             {#if slotsOccupation[s.id]?.bookedBy}
               <Table>
                 <TableHead class="hidden">
@@ -50,7 +50,7 @@
                     {/each}
                   {/if}
                 </TableHead>
-                <TableBody tableBodyClass="divide-y">
+                <TableBody class="divide-y">
                   {#each slotsOccupation[s.id].bookedBy as r}
                     <TableBodyRow class="border-0">
                       <TableBodyCell class="w-50">

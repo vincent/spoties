@@ -1,10 +1,10 @@
 <script lang="ts">
   import { AdminEventStore } from "$lib/stores/admin-event-form.svelte";
+  import { DotsVerticalOutline, PlusOutline } from "flowbite-svelte-icons";
+  import { reorder, useSortable } from "$lib/utils/use-sortable.svelte";
   import { Button, Tooltip } from "flowbite-svelte";
   import QuestionForm from "./QuestionForm.svelte";
-  import { DotsVerticalOutline, PlusOutline } from "flowbite-svelte-icons";
   import { t } from "$lib/i18n";
-  import { reorder, useSortable } from "$lib/utils/use-sortable.svelte";
 
   let { value = $bindable() } = $props()
 

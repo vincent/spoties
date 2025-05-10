@@ -2,14 +2,14 @@
   import { AlignJustify, Calendar1Icon, CheckIcon, ClipboardCheckIcon, EditIcon, HourglassIcon, ListIcon, ListTodoIcon, RulerIcon, StarIcon, TextIcon, UserPenIcon } from "lucide-svelte";
   import { ChevronDownOutline, ChevronRightOutline } from "flowbite-svelte-icons";
   import { Button, Dropdown, DropdownItem, Helper } from "flowbite-svelte";
-  import type { QuestionType } from "$lib/domain/questions";
+  import AnswerTypeSelectorItem from "./AnswerTypeSelectorItem.svelte";
+  import type { QuestionType } from "$lib/pocketbase/types";
   import { t } from "$lib/i18n";
-    import AnswerTypeSelectorItem from "./AnswerTypeSelectorItem.svelte";
 
-  let { open = false, divClass= '', updateAnswerType, value = $bindable<QuestionType>() } = $props()
+  let { open: isOpen = false, divClass= '', updateAnswerType, value = $bindable<QuestionType>() } = $props()
 
   function select(v: QuestionType) {
-    open = false
+    isOpen = false
     updateAnswerType?.(v)
   }
 </script>
@@ -18,7 +18,7 @@
   <Button outline={!!value} class="w-full flex justify-between">
     {value ? $t(`event.form.question_type_${value}` as any) : $t(`event.form.question_type`)}<ChevronDownOutline class="w-6 h-6 ms-2 text-white dark:text-white" />
   </Button>
-  <Dropdown {open} class="w-60 p-3 space-y-1 text-sm">
+  <Dropdown {isOpen} class="w-60 p-3 space-y-1 text-sm">
     <DropdownItem onclick={() => select('just_text')} class="border-b border-gray-200 rounded-sm p-2 hover:bg-gray-100 dark:hover:bg-gray-600">
       <span class="flex content-center"><EditIcon class="mx-2" size="16" /> {$t(`event.form.question_type_just_text`)}</span>
       <Helper class="ps-8">A formatted text block</Helper>

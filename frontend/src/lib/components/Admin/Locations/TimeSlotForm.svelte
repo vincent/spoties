@@ -2,10 +2,10 @@
   import { AdminEventStore } from "$lib/stores/admin-event-form.svelte";
   import { Datepicker, Range, TimelineItem } from "flowbite-svelte";
   import DeleteButton from "../../Shared/DeleteButton.svelte";
+  import Placeholder from "../..//Shared/Placeholder.svelte";
   import EditInPlace from "../../Shared/EditInPlace.svelte";
   import FieldErrors from "../../Shared/FieldErrors.svelte";
   import { t } from "$lib/i18n";
-    import Placeholder from "$lib/components/Shared/Placeholder.svelte";
   
   let {
     value = $bindable(),
@@ -19,7 +19,7 @@
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <!-- svelte-ignore a11y_click_events_have_key_events -->
-<TimelineItem>
+<TimelineItem title="" date="">
   <div class="flex justify-between mb-4 text-base font-normal text-gray-500 dark:text-gray-400">
     <EditInPlace divClass="w-3/5" bind:value={$AdminEventStore.locations[locationIndex].slots[index].label}>
       <div class="flex"><Placeholder value={value.label} empty={$t('event.form.add_slot_name')}/></div>
@@ -27,9 +27,9 @@
   
     <div class="flex slot-actions">
       <Datepicker 
-        value={$AdminEventStore.locations[locationIndex].slots[index].starts_at ? new Date(Date.parse($AdminEventStore.locations[locationIndex].slots[index].starts_at)) : null}
-        on:select={e => $AdminEventStore.locations[locationIndex].slots[index].starts_at = e.detail.toISOString()}
-        on:clear={_ => $AdminEventStore.locations[locationIndex].slots[index].starts_at = ''}
+        value={$AdminEventStore.locations[locationIndex].slots[index].starts_at ? new Date(Date.parse($AdminEventStore.locations[locationIndex].slots[index].starts_at)) : undefined}
+        onselect={e => $AdminEventStore.locations[locationIndex].slots[index].starts_at = e.toString()}
+        onclear={() => $AdminEventStore.locations[locationIndex].slots[index].starts_at = ''}
       />
       
       <DeleteButton btnClass="ms-2" confirm={removeLocationTimeSlot} />

@@ -61,7 +61,7 @@
   }
 </script>
 
-<Card size="none" class="mt-2">
+<Card size="xl" class="p-4 mt-2">
   <div class="flex justify-between mb-4">
     <div class="flex flex-col w-3/6 mr-auto">
       <EditInPlace input="richtext" bind:value={$AdminEventStore.questions[questionIndex].label}>

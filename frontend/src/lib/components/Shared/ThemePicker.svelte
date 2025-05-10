@@ -1,8 +1,9 @@
 <script>
   import { t } from "$lib/i18n";
-  import { Button, Dropdown, DropdownItem, Indicator, Input, Label, Radio, Toggle } from "flowbite-svelte";
+  import { Button, Dropdown, DropdownGroup, DropdownItem, Indicator, Input, Label, Radio, Toggle } from "flowbite-svelte";
   import { ChevronDownOutline } from "flowbite-svelte-icons";
   let { value = $bindable() } = $props()
+  let isOpen = $state()
 </script>
 
 <Button outline class="relative">
@@ -12,17 +13,23 @@
     <div class="bg-primary-500 rounded-full h-full w-full"></div>
   </Indicator>
 </Button>
-<Dropdown class="flex {value}">
-  <div class="w-1/4">
+<Dropdown bind:isOpen class="theme-picker { isOpen ? 'flex border-0' : '' }">
+  <DropdownGroup class="w-1/4">
     <DropdownItem onclick={() => value = 'default'}>Default</DropdownItem>
     <DropdownItem onclick={() => value = 'emerald'}>Emerald</DropdownItem>
     <DropdownItem onclick={() => value = 'mariner'}>Mariner</DropdownItem>
     <DropdownItem onclick={() => value = 'vivid-violet'}>Violet</DropdownItem>
-  </div>
-  <div class="w-3/4 p-4 space-y-2">
+  </DropdownGroup>
+  <DropdownGroup class="w-3/4 p-4 space-y-2 {value}">
     <Label>Preview</Label>
     <Input placeholder="Text input"/>
     <Radio>Checked state</Radio>
     <Toggle checked={true}>Checked toggle</Toggle>
-  </div>
+  </DropdownGroup>
 </Dropdown>
+
+<style>
+  :global(.theme-picker ul) {
+    border: none;
+  }
+</style>

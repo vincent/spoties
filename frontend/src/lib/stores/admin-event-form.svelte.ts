@@ -100,7 +100,7 @@ export function createAdminEventStore(initial: AdminEvent, pb = client) {
         },
 
         addEventQuestion: (index: number|undefined = undefined, question: Partial<QuestionsResponse> = {}) => store.update(s => {
-            index = index ?? s.questions.length - 1
+            index = index ?? s.questions.length
             const newQuestion = {
                 ...question,
                 label: '',

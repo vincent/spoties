@@ -72,7 +72,7 @@
 			{#if !q.deleted}
 				{@const props = q.properties || {}}
 				<div class="space-y-4">
-					<Card size="none" class="mt-2 qtype-{q.answer_type} {(considerAnswered($store.questions_answers[q.id]?.value) || q.answer_type === 'just_text') ? 'border-2 border-primary-600 dark:border-secondary-800' : ''}">
+					<Card size="xl" class="mt-2 qtype-{q.answer_type} {(considerAnswered($store.questions_answers[q.id]?.value) || q.answer_type === 'just_text') ? 'border-2 border-primary-600 dark:border-secondary-800' : ''}">
 						<div class="mb-2">{@html q.label}</div>
 
 						{#if q.answer_type === 'just_text'}
@@ -94,7 +94,7 @@
 							<RichText size={8} bind:value={$store.questions_answers[q.id].value} />
 
 						{:else if q.answer_type === 'rating' && !disabled}
-							<Rating size={48} bind:rating={$store.questions_answers[q.id].value} />
+							<Rating size={48} rating={$store.questions_answers[q.id].value} />
 
 						{:else if q.answer_type === 'range'}
 							<Range {disabled} bind:value={$store.questions_answers[q.id].value} />
@@ -110,7 +110,7 @@
 
 						{:else if q.answer_type === 'checkboxes' && props.choices !== undefined}
 							{#each q.properties?.choices as choice, ci}
-								<Checkbox {disabled} bind:value={$store.questions_answers[q.id].value} bind:group={q.properties}>{choice.name}</Checkbox>
+								<Checkbox {disabled} value={$store.questions_answers[q.id].value} bind:group={q.properties}>{choice.name}</Checkbox>
 							{/each}
 
 						{:else if q.answer_type === 'select_one' && props.choices?.length}
@@ -119,9 +119,7 @@
 							{/each}
 
 						{:else if q.answer_type === 'select_many'}
-							<MultiSelect {disabled} size="lg" items={multiSelectChoices(q.properties?.choices)} bind:value={$store.questions_answers[q.id].value} let:item let:clear>
-								<Badge dismissable params={{ duration: 100 }} on:close={clear}>{item.name}</Badge>
-							</MultiSelect>
+							<MultiSelect {disabled} size="lg" items={multiSelectChoices(q.properties?.choices)} bind:value={$store.questions_answers[q.id].value} />
 						{/if}
 
 						<FieldErrors validationErrors={qValidation[q.id] ? [qValidation[q.id]] : null} />
@@ -136,7 +134,7 @@
 			{#each record.locations as l, i}
 				{#if !l.deleted}
 					<div class="space-y-4">
-						<Card size="none" class="mt-2 {l.slots.find(s => $store.bookings.slots[s.id]) ? 'border-2 border-primary-600 dark:border-secondary-800' : ''}">
+						<Card size="xl" class="mt-2 {l.slots.find(s => $store.bookings.slots[s.id]) ? 'border-2 border-primary-600 dark:border-secondary-800' : ''}">
 							<div class="mb-3 flex">
 								<MapPinAltOutline size="xl" /> <div class="mb-2 block text-xl">{l.name}</div>
 							</div>

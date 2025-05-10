@@ -43,7 +43,7 @@
 
 <div class={divClass}>
   {#if editing && (input === 'input' || (input == 'geo' && !PUBLIC_GOOGLE_MAPS_API_KEY))}
-    <Input bind:this={element} {placeholder} on:keydown={keydown} onblur={() => editing = false} bind:value={value} />
+    <Input bind:this={element} {placeholder} onkeydown={keydown} onblur={() => editing = false} bind:value={value} />
 
   {:else if editing && input === 'richtext'}
     <div use:clickOutside={() => editing = false}>

@@ -52,7 +52,7 @@
   </div>
 
   {#if showSlots}
-    <Hr classHr="my-8" />
+    <Hr class="my-8" />
 
     <Timeline>
       {#each value.slots as s, index}
