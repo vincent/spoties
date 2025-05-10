@@ -64,6 +64,7 @@ const en = {
   'event.banner_1': `Hi <span class="font-semibold">{{username}}</span>, Welcome back!<br>`,
   'event.banner_2': "We already filled the form with your previous answers.",
 
+  'event.form.choose_theme': 'Theme',
   'event.form.summary': 'Summary',
   'event.form.geo_search': 'Start typing your address...',
   'event.form.add_slot': "Add slot",
@@ -206,6 +207,7 @@ const fr = {
   'event.results.group_by_slot': "par emplacement",
 
   'event.form.summary': 'Résumé',
+  'event.form.choose_theme': 'Thème',
   'event.form.geo_search': 'Recherchez une adresse ...',
   'event.form.add_slot': "Ajouter un emplacement",
   'event.form.add_slot_name': "Nommez cet emplacement",
@@ -339,6 +341,7 @@ const es = {
   'event.banner_2': "Ya hemos rellenado el formulario con tus respuestas anteriores.",
 
   'event.form.summary': 'Resumen',
+  'event.form.choose_theme': 'Estilo',
   'event.form.geo_search': 'Empieza a escribir tu dirección...',
   'event.form.add_slot': "Agregar franja",
   'event.form.add_slot_name': "Nombra esta franja",
@@ -476,6 +479,7 @@ const ca = {
   'event.banner_2': "Ja hem omplert el formulari amb les teves respostes anteriors.",
 
   'event.form.summary': 'Resum',
+  'event.form.choose_theme': 'Estilo',
   'event.form.geo_search': 'Comença a escriure la teva adreça...',
   'event.form.add_slot': "Afegeix franja",
   'event.form.add_slot_name': "Anomena aquesta franja",

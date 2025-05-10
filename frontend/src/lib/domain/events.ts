@@ -10,6 +10,7 @@ export async function fetchEvent(eventId: string, options: RecordListOptions) {
 
     let record: Partial<InputEventObject> = {
         title: '',
+        theme: 'default',
         team: client.authStore.record?.teams[0],
         locations: [] as any[],
         questions: [] as any[],
@@ -47,6 +48,7 @@ export async function fetchEvent(eventId: string, options: RecordListOptions) {
             // event,
             id: event.id,
             title: event.title,
+            theme: event.theme,
             published: event.published,
             sealed: event.sealed,
             created: event.created,

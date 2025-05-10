@@ -4,6 +4,10 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+@source "../node_modules/flowbite-svelte/dist";
+
+@import "./app.styles.themes";
+
 @theme {
   --color-primary-50: #fff5f2;
   --color-primary-100: #fff1ee;
@@ -16,5 +20,3 @@
   --color-primary-800: #cc4522;
   --color-primary-900: #a5371b;
 }
-
-@source "../node_modules/flowbite-svelte/dist";

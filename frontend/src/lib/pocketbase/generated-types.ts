@@ -135,6 +135,7 @@ export type EventsRecord = {
 	published?: boolean
 	sealed?: boolean
 	team: RecordIdString
+	theme?: string
 	title: string
 	updated?: IsoDateString
 }

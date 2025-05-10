@@ -7,6 +7,7 @@
   import { ListChecksIcon, MapPinCheckIcon, MapPinMinusIcon } from "lucide-svelte";
   import EditInPlace from "$lib/components/Shared/EditInPlace.svelte";
   import { t } from "$lib/i18n";
+    import Placeholder from "$lib/components/Shared/Placeholder.svelte";
 
   let {
     value = $bindable(),
@@ -30,11 +31,11 @@
 
     <div class="w-full min-w-0 flex-1 space-y-4 md:order-2">
       <EditInPlace input="geo" bind:value={$AdminEventStore.locations[locationIndex].name} bind:altValue={$AdminEventStore.locations[locationIndex].geo_place}>
-        <div class="text-gray-600 dark:text-gray-200 font-semibold mb-2">{$AdminEventStore.locations[locationIndex].name || $t('event.form.new_location')}</div>
+        <div class="text-gray-600 dark:text-gray-200 font-semibold mb-2"><Placeholder value={$AdminEventStore.locations[locationIndex].name} empty={$t('event.form.new_location')}/></div>
       </EditInPlace>
 
       <EditInPlace input="richtext" bind:value={$AdminEventStore.locations[locationIndex].description}>
-        <p class="text-gray-600 dark:text-gray-200">{@html $AdminEventStore.locations[locationIndex].description || $t('event.form.description')}</p>
+        <p class="text-gray-600 dark:text-gray-200"><Placeholder value={$AdminEventStore.locations[locationIndex].description} empty={$t('event.form.description')}/></p>
       </EditInPlace>
 
       <div class="mt-2 flex justify-end gap-4">

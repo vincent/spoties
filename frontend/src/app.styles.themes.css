@@ -1,0 +1,115 @@
+@import 'tailwindcss';
+
+@plugin 'flowbite/plugin';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-primary-50: #f0f4f8;
+  --color-primary-100: #d9e2ec;
+  --color-primary-200: #bcccdc;
+  --color-primary-300: #9fb3c8;
+  --color-primary-400: #829ab1;
+  --color-primary-500: #627d98;
+  --color-primary-600: #486581;
+  --color-primary-700: #334e68;
+  --color-primary-800: #243b53;
+  --color-primary-900: #102a43;
+
+  --color-secondary-50: #f9f6f8;
+  --color-secondary-100: #f5eef2;
+  --color-secondary-200: #ecdee6;
+  --color-secondary-300: #ddc4d3;
+  --color-secondary-400: #c79fb5;
+  --color-secondary-500: #b4809b;
+  --color-secondary-600: #9d657f;
+  --color-secondary-700: #855168;
+  --color-secondary-800: #6f4557;
+  --color-secondary-900: #623f4e;
+  --color-secondary-950: #37202a;  
+}
+
+@source "../node_modules/flowbite-svelte/dist";
+
+/* 
+https://mycolor.space
+https://www.tints.dev
+https://uicolors.app
+*/
+
+.emerald {
+  --color-primary-50: #ecfdf3;
+  --color-primary-100: #d2f9e1;
+  --color-primary-200: #a9f1c9;
+  --color-primary-300: #71e4ab;
+  --color-primary-400: #2ec27e;
+  --color-primary-500: #14b571;
+  --color-primary-600: #08935b;
+  --color-primary-700: #06764b;
+  --color-primary-800: #085d3d;
+  --color-primary-900: #084c34;
+  --color-primary-950: #032b1e;  
+
+  --color-secondary-50: #fbf8f1;
+  --color-secondary-100: #f6edde;
+  --color-secondary-200: #edd9bb;
+  --color-secondary-300: #deb887;
+  --color-secondary-400: #d39c64;
+  --color-secondary-500: #ca8345;
+  --color-secondary-600: #bc6e3a;
+  --color-secondary-700: #9c5732;
+  --color-secondary-800: #7e462e;
+  --color-secondary-900: #663b28;
+  --color-secondary-950: #371d13;
+}
+
+.mariner {
+  --color-primary-50: #eff9ff;
+  --color-primary-100: #dbf1fe;
+  --color-primary-200: #bfe7fe;
+  --color-primary-300: #92dafe;
+  --color-primary-400: #5fc3fb;
+  --color-primary-500: #3aa6f7;
+  --color-primary-600: #2489ec;
+  --color-primary-700: #1c71d8;
+  --color-primary-800: #1d5cb0;
+  --color-primary-900: #1d4f8b;
+  --color-primary-950: #173154;
+
+  --color-secondary-50: #f0f4f8;
+  --color-secondary-100: #d9e2ec;
+  --color-secondary-200: #bcccdc;
+  --color-secondary-300: #9fb3c8;
+  --color-secondary-400: #829ab1;
+  --color-secondary-500: #627d98;
+  --color-secondary-600: #486581;
+  --color-secondary-700: #334e68;
+  --color-secondary-800: #243b53;
+  --color-secondary-900: #102a43;
+}
+
+.vivid-violet {
+  --color-primary-50: #fbf6fd;
+  --color-primary-100: #f6ecfb;
+  --color-primary-200: #ecd8f6;
+  --color-primary-300: #deb9ee;
+  --color-primary-400: #cc8fe3;
+  --color-primary-500: #b364d1;
+  --color-primary-600: #9141ac;
+  --color-primary-700: #7f3695;
+  --color-primary-800: #692e7a;
+  --color-primary-900: #5a2a65;
+  --color-primary-950: #371141;
+
+  --color-secondary-50: #f0f9ff;
+  --color-secondary-100: #e0f2fe;
+  --color-secondary-200: #b9e7fe;
+  --color-secondary-300: #7cd4fd;
+  --color-secondary-400: #36c0fa;
+  --color-secondary-500: #0ca8eb;
+  --color-secondary-600: #0085c7;
+  --color-secondary-700: #016aa3;
+  --color-secondary-800: #065a86;
+  --color-secondary-900: #0b4b6f;
+  --color-secondary-950: #07304a;  
+}

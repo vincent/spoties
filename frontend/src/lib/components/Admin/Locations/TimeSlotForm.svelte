@@ -5,6 +5,7 @@
   import EditInPlace from "../../Shared/EditInPlace.svelte";
   import FieldErrors from "../../Shared/FieldErrors.svelte";
   import { t } from "$lib/i18n";
+    import Placeholder from "$lib/components/Shared/Placeholder.svelte";
   
   let {
     value = $bindable(),
@@ -21,7 +22,7 @@
 <TimelineItem>
   <div class="flex justify-between mb-4 text-base font-normal text-gray-500 dark:text-gray-400">
     <EditInPlace divClass="w-3/5" bind:value={$AdminEventStore.locations[locationIndex].slots[index].label}>
-      <div class="flex">{@html value.label || $t('event.form.add_slot_name')}</div>
+      <div class="flex"><Placeholder value={value.label} empty={$t('event.form.add_slot_name')}/></div>
     </EditInPlace>
   
     <div class="flex slot-actions">
@@ -30,6 +31,7 @@
         on:select={e => $AdminEventStore.locations[locationIndex].slots[index].starts_at = e.detail.toISOString()}
         on:clear={_ => $AdminEventStore.locations[locationIndex].slots[index].starts_at = ''}
       />
+      
       <DeleteButton btnClass="ms-2" confirm={removeLocationTimeSlot} />
     </div>
   </div>
@@ -46,7 +48,7 @@
 
   <div class="flex mb-4 text-base font-normal text-gray-500 dark:text-gray-400">
     <EditInPlace divClass="w-full" input="richtext" bind:value={$AdminEventStore.locations[locationIndex].slots[index].description}>
-      <div class="flex">{@html value.description || $t('event.form.add_slot_desc')}</div>
+      <div class="flex"><Placeholder value={value.description} empty={$t('event.form.add_slot_desc')}/></div>
     </EditInPlace>
   </div>
 

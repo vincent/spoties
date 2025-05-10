@@ -1,10 +1,12 @@
 <script lang="ts">
-  import "../../../app.styles.forms.css";
+  import "../../../app.styles.base.css";
   import EventView from "$lib/components/User/EventView.svelte";
   import { type InputEventObject } from "$lib/pocketbase/types";
   const { data } = $props();
 
   data.metadata.title = data.record.title || 'Untitled event';
+
+  document.body.classList.add(data.record.theme || 'default-theme')
 </script>
 
 <svelte:head>
