@@ -3,26 +3,37 @@
   import EventResponsesTableBySlot from "$lib/components/Admin/Events/EventResponsesTableBySlot.svelte";
   import { arrayToCSV, responsesToArray, downloadBlob } from "$lib/utils/csv";
   import { Button, Dropdown, DropdownItem, Toggle } from "flowbite-svelte";
+  import { type UserBookingResponse } from "$lib/pocketbase/types";
+  import { eventAnyChanges, fetchEvent } from "$lib/domain/events";
+  import { fetchEventAllAnswers } from "$lib/domain/answers.all";
   import { ChevronDownOutline } from "flowbite-svelte-icons";
   import { locale, stripTags, t } from "$lib/i18n";
-  import { type UserBookingResponse } from "$lib/pocketbase/types";
+  import { onMount } from "svelte";
 
-  const { data } = $props()
-  let showOpen = $state(false)
-  let groupOpen = $state(false)
-  let downloadOpen = $state(false)
-
+  let { data } = $props()
   let groupBy = $state('user')
-
+  let eventId = $derived<string>(data.eventId as string)
   let secondaryGroups = $state<Record<string, boolean>>({})
+  
+  onMount(() => eventAnyChanges(eventId, () => Promise
+      .all([
+        fetchEvent(eventId, { fetch }),
+        fetchEventAllAnswers(eventId, { fetch }),
+      ])
+      .then(([ record, {responses} ]) => data = ({
+        locations: data.locations || [],
+        ...data,
+        eventId,
+        responses,
+        record,
+      }))
+    ))
 
   const handleGroupBy = g => () => {
-    groupOpen = false
     groupBy = g
   }
 
   const downloadCSV = () => {
-    downloadOpen = false
     downloadBlob(
       arrayToCSV(responsesToArray($locale, data.record, data.responses)),
       'export.csv', 'text/csv;charset=utf-8;'

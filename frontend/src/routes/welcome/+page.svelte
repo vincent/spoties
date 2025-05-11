@@ -1,15 +1,16 @@
 <script>
-  import { client, watch } from "$lib/pocketbase";
+  import { client } from "$lib/pocketbase";
   import { goto } from "$app/navigation";
   import { onMount } from "svelte";
   import { t } from "$lib/i18n";
 
   let verified = $state(false)
+
   onMount(() => {
     if (!client.authStore.record?.id) return goto('/login');
-    watch('users', {  }).then(l => l.subscribe(users => {
-      verified = users.items[0].verified
-    }))
+    client.collection('users').subscribe(client.authStore.record?.id, e => {
+      verified = e.record.verified
+    })
   })
 </script>
 

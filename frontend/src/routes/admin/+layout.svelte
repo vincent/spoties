@@ -1,7 +1,6 @@
 <script lang="ts">
-  import Nav from "$lib/components/Nav/Nav.svelte";
   import Sidebar from "$lib/components/Sidebar.svelte";
-  import { Modals } from "svelte-modals";
+  import Nav from "$lib/components/Nav/Nav.svelte";
 
   const { data, children } = $props();
   const config = $derived(data.config ?? {});
@@ -10,7 +9,7 @@
 <div class="min-h-screen bg-gray-50 antialiased dark:bg-gray-900">
   <Nav siteName={config.site?.name} siteLogo="/spoties_logo.png" />
 
-  <main class="h-auto p-4 pe-4 md:ps-0 pt-14 flex">
+  <main class="h-auto pe-4 md:ps-0 pt-14 flex">
     <Sidebar />
     {@render children()}
   </main>

@@ -1,7 +1,8 @@
-import type { EventsResponse, TimeSlotsResponse } from "$lib/pocketbase/generated-types";
-import type { RecordListOptions } from "pocketbase";
-import { client } from "$lib/pocketbase";
-import type { InputEventObject } from "$lib/pocketbase/types";
+import type { AnswersRecord, BookingsRecord, EventsRecord, EventsResponse, TimeSlotsResponse } from '$lib/pocketbase/generated-types';
+import type { RecordListOptions, RecordSubscription, UnsubscribeFunc } from 'pocketbase';
+import type { InputEventObject } from '$lib/pocketbase/types';
+import { client } from '$lib/pocketbase';
+import debounce from 'lodash.debounce';
 
 const SLOTS = client.collection('time_slots');
 const EVENTS = client.collection('events');
@@ -91,4 +92,31 @@ export async function fetchEvent(eventId: string, options: RecordListOptions) {
     }
 
     return record
+}
+
+export function eventChanges(eventId: string, callback: (data: RecordSubscription<EventsRecord>) => void) {
+    return client.collection('events').subscribe(eventId as string, callback)
+}
+
+export function eventBookingsChanges(eventId: string, callback: (data: RecordSubscription<BookingsRecord>) => void) {
+    return client.collection<BookingsRecord>('bookings').subscribe('*', e => e.record.event === eventId && callback(e))
+}
+
+export function eventAnswersChanges(eventId: string, callback: (data: RecordSubscription<AnswersRecord>) => void) {
+    return client.collection<AnswersRecord>('answers').subscribe('*', e => e.record.event === eventId && callback(e))
+}
+
+export function eventAnyChanges(eventId: string, callback: () => void) {
+    const debouncedCB = debounce(callback, 2000)
+    let subscriptions = [] as UnsubscribeFunc[]
+    Promise
+        .all([
+            eventChanges(eventId, debouncedCB),
+            eventBookingsChanges(eventId, debouncedCB),
+            eventAnswersChanges(eventId, debouncedCB),
+        ])
+        .then(subs => {
+            subscriptions = subs
+        })
+    return () => subscriptions.forEach(u => u())
 }

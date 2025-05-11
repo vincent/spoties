@@ -74,7 +74,7 @@
 	<h1 class="mt-6 mb-10 block text-4xl text-gray-800 dark:text-gray-100">{record.title}</h1>
 </NavMini>
 
-<form class="mt-4" {onsubmit}>
+<form class="mt-4 p-4" {onsubmit}>
 	<div class="mb-6">
 		<RichTextView html={record.description} />
 	</div>
@@ -145,13 +145,13 @@
 		<div class="mb-6">
 			{#each record.locations as l, i}
 				{#if !l.deleted}
-					<div class="space-y-4">
-						<Card size="xl" class="p-4 mt-2 {l.slots.find(s => $store.bookings.slots[s.id]) ? 'border-2 border-primary-600 dark:border-secondary-800' : ''}">
+					<div class="mb-4 space-y-4">
+						<Card size="xl" class="p-4 {l.slots.find(s => $store.bookings.slots[s.id]) ? 'border-2 border-primary-600 dark:border-secondary-800' : ''}">
 							<div class="mb-3 flex">
-								<MapPinAltOutline size="xl" /> <div class="mb-2 block text-xl">{l.name}</div>
+								<MapPinAltOutline size="xl" class="text-gray-500 dark:text-gray-400" /> <Label class="ms-2 mb-2 block text-xl">{l.name}</Label>
 							</div>
 
-							<div class="mb-3 block text-md">{@html l.description}</div>
+							<Label class="mb-3 block text-md">{@html l.description}</Label>
 
 							{#each l.slots as s}
 								{#if !s.deleted}

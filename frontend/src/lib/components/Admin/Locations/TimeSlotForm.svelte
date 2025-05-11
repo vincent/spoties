@@ -28,8 +28,13 @@
     <div class="flex slot-actions">
       <Datepicker 
         value={$AdminEventStore.locations[locationIndex].slots[index].starts_at ? new Date(Date.parse($AdminEventStore.locations[locationIndex].slots[index].starts_at)) : undefined}
-        onselect={e => $AdminEventStore.locations[locationIndex].slots[index].starts_at = e.toString()}
-        onclear={() => $AdminEventStore.locations[locationIndex].slots[index].starts_at = ''}
+        onselect={e => {
+          event?.preventDefault() // otherwise it triggers the form submit ??
+          $AdminEventStore.locations[locationIndex].slots[index].starts_at = (e as Date).toISOString()
+        }}
+        onclear={() => {
+          $AdminEventStore.locations[locationIndex].slots[index].starts_at = ''
+        }}
       />
       
       <DeleteButton btnClass="ms-2" confirm={removeLocationTimeSlot} />

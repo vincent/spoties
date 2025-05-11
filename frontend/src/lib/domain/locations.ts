@@ -6,7 +6,6 @@ const LOCATIONS = client.collection('locations');
 
 export async function fetchLocations(eventId: string, options: RecordListOptions) {
 
-    // const filter = client.filter('org_id = {:eventId}', { eventId }); // fixme
     let locations: LocationsRecord[] = await LOCATIONS.getFullList<LocationsResponse>(1000, {
         ...options,
         filter: client.filter('event = {:eventId}', { eventId })

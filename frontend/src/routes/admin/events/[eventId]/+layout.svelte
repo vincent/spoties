@@ -1,8 +1,8 @@
 <script lang="ts">
   import { AdminEventStore } from "$lib/stores/admin-event-form.svelte";
   import { Navbar, NavLi, NavUl } from "flowbite-svelte";
-  import { page } from "$app/state";
   import { t } from "$lib/i18n/index.js";
+  import { page } from "$app/state";
 
   const activeClass = 'rounded-none md:border-b-2 border-primary-600 text-primary-600';
   const { data, children } = $props();
