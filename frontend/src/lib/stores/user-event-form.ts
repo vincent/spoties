@@ -139,7 +139,7 @@ export function createUserEventStore(initial: UserEvent, pb = client) {
             store.update(s => ({ ...s, ...props, loading: false }))
 
             if (alertOwner) {
-                await client.send(`/api/events/${props.event_id}/notify-owner`, { method: 'post', body: { isUpdating } });
+                await client.send(`/api/events/${props.event_id}/notify/owner`, { method: 'post', body: { isUpdating } });
             }
 
             goto(`/event/${props.event_id}/done`)

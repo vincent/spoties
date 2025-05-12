@@ -243,7 +243,15 @@ export function createAdminEventStore(initial: AdminEvent, pb = client) {
                 store.update(s => ({ ...s, loading: false }))
                 dirty.set(false)
 
-                if (isNew) goto(`/admin/events/${props.id}/`)
+                if (isNew) {
+
+                    // refresh auth for newly crated team ref
+                    if (pb.authStore.isValid) {
+                        await pb.collection('users').authRefresh()
+                    }
+
+                    goto(`/admin/events/${props.id}/`)
+                }
             }
         }
     };

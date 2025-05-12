@@ -1,17 +1,37 @@
-// Extending PocketBase with JS - @see https://pocketbase.io/docs/js-overview/
-
 /// <reference path='../../pb_data/types.d.ts' />
 
-module.exports = {
-  notifyEventResponse,
-  createUserTeamOnFirstEvent,
-}
-
 /**
- * Notify the event owner about an answer.
+ * POST /api/events/{eventId}/notify/owner
  * 
- * @type {(eventId: string, userId: string, isUpdating: boolean) => void}
+ * Notifies the owner of a specific event.
+ * - Path parameter: eventId (string) — the ID of the event to notify the owner about.
+ * - Request body: { isUpdating?: boolean }
+ * - Requires authentication.
+ * - If event or auth is missing, returns 403 Forbidden.
+ * - On success, triggers notifyEventResponse and returns 200 OK.
  */
+routerAdd(
+  'POST',
+  '/api/events/{eventId}/notify/owner',
+  (c) => {
+    $app.logger().info(`[notifyEventResponse]`)
+
+    let info = c.requestInfo();
+    let auth = info.auth;
+    let eventId = c.request.pathValue('eventId')
+    let isUpdating = c.requestInfo().body?.isUpdating
+    if (!auth || !eventId) return c.forbiddenError('No such event');
+    
+    let record = $app.findRecordById('events', eventId)
+    if (!record) return c.forbiddenError('No such event');
+
+    notifyEventResponse(eventId, auth.id, isUpdating)
+
+    return c.json(200, { success: true });
+  },
+  $apis.requireAuth()
+);
+
 function notifyEventResponse(eventId, userId, isUpdating) {
   if (!userId || !eventId) return new Error('Invalid params');
   
@@ -35,38 +55,9 @@ function notifyEventResponse(eventId, userId, isUpdating) {
   return null
 }
 
-/**
- * When a user creates his first event, create its team.
- * 
- * @type {(e: RecordRequestEvent) => void}
- */
-function createUserTeamOnFirstEvent(e) {
-  if (e.hasSuperuserAuth() || e.auth.fieldsData().teams?.length) return e.next();
-
-  // create team and attach it to user
-  $app.db().insert('teams', { owner: e.auth.id }).execute()
-  const team = $app.findFirstRecordByData('teams', 'owner', e.auth.id)
-
-  // update the owner record
-  $app.logger().info(`[createUserTeamOnFirstEvent] update user ${e.auth.id} with team ${team.id}`)
-  $app.db().update('users', { 'teams': team.id }, $dbx.exp('id = {:id}', e.auth)).execute()
-
-  // attach created team to to-be-inserted event
-  e.record.set('team', team.id)
-
-  e.next()
-}
-
-/**
- * ************************************************************************************
- * ************************************************************************************
- */
-
-function stripTags(input) {
-  return input.toString().replace(/<\/?[^>]+(>|$)/g, "")
-}
-
 function eventResponseMail(event, owner, responder, isUpdating = false) {
+  const { stripTags } = require(`${__hooks}/./util`);
+
   const appURL = $app.settings().meta.appURL;
   const name = $app.settings().meta.senderName;
   const address = $app.settings().meta.senderAddress;
@@ -80,6 +71,7 @@ You can review all responses on the <a href="${appURL}/admin/events/${event.id}/
 \n<br>
 -- The Spoti.es support team.
 `;
+
   return new MailerMessage({
     from: { address, name },
     to: [{ address: owner.email }],

@@ -23,8 +23,13 @@ function slugDefault(obj) {
   }
 }
 
+function stripTags(input) {
+  return input.toString().replace(/<\/?[^>]+(>|$)/g, "")
+}
+
 module.exports = {
   parseJSON,
   parseJSONFile,
   slugDefault,
+  stripTags,
 };
