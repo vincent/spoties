@@ -4,9 +4,14 @@
 
 module.exports = {
   notifyEventResponse,
+  createUserTeamOnFirstEvent,
 }
 
-/** @type {(eventId: string, userId: string, isUpdating: boolean) => void} */
+/**
+ * Notify the event owner about an answer.
+ * 
+ * @type {(eventId: string, userId: string, isUpdating: boolean) => void}
+ */
 function notifyEventResponse(eventId, userId, isUpdating) {
   if (!userId || !eventId) return new Error('Invalid params');
   
@@ -30,6 +35,32 @@ function notifyEventResponse(eventId, userId, isUpdating) {
   return null
 }
 
+/**
+ * When a user creates his first event, create its team.
+ * 
+ * @type {(e: RecordRequestEvent) => void}
+ */
+function createUserTeamOnFirstEvent(e) {
+  if (e.hasSuperuserAuth() || e.auth.fieldsData().teams?.length) return e.next();
+
+  // create team and attach it to user
+  $app.db().insert('teams', { owner: e.auth.id }).execute()
+  const team = $app.findFirstRecordByData('teams', 'owner', e.auth.id)
+
+  // update the owner record
+  $app.logger().info(`[createUserTeamOnFirstEvent] update user ${e.auth.id} with team ${team.id}`)
+  $app.db().update('users', { 'teams': team.id }, $dbx.exp('id = {:id}', e.auth)).execute()
+
+  // attach created team to to-be-inserted event
+  e.record.set('team', team.id)
+
+  e.next()
+}
+
+/**
+ * ************************************************************************************
+ * ************************************************************************************
+ */
 
 function stripTags(input) {
   return input.toString().replace(/<\/?[^>]+(>|$)/g, "")
@@ -47,8 +78,7 @@ function eventResponseMail(event, owner, responder, isUpdating = false) {
 You can review all responses on the <a href="${appURL}/admin/events/${event.id}/responses">admin page</a>
 \n<br>
 \n<br>
---
-  The RegSpot support team.
+-- The Spoti.es support team.
 `;
   return new MailerMessage({
     from: { address, name },

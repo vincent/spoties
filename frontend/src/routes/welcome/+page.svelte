@@ -4,7 +4,7 @@
   import { onMount } from "svelte";
   import { t } from "$lib/i18n";
 
-  let verified = $state(false)
+  let verified = $state(client.authStore.record?.verified)
 
   onMount(() => {
     if (!client.authStore.record?.id) return goto('/login');

@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { goto } from "$app/navigation";
   import type { UsersResponse } from "$lib/pocketbase/generated-types";
-  import { client, providerLogin } from "../../pocketbase";
   import { Label, Input, Button, Card, Alert } from 'flowbite-svelte';
+  import { client, providerLogin } from "../../pocketbase";
+  import { goto } from "$app/navigation";
 	import { t } from "$lib/i18n";
 
   const { returnUrl, authCollection = 'users' } = $props();
@@ -26,16 +26,11 @@
 
     try {
       if (signup) {
-        user = await collection.create({ ...form });
+        await collection.create(form);
         await collection.requestVerification(form.email)
       }
 
       user = (await collection.authWithPassword<UsersResponse>(form.email, form.password, { expand: 'teams' })).record;
-
-      if (signup) {
-        const team = await client.collection('teams').create({ owner: user.id });
-        await collection.update(user.id, { ...user, teams: [team.id] });
-      }
 
       goto(returnUrl || '/welcome')
 

@@ -56,3 +56,7 @@ routerAdd(
   },
   $apis.requireAuth()
 );
+
+// When a user creates his first event, create its team
+onRecordCreateRequest(e => require(`${__hooks}/./lib/events`).createUserTeamOnFirstEvent(e), 'events')
+
