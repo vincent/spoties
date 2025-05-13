@@ -1,4 +1,3 @@
-import type { AnswersResponse, BookingsResponse } from "$lib/pocketbase/generated-types";
 import type { InputEventObject, Question, UserEvent } from "$lib/pocketbase/types";
 import { z, type typeToFlattenedError, type ZodIssue } from "zod";
 import { locale, translate } from "$lib/i18n";
@@ -8,10 +7,6 @@ import { goto } from "$app/navigation";
 
 export function createUserEventStore(initial: UserEvent, pb = client) {
     const store = writable<UserEvent>();
-
-    const BOOKINGS = pb.collection('bookings');
-    const ANSWERS = pb.collection('answers');
-    const user = client.authStore.record
 
     let schema = z.object({})
 
@@ -88,62 +83,14 @@ export function createUserEventStore(initial: UserEvent, pb = client) {
             store.set({ ...initial, loading: false });
         },
 
-        updateUserAnswer: async (props: UserEvent) => {
-
-            store.update(s => ({ ...s, loading: true }));
-
-            const isUpdating = !!props.bookings.id
-            let alertOwner = !isUpdating
-
-            if (isUpdating) {
-                const dateUpdated = +(new Date(props.bookings.updated))
-                const twelveHoursAgo = +(new Date()) - (12 * 60 * 60 * 1000)
-                alertOwner = dateUpdated < twelveHoursAgo
-            }
-
-            const questions_answers = Object.values(props.questions_answers)
-            for (let i = 0; i < questions_answers.length; i++) {
-                const a = questions_answers[i];
-                Object.assign(a, {
-                    ...a,
-                    user: user?.id,
-                    event: props.event_id,
-                    question: a.question.id,
-                })
-
-                const row = a.id
-                    ? await ANSWERS.update<AnswersResponse>(a.id, a)
-                    : await ANSWERS.create<AnswersResponse>(a)
-
-                Object.assign(a, {
-                    ...a,
-                    id: row.id,
-                })
-            }
-
-            const bookings = {
-                id: props.bookings.id,
-                user: user?.id,
-                event: props.event_id,
-                slots: Object.keys(props.bookings.slots).filter(sid => !!props.bookings.slots[sid]),
-            }
-            const row = props.bookings.id
-                ? await BOOKINGS.update<BookingsResponse>(props.bookings.id, bookings)
-                : await BOOKINGS.create<BookingsResponse>(bookings)
-
-            Object.assign(props.bookings, {
-                ...props.bookings,
-                id: row.id,
+        updateUserAnswer: async (props: UserEvent) => Promise.resolve()
+            .then(_ => store.update(s => ({ ...s, loading: true })))
+            .then(_ => client.send(`/api/events/${props.event_id}/answer`, { method: 'post', body: props }))
+            .then(updated => store.update(s => ({ ...s, ...props, ...updated })))
+            .finally(() => {
+                store.update(s => ({ ...s, loading: false }))
+                goto(`/event/${props.event_id}/done`)
             })
-
-            store.update(s => ({ ...s, ...props, loading: false }))
-
-            if (alertOwner) {
-                await client.send(`/api/events/${props.event_id}/notify/owner`, { method: 'post', body: { isUpdating } });
-            }
-
-            goto(`/event/${props.event_id}/done`)
-        }
     };
 }
 
