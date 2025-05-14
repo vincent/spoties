@@ -18,17 +18,16 @@ routerAdd(
     $app.logger().info(`[event] post`, JSON.stringify(form))
 
     const { validateEventForm } = require(`${__hooks}/./services/form.admin.event.validation`)
+    const { saveQuestions } = require(`${__hooks}/./services/database.question`)
+    const { saveLocations } = require(`${__hooks}/./services/database.location`)
+    const { saveEvent } = require(`${__hooks}/./services/database.event`)
+
     const validation = validateEventForm(form)
     if (!validation.success) return c.badRequestError(JSON.stringify(validation.errors))
 
-    const saveEvent = require(`${__hooks}/./services/database.event`)
     saveEvent($app, form, c.auth)
-
-    const saveQuestions= require(`${__hooks}/./services/database.question`);
-    saveQuestions($app, form.questions, form);
-
-    const saveLocations = require(`${__hooks}/./services/database.location`);
-    saveLocations($app, form.locations, form);
+    saveQuestions($app, form.questions, form)
+    saveLocations($app, form.locations, form)
   },
   $apis.requireAuth()
 )

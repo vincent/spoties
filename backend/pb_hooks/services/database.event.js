@@ -1,7 +1,16 @@
 /// <reference path='../../pb_data/types.d.ts' />
 
-/** @type {(any, core.Record): core.Record} */
-module.exports = function saveEvent($app, form, auth) {
+module.exports = {
+  saveEvent
+}
+
+/**
+ * Save an event.
+ * @param {object} $app - Application context
+ * @param {object} form - Event form
+ * @param {object} auth - The current user auth Record
+ */
+function saveEvent($app, form, auth) {
   let EVENTS = $app.findCollectionByNameOrId('events')
   let eventRecord = form.id
     ? $app.findRecordById('events', form.id)

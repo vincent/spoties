@@ -1,10 +1,14 @@
+module.exports = {
+  saveQuestions
+}
+
 /**
  * Updates or inserts questions for a given event.
  * @param {Array} questions - Array of question objects to update/insert.
  * @param {Object} eventRecord - The event record (must have .id and .fieldsData()).
  * @param {Object} $app - The app context for database operations and logging.
  */
-module.exports = function saveQuestions($app, questions, eventRecord) {
+function saveQuestions($app, questions, eventRecord) {
   let QUESTIONS = $app.findCollectionByNameOrId('questions');
   for (let i = 0; i < questions.length; i++) {
     const q = questions[i];

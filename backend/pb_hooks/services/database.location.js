@@ -1,10 +1,14 @@
+module.exports = {
+  saveLocations
+}
+
 /**
  * Save locations and their slots for an event.
  * @param {object} $app - Application context
  * @param {Array} locations - Array of location objects (form.locations)
  * @param {object} eventRecord - The event record being saved/updated
  */
-module.exports = function saveLocations($app, locations, eventRecord) {
+function saveLocations($app, locations, eventRecord) {
   let LOCATIONS = $app.findCollectionByNameOrId('locations');
   let SLOTS = $app.findCollectionByNameOrId('time_slots');
 

@@ -23,11 +23,11 @@
 
 	const user = client.authStore.record as any;
 	const username = user.name || user.email?.split(/@/)[0];
-	const somePreviousAnswers = Object.values(userData?.questions_answers || {}).some((a: any) => a.value);
+	const somePreviousAnswers = userData?.bookings?.id || Object.values(userData?.questions_answers || {}).some((a: any) => a.value);
 
 	store.init(record, userData);
 
-	let empty = $derived(!record.questions?.length)
+	let empty = $derived(!record.questions?.length && !record.locations?.length)
 	let disabled = $derived(record.sealed || empty)
 	let validation = $derived(store.valid($store))
 	let qValidation = $derived<Record<string, ZodIssue>>(
