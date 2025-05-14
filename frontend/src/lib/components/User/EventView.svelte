@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Input, Card, Range, Rating, Datepicker, Toggle, Radio, Checkbox, Button, MultiSelect, Badge, Textarea, Alert, Label, Spinner } from "flowbite-svelte";
     import { ArrowRightOutline, InfoCircleSolid, MapPinAltOutline } from "flowbite-svelte-icons";
-	import { userEventStore as store } from "$lib/stores/user-event-form";
+	import { userEventStore as store } from "$lib/stores/form.event.user.svelte";
     import type { InputEventObject, UserEvent } from "$lib/pocketbase/types";
     import BannerPrefillEvent from "./BannerPrefillEvent.svelte";
     import RichTextView from "../Shared/RichTextView.svelte";

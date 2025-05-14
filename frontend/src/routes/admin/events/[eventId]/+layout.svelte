@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { AdminEventStore } from "$lib/stores/admin-event-form.svelte";
+  import { AdminEventStore } from "$lib/stores/form.admin.event.svelte";
   import { Navbar, NavLi, NavUl } from "flowbite-svelte";
   import { t } from "$lib/i18n/index.js";
   import { page } from "$app/state";

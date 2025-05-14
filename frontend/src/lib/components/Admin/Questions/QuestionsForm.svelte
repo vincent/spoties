@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { AdminEventStore } from "$lib/stores/admin-event-form.svelte";
+  import { AdminEventStore } from "$lib/stores/form.admin.event.svelte";
   import { DotsVerticalOutline, PlusOutline } from "flowbite-svelte-icons";
   import { reorder, useSortable } from "$lib/utils/use-sortable.svelte";
   import { Button, Tooltip } from "flowbite-svelte";

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Label, FloatingLabelInput, A, Accordion, AccordionItem } from "flowbite-svelte";
   import LocationsSelector from "../Locations/LocationsSelector.svelte";
-  import { AdminEventStore } from "$lib/stores/admin-event-form.svelte";
+  import { AdminEventStore } from "$lib/stores/form.admin.event.svelte";
   import FieldErrors from "$lib/components/Shared/FieldErrors.svelte";
   import ThemePicker from "$lib/components/Shared/ThemePicker.svelte";
   import EventFormSummary from "../Events/EventFormSummary.svelte";

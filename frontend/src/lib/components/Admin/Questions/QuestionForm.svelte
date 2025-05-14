@@ -2,7 +2,7 @@
   import { Card, Datepicker, FloatingLabelInput, Input, Range, Rating, Toggle } from "flowbite-svelte";
   import { PlusOutline, QuestionCircleOutline } from "flowbite-svelte-icons";
   import type { QuestionsRecord } from "$lib/pocketbase/generated-types";
-  import { AdminEventStore } from "$lib/stores/admin-event-form.svelte";
+  import { AdminEventStore } from "$lib/stores/form.admin.event.svelte";
   import DeleteButton from "$lib/components/Shared/DeleteButton.svelte";
   import EditInPlace from "$lib/components/Shared/EditInPlace.svelte";
   import FieldErrors from "$lib/components/Shared/FieldErrors.svelte";

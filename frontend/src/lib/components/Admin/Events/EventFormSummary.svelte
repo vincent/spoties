@@ -1,12 +1,14 @@
 <script lang="ts">
   import { t } from "$lib/i18n";
-  import { AdminEventStore, dirty } from "$lib/stores/admin-event-form.svelte";
+  import { AdminEventStore, dirty } from "$lib/stores/form.admin.event.svelte";
   import { Button, Helper, Spinner, Toggle } from "flowbite-svelte";
   import { CheckOutline } from "flowbite-svelte-icons";
   
   let { submit } = $props();
   let validation = $derived(AdminEventStore.valid($AdminEventStore))
-  let totalSlots = $derived($AdminEventStore.locations.reduce((acc, loc) => acc + loc.slots?.length, 0));
+  let activeQuestions = $derived($AdminEventStore.questions.filter(q => !q.deleted).length);
+  let activeLocations = $derived($AdminEventStore.locations.filter(l => !l.deleted).length);
+  let activeSlots = $derived($AdminEventStore.locations.filter(l => !l.deleted).reduce((acc, loc) => acc + loc.slots?.length, 0));
 </script>
 
 <div class="w-full flex-none max-w-xl">
@@ -22,7 +24,7 @@
             {$t('event.form.questions')}
           </dt>
           <dd class="text-base font-medium text-gray-900 dark:text-white">
-            {$AdminEventStore.questions.length}
+            {activeQuestions}
           </dd>
         </dl>
 
@@ -31,7 +33,7 @@
             {$t('event.form.locations')}
           </dt>
           <dd class="text-base font-medium text-gray-900 dark:text-white">
-            {$AdminEventStore.locations.length}
+            {activeLocations}
           </dd>
         </dl>
 
@@ -40,7 +42,7 @@
             {$t('event.form.slots')}
           </dt>
           <dd class="text-base font-medium text-green-600">
-            {totalSlots}
+            {activeSlots}
           </dd>
         </dl>
 

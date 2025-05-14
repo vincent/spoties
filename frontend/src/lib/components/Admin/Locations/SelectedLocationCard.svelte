@@ -2,7 +2,7 @@
   import { PlusOutline } from "flowbite-svelte-icons";
   import { Button, Hr, Timeline } from "flowbite-svelte";
   import TimeSlotForm from "./TimeSlotForm.svelte";
-  import { AdminEventStore } from "$lib/stores/admin-event-form.svelte";
+  import { AdminEventStore } from "$lib/stores/form.admin.event.svelte";
   import DeleteButton from "$lib/components/Shared/DeleteButton.svelte";
   import { ListChecksIcon, MapPinCheckIcon, MapPinMinusIcon } from "lucide-svelte";
   import EditInPlace from "$lib/components/Shared/EditInPlace.svelte";

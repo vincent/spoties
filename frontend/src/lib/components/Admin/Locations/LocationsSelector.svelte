@@ -1,7 +1,7 @@
 <script lang="ts">
   import AvailableLocationCard from "./AvailableLocationCard.svelte";
   import SelectedLocationCard from "./SelectedLocationCard.svelte";
-  import { AdminEventStore } from "$lib/stores/admin-event-form.svelte";
+  import { AdminEventStore } from "$lib/stores/form.admin.event.svelte";
   import NewLocationCard from "./NewLocationCard.svelte";
   import { t } from "$lib/i18n";
 

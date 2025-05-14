@@ -25,7 +25,7 @@ routerAdd(
     let record = $app.findRecordById('events', eventId)
     if (!record) return c.forbiddenError('No such event');
 
-    const { notifyEventResponse } = require(`${__hooks}/./lib/notify.owner`)
+    const { notifyEventResponse } = require(`${__hooks}/./services/notify.owner`)
     notifyEventResponse(eventId, auth.id, isUpdating)
 
     return c.json(200, { success: true });

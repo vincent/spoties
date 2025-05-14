@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { AdminEventStore } from "$lib/stores/admin-event-form.svelte";
+  import { AdminEventStore } from "$lib/stores/form.admin.event.svelte";
   import { Datepicker, Range, TimelineItem } from "flowbite-svelte";
   import DeleteButton from "../../Shared/DeleteButton.svelte";
   import Placeholder from "../..//Shared/Placeholder.svelte";
