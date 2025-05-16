@@ -28,6 +28,8 @@ routerAdd(
     saveEvent($app, form, c.auth)
     saveQuestions($app, form.questions, form)
     saveLocations($app, form.locations, form)
+
+    c.next()
   },
   $apis.requireAuth()
 )

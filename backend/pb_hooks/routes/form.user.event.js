@@ -38,6 +38,8 @@ routerAdd(
     saveBooking($app, form.bookings, eventId, c.auth.id);
 
     if (notifyOwner) notifyEventResponse(eventId, c.auth.id, isUpdating)
+
+    c.next()
   },
   $apis.requireAuth()
 )

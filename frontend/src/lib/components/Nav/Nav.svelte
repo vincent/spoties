@@ -4,25 +4,26 @@
   import NavApp from "./NavApp.svelte";
   import NavSearch from "./NavSearch.svelte";
   import Language from "./Language.svelte";
-  import { DarkMode } from "flowbite-svelte";
+  import { DarkMode, Navbar, NavBrand, NavHamburger, NavLi, NavUl } from "flowbite-svelte";
 
   const { siteName, siteLogo } = $props();
 </script>
 
-<nav class="bg-white border-b border-gray-200 px-4 py-2 dark:bg-gray-800 dark:border-gray-700 fixed left-0 right-0 top-0 z-50">
-  <div class="flex flex-wrap justify-between items-center">
-    <div class="flex justify-start items-center">
-      <NavDrawer />
-      <NavApp siteName={siteName} siteLogo={siteLogo} />
-      <!-- <NavSearch /> -->
-    </div>
+<Navbar>
+  <NavBrand href="/">
+    <img src={siteLogo} class="me-3 h-6 sm:h-9" alt={siteName} />
+    <span class="self-center pb-1 text-xl font-semibold whitespace-nowrap dark:text-white">{siteName}</span>
+  </NavBrand>
+  <NavHamburger />
 
-    <div class="flex items-center lg:order-2">
-      <!-- <NavNotifications /> -->
-      <!-- <NavApps /> -->
-      <Language />
-      <DarkMode />  
-      <LoginBadge />
-    </div>
+  <div class="mr-auto">
+    <NavUl>
+      <NavLi href="/admin/events">Events</NavLi>
+    </NavUl>
   </div>
-</nav>
+
+  <Language />
+  <DarkMode />  
+  <LoginBadge />
+</Navbar>
+

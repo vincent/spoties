@@ -8,6 +8,8 @@ const en = {
   'act.share': 'Share',
   'act.save': 'Save',
   'act.show': 'Show',
+  'act.add': 'Add',
+  'act.remove': 'Remove',
   'act.submit': 'Submit',
   'act.select': 'Select',
   'act.delete': 'Delete',
@@ -112,6 +114,9 @@ const en = {
   'event.results.group_by': "Group results",
   'event.results.group_by_user': "by participant",
   'event.results.group_by_slot': "by slot",
+  'event.results.save_slots_selection': "Save slot selection",
+  'event.results.save_slots_selection_with_notify': "Notify participant and save",
+  'event.results.save_slots_selection_without_notify': "Save without notification",
 
   'login.welcome_1': "Hi, Thank you for checking us!",
   'login.welcome_2': "To answer the form you've been invited, we need your email.",
@@ -143,6 +148,8 @@ const fr = {
   'lang.es': 'Español',
   'lang.ca': 'Català',
 
+  'act.add': 'Ajouter',
+  'act.remove': 'Retirer',
   'act.show': 'Montrer',
   'act.save': 'Sauvegarder',
   'act.submit': 'Envoyer',
@@ -207,6 +214,9 @@ const fr = {
   'event.results.group_by': "Grouper les résultats",
   'event.results.group_by_user': "par participant",
   'event.results.group_by_slot': "par emplacement",
+  'event.results.save_slots_selection': "Sauvegarder la sélection des emplacements",
+  'event.results.save_slots_selection_with_notify': "Notifier le participant et sauvegarder",
+  'event.results.save_slots_selection_without_notify': "Sauvegarder sans notification",
 
   'event.form.summary': 'Résumé',
   'event.form.choose_theme': 'Thème',
@@ -282,6 +292,8 @@ const es = {
   'lang.es': 'Español',
   'lang.ca': 'Català',
 
+  'act.add': 'Agregar',
+  'act.remove': 'Quitar',
   'act.save': 'Guardar',
   'act.show': 'Mostrar',
   'act.submit': 'Enviar',
@@ -390,6 +402,9 @@ const es = {
   'event.results.group_by': "Agrupar resultados",
   'event.results.group_by_user': "por participante",
   'event.results.group_by_slot': "por franja",
+  'event.results.save_slots_selection': "Guardar selección de franjas",
+  'event.results.save_slots_selection_with_notify': "Notificar al participante y guardar",
+  'event.results.save_slots_selection_without_notify': "Guardar sin notificación",
 
   'login.welcome_1': "Hola, ¡gracias por visitarnos!",
   'login.welcome_2': "Para responder al formulario al que has sido invitado, necesitamos tu correo electrónico.",
@@ -421,6 +436,8 @@ const ca = {
   'lang.es': 'Español',
   'lang.ca': 'Català',
 
+  'act.add': 'Afegeix',
+  'act.remove': 'Treu',
   'act.save': 'Desa',
   'act.show': 'Mostra',
   'act.submit': 'Envia',
@@ -529,6 +546,9 @@ const ca = {
   'event.results.group_by': "Agrupa resultats",
   'event.results.group_by_user': "per participant",
   'event.results.group_by_slot': "per franja",
+  'event.results.save_slots_selection': "Desa la selecció de franges",
+  'event.results.save_slots_selection_with_notify': "Notifica el participant i desa",
+  'event.results.save_slots_selection_without_notify': "Desa sense notificació",
 
   'login.welcome_1': "Hola, gràcies per visitar-nos!",
   'login.welcome_2': "Per respondre al formulari al qual has estat convidat, necessitem el teu correu electrònic.",
