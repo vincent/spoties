@@ -55,7 +55,7 @@ export async function fetchEventAllAnswers(eventId: string, options: RecordListO
             return bookings
                 .reduce((acc, b) => {
                     const user = users[b.user.toString()]
-                    if (!user) return acc;
+                    if (!user || !answersByUser[user.id]) return acc;
 
                     return acc.concat({
                         updated: answersByUser[user.id].updated,

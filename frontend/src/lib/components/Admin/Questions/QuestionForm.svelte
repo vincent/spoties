@@ -116,7 +116,7 @@
 
   {:else if value.answer_type === 'checkboxes' && value.properties?.choices !== undefined}
     {#each value.properties.choices as choice, ci}
-      <div class="flex align-content-center justify-between my-1">
+      <div class="flex items-center justify-between my-1">
         <QuestionCircleOutline class="mr-2" /> <Input size="sm" bind:value={value.properties.choices[ci].name} />
       </div>
     {/each}

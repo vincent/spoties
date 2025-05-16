@@ -9,7 +9,7 @@
 <div class="min-h-screen bg-gray-50 antialiased dark:bg-gray-900">
   <Nav siteName={config.site?.name} siteLogo="/spoties_logo.png" />
 
-  <main class="h-auto pe-4 md:ps-0 pt-14 flex">
+  <main class="h-auto pe-4 md:pl-4 pt-14 flex">
     <Sidebar />
     {@render children()}
   </main>

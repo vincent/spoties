@@ -26,7 +26,7 @@
       <h1 class="mb-3 text-2xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white md:text-4xl">
         {$t('homepage.welcome')}
       </h1>
-      <p class="mb-6 text-gray-500 dark:text-gray-400">{$t('homepage.please_verify_email')}</p>
+      <p class="mb-6 text-gray-500 dark:text-gray-400" class:invisible={verified}>{$t('homepage.please_verify_email')}</p>
       <a href="/admin/events/create" class="inline-flex items-center justify-center rounded-lg px-5 py-3 text-center text-base font-medium focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900 {verified ? 'bg-primary-700 hover:bg-primary-800 text-white' : 'pointer-events-none text-gray-600 bg-gray-100 dark:hover:bg-gray-600'}"> {$t('homepage.start_creating_event')} </a>
     </div>
   </div>

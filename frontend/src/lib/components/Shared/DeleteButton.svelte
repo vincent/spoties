@@ -15,7 +15,7 @@
     skip?: boolean,
     confirm: () => any,
     iconClass?: string,
-    btnClass: string,
+    btnClass?: string,
     message?: string,
     yes?: string,
     no?: string,

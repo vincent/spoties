@@ -14,7 +14,7 @@
     locationIndex,
   } = $props();
 
-  let showSlots = $state(false)
+  let showSlots = $state(value.slots.length === 0)
 </script>
 
 <div
