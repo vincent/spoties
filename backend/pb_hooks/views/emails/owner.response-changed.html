@@ -1,0 +1,28 @@
+{{define "body"}}
+    <div class="invitation-text">
+        <strong>{{.user.username}}</strong><br> {{.action}} on event <br><strong>{{.event.title}}</strong>
+    </div>
+
+    <div class="divider"></div>
+
+    <div>
+        You can review all responses on the <a href="{{.meta.appURL}}/admin/events/{{.event.id}}/responses">admin page</a>
+    </div>
+            
+    <div class="divider"></div>
+
+    <div class="note">
+        <strong>Note:</strong> This invitation was intended for <strong>{{.owner.email}}</strong>.
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="error-info">
+        Getting a 404 error? Make sure you're signed in as <strong>{{.owner.email}}</strong>.
+    </div>
+
+    <div class="error-info" style="margin-top: 10px;">
+        Button not working? Copy and paste this link into your browser:<br>
+        <a href="{{.meta.appURL}}/admin/events/{{.event.id}}/responses" class="link">{{.meta.appURL}}/admin/events/{{.event.id}}/responses</a>
+    </div>
+{{end}}

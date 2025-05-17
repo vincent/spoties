@@ -1,0 +1,32 @@
+{{define "title"}}
+    {{.subject}}
+{{end}}
+
+{{define "body"}}
+    <div class="invitation-text">
+        Organizers of event <strong>{{.event.title}}</strong> have received your response
+    </div>
+
+    <div class="divider"></div>
+
+    <div>
+        You can review or change your response details on the <a href="{{.meta.appURL}}/event/{{.event.id}}" class="link">event form page</a>
+    </div>
+            
+    <div class="divider"></div>
+
+    <div class="note">
+        <strong>Note:</strong> This invitation was intended for <strong>{{.user.email}}</strong>.
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="error-info">
+        Getting a 404 error? Make sure you're signed in as <strong>{{.user.email}}</strong>.
+    </div>
+
+    <div class="error-info" style="margin-top: 10px;">
+        Button not working? Copy and paste this link into your browser:<br>
+        <a href="{{.meta.appURL}}/event/{{.event.id}}" class="link">{{.meta.appURL}}/event/{{.event.id}}</a>
+    </div>
+{{end}}

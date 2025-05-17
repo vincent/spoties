@@ -23,22 +23,21 @@ function notifyBookingChanged(eventId, userId) {
 function notifyBookingChangedMail(event, user) {
   const { stripTags } = require(`${__hooks}/./util`);
 
-  const appURL = $app.settings().meta.appURL;
-  const name = $app.settings().meta.senderName;
-  const address = $app.settings().meta.senderAddress;
-  const subject = `Updated booking on event ${event.title.slice(0, 20)}`;
-  const html = `Hello ${user.username},
-\n<br>
-Organizers of event <strong>${event.title}</strong> have changed your booking details.
-\n<br>
-You can review your updated details on the <a href="${appURL}/event/${event.id}">event form page</a>
-\n<br>
-\n<br>
--- The Spoti.es support team.
-`;
+  const meta = { ...$app.settings().meta };
+  const subject = `Updated booking on event ${event.title.slice(0, 30)}`;
+
+  const html = $template.loadFiles(
+    `${__hooks}/views/emails/layout.html`,
+    `${__hooks}/views/emails/user.booking-changed.html`,
+  ).render({
+      meta,
+      subject,
+      user,
+      event
+  })
 
   return new MailerMessage({
-    from: { address, name },
+    from: { address: meta.senderAddress, name: meta.senderName },
     to: [{ address: user.email }],
     subject, html, text: stripTags(html),
   });

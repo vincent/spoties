@@ -59,8 +59,12 @@
         </dl>
 
         <div class="mt-6 flex justify-between items-top">
-          <Button class="w-5/5" disabled={!validation.success || $AdminEventStore.loading} onclick={submit}>
-            {$t('act.save')} {#if $AdminEventStore.loading}<Spinner size="4" class="w-6 h-6 ms-2 text-white" />{:else if !$dirty}<CheckOutline class="w-6 h-6 ms-2 text-white" />{/if}
+          <Button
+            class="w-5/5"
+            onclick={submit}
+            outline={!$dirty}
+            disabled={!validation.success || $AdminEventStore.loading}
+          >{$t('act.save')} {#if $AdminEventStore.loading}<Spinner size="4" class="w-6 h-6 ms-2 text-white" />{:else if !$dirty}<CheckOutline class="w-6 h-6 ms-2 text-white" />{/if}
           </Button>
         </div>
 

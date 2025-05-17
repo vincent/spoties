@@ -20,7 +20,6 @@ function notifyEventResponse(eventId, userId, isUpdating) {
   if (!owner) return new Error('No such event');
 
   owner.setEmailVisibility(true);
-  $app.logger().info(`[notifyEventResponse] found ${JSON.stringify(owner)}`);
   if (!owner) return new Error('No such event');
 
   $app.logger().info(`[notifyEventResponse] send email to ${owner.fieldsData().email}`)
@@ -32,22 +31,24 @@ function notifyEventResponse(eventId, userId, isUpdating) {
 function eventResponseMail(event, owner, responder, isUpdating = false) {
   const { stripTags } = require(`${__hooks}/./util`);
 
-  const appURL = $app.settings().meta.appURL;
-  const name = $app.settings().meta.senderName;
-  const address = $app.settings().meta.senderAddress;
-  const subject = `${!isUpdating ? 'New response' : 'Updated response'} on event ${event.title.slice(0, 20)}`;
-  const html = `Hello ${owner.username},
-\n<br>
-<strong>${responder.username}</strong> has ${!isUpdating ? 'posted a new response' : 'updated their response'} on event <strong>${event.title}</strong>
-\n<br>
-You can review all responses on the <a href="${appURL}/admin/events/${event.id}/responses">admin page</a>
-\n<br>
-\n<br>
--- The Spoti.es support team.
-`;
+  const meta = { ...$app.settings().meta };
+  const subject = `${!isUpdating ? 'New response' : 'Updated response'} on event ${event.title.slice(0, 30)}`;
+
+  const html = $template.loadFiles(
+    `${__hooks}/views/emails/layout.html`,
+    `${__hooks}/views/emails/owner.response-changed.html`,
+  ).render({
+      meta,
+      subject,
+      user: responder,
+      action: `has ${!isUpdating ? 'posted a new response' : 'updated their response'}`,
+      isUpdating,
+      owner,
+      event
+  })
 
   return new MailerMessage({
-    from: { address, name },
+    from: { address: meta.senderAddress, name: meta.senderName },
     to: [{ address: owner.email }],
     subject, html, text: stripTags(html),
   });

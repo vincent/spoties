@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.subject}}</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            color: #24292e;
+            line-height: 1.5;
+        }
+        .container {
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 800px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 10px 0;
+        }
+        .avatars {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+        .plus {
+            margin: 0 15px;
+            font-size: 24px;
+            color: #d1d5da;
+        }
+        .invitation-text {
+            text-align: center;
+            font-size: 16px;
+            margin-bottom: 20px;
+            padding: 2rem 1rem;
+        }
+        .divider {
+            border-top: 1px solid #e1e4e8;
+            margin: 20px 0;
+        }
+        .button {
+            background-color: #0366d6;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+        }
+        .button-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .note {
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        .error-info {
+            font-size: 12px;
+            color: #6a737d;
+            margin-top: 15px;
+        }
+        .footer {
+            text-align: center;
+            font-size: 12px;
+            color: #6a737d;
+            margin-top: 20px;
+        }
+        .footer a {
+            color: #0366d6;
+            text-decoration: none;
+        }
+        .spoties-logo {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .spoties-logo img {
+            width: 40px;
+            height: 40px;
+        }
+        .link {
+            color: #0366d6;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>{{.meta.appName}}</h1>
+    </div>
+    
+    <div class="container">
+        {{block "body" .}}
+            
+        {{end}}
+    </div>
+
+    <div class="footer">
+        <a href="#">Terms</a> • 
+        <a href="#">Privacy</a> • 
+        <a href="#">Sign in to spoties</a>
+    </div>
+    
+    <div class="spoties-logo">
+        <img src="{{.meta.appURL}}/spoties_logo.png" alt="Spoti.es Logo">
+    </div>
+    
+    <div class="footer" style="margin-top: 10px;">
+        Spoties.<br>
+    </div>
+</body>

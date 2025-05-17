@@ -17,8 +17,9 @@ routerAdd(
     let eventId = c.request.pathValue('eventId')
     let form = c.requestInfo().body
 
+    const { acknowledgeUserEventResponse } = require(`${__hooks}/./services/notify.user.response-acknowledged`)
     const { validateResponseForm } = require(`${__hooks}/./services/form.user.response.validation`)
-    const { notifyEventResponse } = require(`${__hooks}/./services/notify.owner`)
+    const { notifyEventResponse } = require(`${__hooks}/./services/notify.owner.response-changed`)
     const { saveBooking } = require(`${__hooks}/./services/database.bookings`)
     const { saveAnswers } = require(`${__hooks}/./services/database.answers`)
 
@@ -27,6 +28,7 @@ routerAdd(
   
     const isUpdating = !!form.bookings.id
     let notifyOwner = !isUpdating
+    let notifyUser = !isUpdating
 
     if (isUpdating) {
       const dateUpdated = +(new Date(form.bookings.updated))
@@ -34,10 +36,11 @@ routerAdd(
       notifyOwner = dateUpdated < twelveHoursAgo
     }
 
-    saveAnswers($app, form.questions_answers, eventId, c.auth.id);
-    saveBooking($app, form.bookings, eventId, c.auth.id);
+    saveAnswers($app, form.questions_answers, eventId, c.auth.id)
+    saveBooking($app, form.bookings, eventId, c.auth.id)
 
     if (notifyOwner) notifyEventResponse(eventId, c.auth.id, isUpdating)
+    if (notifyUser) acknowledgeUserEventResponse(eventId, c.auth.id, form.bookings.id)
 
     c.next()
   },
