@@ -57,7 +57,7 @@ sudo cp $PROJECT_DIR/next/deployment/Caddyfile /etc/caddy/Caddyfile
 # setup pocketbase datadir
 sudo mkdir -p $POCKETBASE_DATADIR
 sudo chown -Rf debian:debian $POCKETBASE_DATADIR
-sed -i "s/serve/serve --dir $POCKETBASE_DATADIR/" $PROJECT_DIR/next/backend/modd.conf
+sed -i "s%serve --dev%serve --dir $POCKETBASE_DATADIR%" $PROJECT_DIR/next/backend/modd.conf # use % to escape '/'' chars
 
 # install new artefacts
 mv $PROJECT_DIR/next $DEPLOY_DIR
