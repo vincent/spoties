@@ -16,7 +16,6 @@ routerAdd(
   (c) => {
     let form = c.requestInfo().body
     let eventId = c.request.pathValue('eventId')
-    $app.logger().info(`[event] post`, JSON.stringify(form))
 
     const { saveBooking } = require(`${__hooks}/./services/database.bookings`)
     const { notifyBookingChanged } = require(`${__hooks}/./services/notify.user.booking-changed`)

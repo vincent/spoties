@@ -5,6 +5,7 @@ const en = {
   'lang.es': 'Español',
   'lang.ca': 'Català',
 
+  'act.support': 'Support development<br>buy me a coffee :)',
   'act.share': 'Share',
   'act.save': 'Save',
   'act.show': 'Show',
@@ -39,7 +40,7 @@ const en = {
   "homepage.start_creating_event": `Start by creating a event`,
   "homepage.access_admin": `Access your admin panel`,
   "homepage.headline": `Seamless event staffing,\nfrom <span class="text-primary-600">invitation</span> to <span class="text-primary-600">location</span>.`,
-  "homepage.subline": `Match the right staff to the right locations based on your answers, availability, and proximity. When plans change, our system helps you reassign spots — turning hours of coordination into seconds, so you can focus on what matters.`,
+  "homepage.subline": `Match the right staff to the right locations. When plans change, our system helps you reassign spots — turning hours of coordination into seconds, so you can focus on what matters.`,
   "homepage.getting_started": `Getting started`,
   "homepage.staff_new_event": `Staff a new event`,
 
@@ -148,6 +149,7 @@ const fr = {
   'lang.es': 'Español',
   'lang.ca': 'Català',
 
+  'act.support': 'Soutenez le développement<br>offrez-moi un café :)',
   'act.add': 'Ajouter',
   'act.remove': 'Retirer',
   'act.show': 'Montrer',
@@ -292,6 +294,7 @@ const es = {
   'lang.es': 'Español',
   'lang.ca': 'Català',
 
+  'act.support': 'Apoya el desarrollo<br>cómprame un café :)',
   'act.add': 'Agregar',
   'act.remove': 'Quitar',
   'act.save': 'Guardar',
@@ -436,6 +439,7 @@ const ca = {
   'lang.es': 'Español',
   'lang.ca': 'Català',
 
+  'act.support': "Dóna suport al desenvolupament<br>oferir-me un cafè :)",
   'act.add': 'Afegeix',
   'act.remove': 'Treu',
   'act.save': 'Desa',

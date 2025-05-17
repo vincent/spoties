@@ -5,6 +5,7 @@
   import Alerts from "../Alerts.svelte";
   import Dialog from "../Dialog.svelte";
     import { t } from "$lib/i18n";
+    import { CupSoda, LogOut } from "lucide-svelte";
 
   const { signupAllowed = true } = $props();
 
@@ -22,8 +23,21 @@
       <span class="block truncate text-sm font-medium">{$authModel.email}</span>
     </DropdownHeader>
     <DropdownItem>{$t('menu.user_settings')}</DropdownItem>
+    <DropdownItem href="https://ko-fi.com/vlkofi" target="_blank">
+      <div class="flex justify-between items-center">
+        <span>{@html $t('act.support')}</span>
+        <CupSoda class="text-primary-500" />
+      </div>
+    </DropdownItem>
     <DropdownDivider />
-    <DropdownItem onclick={logout}>{$t('login.logout')}</DropdownItem>
+    <DropdownItem>
+      <!-- svelte-ignore a11y_no_static_element_interactions -->
+      <!-- svelte-ignore a11y_click_events_have_key_events -->
+      <div onclick={logout} class="flex justify-between items-center">
+        <span>{$t('login.logout')}</span>
+        <LogOut />
+      </div>
+    </DropdownItem>
   </Dropdown>
 {:else}
   <Dialog>

@@ -122,7 +122,7 @@
 
 						{:else if q.answer_type === 'checkboxes' && props.choices !== undefined}
 							{#each q.properties?.choices as choice, ci}
-								<Checkbox {disabled} value={$store.questions_answers[q.id].value} group={q.properties} onchange={e => q.properties = { ...(q.properties||{}), [$store.questions_answers[q.id].value]: (e?.target as any)?.checked }}>{choice.name}</Checkbox>
+								<Checkbox {disabled} value={$store.questions_answers[q.id].value} group={q.properties} onchange={e => q.properties = (q.properties||[]).concat((e?.target as any)?.checked ? $store.questions_answers[q.id].value : [])}>{choice.name}</Checkbox>
 							{/each}
 
 						{:else if q.answer_type === 'select_one' && props.choices?.length}
