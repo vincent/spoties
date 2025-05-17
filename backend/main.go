@@ -7,25 +7,21 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/dop251/goja"
 	"github.com/pocketbase/pocketbase"
 	"github.com/pocketbase/pocketbase/apis"
 	"github.com/pocketbase/pocketbase/core"
+	"github.com/pocketbase/pocketbase/plugins/ghupdate"
 	"github.com/pocketbase/pocketbase/plugins/jsvm"
 	"github.com/pocketbase/pocketbase/plugins/migratecmd"
+	"github.com/pocketbase/pocketbase/tools/hook"
 )
-
-func defaultPublicDir() string {
-	if strings.HasPrefix(os.Args[0], os.TempDir()) {
-		// most likely ran with go run
-		return "./pb_public"
-	}
-
-	return filepath.Join(os.Args[0], "../pb_public")
-}
 
 func main() {
 	app := pocketbase.New()
+
+	// ---------------------------------------------------------------
+	// Optional plugin flags:
+	// ---------------------------------------------------------------
 
 	var hooksDir string
 	app.RootCmd.PersistentFlags().StringVar(
@@ -40,14 +36,14 @@ func main() {
 		&hooksWatch,
 		"hooksWatch",
 		true,
-		"auto restart the app on pb_hooks file change",
+		"auto restart the app on pb_hooks file change; it has no effect on Windows",
 	)
 
 	var hooksPool int
 	app.RootCmd.PersistentFlags().IntVar(
 		&hooksPool,
 		"hooksPool",
-		25,
+		15,
 		"the total prewarm goja.Runtime instances for the JS app hooks execution",
 	)
 
@@ -55,7 +51,7 @@ func main() {
 	app.RootCmd.PersistentFlags().StringVar(
 		&migrationsDir,
 		"migrationsDir",
-		"pb_migrations",
+		"",
 		"the directory with the user defined migrations",
 	)
 
@@ -80,47 +76,57 @@ func main() {
 		&indexFallback,
 		"indexFallback",
 		true,
-		"fallback the request to index.html on missing static path (eg. when pretty urls are used with SPA)",
+		"fallback the request to index.html on missing static path, e.g. when pretty urls are used with SPA",
 	)
 
 	app.RootCmd.ParseFlags(os.Args[1:])
 
-	// load js files to allow loading external JavaScript migrations
+	// ---------------------------------------------------------------
+	// Plugins and hooks:
+	// ---------------------------------------------------------------
+
+	// load jsvm (pb_hooks and pb_migrations)
 	jsvm.MustRegister(app, jsvm.Config{
 		MigrationsDir: migrationsDir,
-		HooksWatch:    true, // make this false for production
-		OnInit: func(vm *goja.Runtime) {
-			vm.Set("foo", "this var was injected into JSVM by Go")
-		},
+		HooksDir:      hooksDir,
+		HooksWatch:    hooksWatch,
+		HooksPoolSize: hooksPool,
 	})
 
-	// register the `migrate` command
+	// migrate command (with js templates)
 	migratecmd.MustRegister(app, app.RootCmd, migratecmd.Config{
-		TemplateLang: migratecmd.TemplateLangJS, // or migratecmd.TemplateLangGo (default)
-		Automigrate:  true,
+		TemplateLang: migratecmd.TemplateLangJS,
+		Automigrate:  automigrate,
+		Dir:          migrationsDir,
 	})
 
-	/*
-	 * Use this only if you want to use the "hooks" implemented in Go.
-	 * It's probably better to use hooks in JSVM though. See "auditlog" example
-	 * in ./pb_hooks.
-	 */
-	// hooks.Register(app)
+	// GitHub selfupdate
+	ghupdate.MustRegister(app, app.RootCmd, ghupdate.Config{})
 
-	app.OnServe().BindFunc(func(e *core.ServeEvent) error {
-		// serves static files from the provided public dir (if exists)
-		e.Router.GET("/*", apis.Static(os.DirFS(publicDir), indexFallback))
+	// static route to serves files from the provided public dir
+	// (if publicDir exists and the route path is not already defined)
+	app.OnServe().Bind(&hook.Handler[*core.ServeEvent]{
+		Func: func(e *core.ServeEvent) error {
+			if !e.Router.HasRoute(http.MethodGet, "/{path...}") {
+				e.Router.GET("/{path...}", apis.Static(os.DirFS(publicDir), indexFallback))
+			}
 
-		// custom endpoint
-		e.Router.GET("/api/go-hello", func(e *core.RequestEvent) error {
-			obj := map[string]interface{}{"message": "Hello world from Go!"}
-			return e.JSON(http.StatusOK, obj)
-		})
-
-		return e.Next()
+			return e.Next()
+		},
+		Priority: 999, // execute as latest as possible to allow users to provide their own route
 	})
 
 	if err := app.Start(); err != nil {
 		log.Fatal(err)
 	}
+}
+
+// the default pb_public dir location is relative to the executable
+func defaultPublicDir() string {
+	if strings.HasPrefix(os.Args[0], os.TempDir()) {
+		// most likely ran with go run
+		return "./pb_public"
+	}
+
+	return filepath.Join(os.Args[0], "../pb_public")
 }
