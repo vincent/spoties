@@ -65,4 +65,11 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           host: ${{ secrets.SSH_HOST }}
           key: ${{ secrets.SSH_KEY }}
-          script: CLOUDFLARE_DNS_TOKEN="${{ secrets.CLOUDFLARE_DNS_TOKEN }}" POCKETBASE_DATADIR="${{ secrets.POCKETBASE_DATADIR }}" POCKETBASE_ADMIN_EMAIL="${{ secrets.POCKETBASE_ADMIN_EMAIL }}" POCKETBASE_ADMIN_PASSWORD="${{ secrets.POCKETBASE_ADMIN_PASSWORD }}" bash /srv/spoties/next/deployment/install.sh
+          script: |
+            CLOUDFLARE_DNS_TOKEN="${{ secrets.CLOUDFLARE_DNS_TOKEN }}"
+            POCKETBASE_DATADIR="${{ secrets.POCKETBASE_DATADIR }}"
+            POCKETBASE_HOOKSDIR="${{ secrets.POCKETBASE_HOOKSDIR }}"
+            POCKETBASE_MIGRATIONSDIR="${{ secrets.POCKETBASE_MIGRATIONSDIR }}"
+            POCKETBASE_ADMIN_EMAIL="${{ secrets.POCKETBASE_ADMIN_EMAIL }}"
+            POCKETBASE_ADMIN_PASSWORD="${{ secrets.POCKETBASE_ADMIN_PASSWORD }}"
+            bash /srv/spoties/next/deployment/install.sh
