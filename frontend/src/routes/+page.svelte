@@ -1,9 +1,13 @@
 <script lang="ts">
+  import NavMini from "$lib/components/Nav/NavMini.svelte";
+  import { Carousel, P } from "flowbite-svelte";
   import { client } from "$lib/pocketbase";
   import { t } from "$lib/i18n";
-  import NavMini from "$lib/components/Nav/NavMini.svelte";
-  import { Carousel, Controls, P } from "flowbite-svelte";
-    import { text } from "@sveltejs/kit";
+
+  import userForm from '../../static/assets/event-10-form.png';
+  import combined1 from '../../static/assets/event-combined-1-description.png';
+  import combined2 from '../../static/assets/event-combined-2-questions.png';
+  import combined3 from '../../static/assets/event-combined-3-locations.png';
 
   const { data } = $props();
 
@@ -37,17 +41,17 @@
       images: [
         {
           alt: "Event Description",
-          src: "/assets/event-combined-1-description.png",
+          src: combined1,
           title: "Description"
         },
         {
           alt: "Event Questions",
-          src: "/assets/event-combined-2-questions.png",
+          src: combined2,
           title: "Questions"
         },
         {
           alt: "Event Locations",
-          src: "/assets/event-combined-3-locations.png",
+          src: combined3,
           title: "Locations"
         },
       ]
@@ -57,7 +61,7 @@
       images: [
         {
           alt: "Event Description",
-          src: "/assets/event-10-form.png",
+          src: userForm,
           title: "Description"
         },
       ]
@@ -67,7 +71,7 @@
       images: [
         {
           alt: "Event Description",
-          src: "/assets/event-10-form.png",
+          src: userForm,
           title: "Description"
         },
       ]
@@ -80,7 +84,7 @@
       images: [
         {
           alt: "Event Description",
-          src: "/assets/event-10-form.png",
+          src: userForm,
           title: "Description"
         },
       ]
@@ -90,7 +94,7 @@
       images: [
         {
           alt: "Event Description",
-          src: "/assets/event-10-form.png",
+          src: userForm,
           title: "Description"
         },
       ]

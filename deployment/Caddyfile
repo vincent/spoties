@@ -1,5 +1,7 @@
 spoti.es {
 
+    encode gzip zstd
+
     tls {
         dns cloudflare TOKEN
         resolvers 1.1.1.1
@@ -12,7 +14,7 @@ spoti.es {
     route /_app/* {
         root * /srv/spoties/current/frontend
         try_files {path} {path}/ /index.html
-        file_server 
+        file_server
     }
 
     route /_* {
