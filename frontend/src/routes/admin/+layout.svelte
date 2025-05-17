@@ -5,7 +5,7 @@
 </script>
 
 <div class="min-h-screen bg-gray-50 antialiased dark:bg-gray-900">
-  <Nav siteName={config.site?.name} siteLogo="/spoties_logo.png" />
+  <Nav siteName={config.site?.name} siteLogo="/spoties_logo.svg" />
 
   <main class="h-auto px-4 flex">
     {@render children()}

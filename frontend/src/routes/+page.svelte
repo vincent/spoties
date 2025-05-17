@@ -115,7 +115,7 @@
       </a>
     </div>
     <div class="hidden place-self-center lg:mt-0 lg:col-span-5 lg:block">
-      <img class="max-w-[300px]" src="/spoties_logo.png" alt="Spoties" width="100%" height="auto">
+      <img class="max-w-[300px]" src="/spoties_logo.svg" alt="Spoties" width="100%" height="auto">
     </div>
   </div>
 
@@ -156,7 +156,7 @@
       </div>
     </div>
     <div class="hidden place-self-center lg:mt-0 lg:col-span-5 lg:block">
-      <img class="max-w-[300px]" src="/spoties_logo.png" alt="Spoties" width="100%" height="auto">
+      <img class="max-w-[300px]" src="/spoties_logo.svg" alt="Spoties" width="100%" height="auto">
     </div>
   </div>
 
