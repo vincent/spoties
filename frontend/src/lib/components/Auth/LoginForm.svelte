@@ -42,11 +42,11 @@
 </script>
 
 
-<Card size={forFormLink ? 'lg' : 'sm'} class="flex flex-row p-6 space-y-6 shadow-xl mx-auto">
+<Card size={forFormLink ? 'lg' : 'sm'} class="flex flex-col lg:flex-row p-6 space-y-6 shadow-xl mx-auto">
   {#if forFormLink}
-    <figure class="w-3/5 mr-4 flex flex-col justify-center items-center p-6 pt-1 text-center border-gray-200 border-r dark:bg-gray-800 dark:border-gray-700">
-      <blockquote class="mx-auto mb-4 max-w-2xl text-gray-500 dark:text-gray-400">
-        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{$t('login.welcome_1')}</h3>
+    <figure class="w-full lg:w-3/5 lg:mr-4 flex flex-col {signup ? 'justify-center' : 'justify-between'} px-6 pb-8 text-center border-gray-200 border-b lg:border-b-0 lg:border-r dark:bg-gray-800 dark:border-gray-700">
+      <blockquote class="mx-auto mb-10 max-w-2xl text-gray-500 dark:text-gray-400">
+        <h3 class="mb-6 text-lg font-semibold text-gray-900 dark:text-white">{$t('login.welcome_1')}</h3>
         <p class="my-4 font-light">{$t('login.welcome_2')}</p>
         <p class="my-4 font-light">{$t('login.welcome_3')}</p>
       </blockquote>
@@ -54,13 +54,13 @@
         <img class="w-15 h-15 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/karen-nelson.png" alt="Karen profile" />
         <div class="space-y-0.5 font-medium dark:text-white text-left">
           <div>Vincent</div>
-          <div class="text-sm font-light text-gray-500 dark:text-gray-400">RegSpot team</div>
+          <div class="text-sm font-light text-gray-500 dark:text-gray-400">Spoti.es team</div>
         </div>
       </figcaption>
     </figure>
   {/if}
-  <div class="w-100">
-    <h3 class="text-xl font-semibold text-gray-900 dark:text-white p-0 mb-5">{$t('login.sign_in')}</h3>
+  <div class="w-auto lg:min-w-[300px]">
+    <h3 class="text-xl font-semibold text-gray-900 dark:text-white p-0 mb-5 text-center lg:text-start">{$t('login.sign_in')}</h3>
     {#await collection.listAuthMethods({ $autoCancel: false }) then methods}
       {#if methods.oauth2?.providers.length}
         <p class="font-semibold">{$t('login.login_with')}</p>
@@ -120,12 +120,6 @@
         <div class="mb-6">
           <Label for="email" class="block mb-2">{$t('login.your_name')}</Label>
           <Input id="email" size="lg" placeholder="Your name" bind:value={form.name} required />
-        </div>
-        <div class="flex items-start">
-          <label class="text-sm rtl:text-right font-medium text-gray-900 dark:text-gray-300 flex items-center">
-            <input type="checkbox" value="on" class="w-4 h-4 bg-gray-100 border-gray-300 dark:ring-offset-gray-800 focus:ring-2 me-2 dark:bg-gray-700 dark:border-gray-600 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600">
-              I accept the <a class="ml-1 font-medium text-primary-600 hover:underline dark:text-primary-500" href="/">Terms and Conditions</a>
-          </label>
         </div>
         <input type="hidden" name="register" value={true} />
         <div class="flex justify-between flex-wrap">
