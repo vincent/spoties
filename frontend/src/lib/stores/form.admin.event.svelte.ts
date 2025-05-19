@@ -171,18 +171,21 @@ export function createAdminEventStore(initial: AdminEvent, pb = client) {
         updateEvent: async (props: AdminEvent) => Promise.resolve()
             .then(_ => store.update(s => ({ ...s, loading: true })))
             .then(_ => client.send(`/api/admin/events`, { method: 'post', body: props }))
-            .then(updated => store.update(s => ({ ...s, ...props, ...updated })))
-            .finally(async () => {
-                store.update(s => ({ ...s, loading: false }))
+            .then(async updated => {
+                store.update(s => ({ ...s, ...props, ...updated, loading: false }))
                 dirty.set(false)
 
                 if (!props.id) {
-                    // refresh auth for newly crated team ref
-                    if (pb.authStore.isValid) {
+                    // refresh auth for newly created team ref
+                    if (pb.authStore.isValid)
                         await pb.collection('users').authRefresh()
-                    }
-                    goto(`/admin/events/${props.id}/`)
+
+                    goto(`/admin/events/${get(store).id}/`)
                 }
+            })
+            .catch(e => {
+                store.update(s => ({ ...s, loading: false }))
+                dirty.set(true)
             })
     };
 }

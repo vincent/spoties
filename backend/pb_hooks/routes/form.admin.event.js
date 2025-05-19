@@ -15,7 +15,6 @@ routerAdd(
   '/api/admin/events',
   (c) => {
     let form = c.requestInfo().body
-    $app.logger().info(`[event] post`, JSON.stringify(form))
 
     const { validateEventForm } = require(`${__hooks}/./services/form.admin.event.validation`)
     const { saveQuestions } = require(`${__hooks}/./services/database.question`)
@@ -23,13 +22,14 @@ routerAdd(
     const { saveEvent } = require(`${__hooks}/./services/database.event`)
 
     const validation = validateEventForm(form)
-    if (!validation.success) return c.badRequestError(JSON.stringify(validation.errors))
+    if (!validation.success)
+      return c.badRequestError(JSON.stringify(validation.errors))
 
     saveEvent($app, form, c.auth)
     saveQuestions($app, form.questions, form)
     saveLocations($app, form.locations, form)
 
-    c.next()
+    return c.json(200, { id: form.id })
   },
   $apis.requireAuth()
 )
