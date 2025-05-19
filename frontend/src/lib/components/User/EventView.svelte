@@ -1,9 +1,10 @@
 <script lang="ts">
-	import { Input, Card, Range, Rating, Datepicker, Toggle, Radio, Checkbox, Button, MultiSelect, Badge, Textarea, Alert, Label, Spinner } from "flowbite-svelte";
-    import { ArrowRightOutline, InfoCircleSolid, MapPinAltOutline } from "flowbite-svelte-icons";
+	import { Input, Card, Range, Rating, Datepicker, Toggle, Radio, Checkbox, Button, MultiSelect, Textarea, Label, Spinner } from "flowbite-svelte";
+    import { ArrowRightOutline, MapPinAltOutline } from "flowbite-svelte-icons";
 	import { userEventStore as store } from "$lib/stores/form.event.user.svelte";
     import type { InputEventObject, UserEvent } from "$lib/pocketbase/types";
     import BannerPrefillEvent from "./BannerPrefillEvent.svelte";
+    import BannerWarningEvent from "./BannerWarningEvent.svelte";
     import RichTextView from "../Shared/RichTextView.svelte";
     import FieldErrors from "../Shared/FieldErrors.svelte";
     import { formatDate } from "$lib/utils/dates.svelte";
@@ -23,6 +24,7 @@
 
 	const user = client.authStore.record as any;
 	const username = user.name || user.email?.split(/@/)[0];
+	const ownEvent = user.teams?.includes(record.team);
 	const somePreviousAnswers = userData?.bookings?.id || Object.values(userData?.questions_answers || {}).some((a: any) => a.value);
 
 	store.init(record, userData);
@@ -54,18 +56,12 @@
 	}
 </script>
 
-{#if empty}
-	<Alert border class="my-5" color="orange">
-		{#snippet icon()}<InfoCircleSolid class="h-5 w-5" />{/snippet}
-		<span class="font-medium">Oops!</span>
-		{$t('event.warning_empty')}
-	</Alert>
+{#if ownEvent}
+	<BannerWarningEvent text={'event.warning_own_event'} />
+{:else if empty}
+	<BannerWarningEvent text={'event.warning_empty'} />
 {:else if disabled}
-	<Alert border class="my-5" color="orange">
-		{#snippet icon()}<InfoCircleSolid class="h-5 w-5" />{/snippet}
-		<span class="font-medium">Oops!</span>
-		{$t('event.warning_sealed')}
-	</Alert>
+	<BannerWarningEvent text={'event.warning_sealed'} />
 {:else if somePreviousAnswers}
 	<BannerPrefillEvent {username} />
 {/if}

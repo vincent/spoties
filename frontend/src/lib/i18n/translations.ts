@@ -51,6 +51,7 @@ const en = {
   'event.published': 'Published',
   'event.sealed': 'Sealed, will not accept new answers',
   "event.warning_sealed": "This form does not accept new answers.",
+  "event.warning_own_event": "You can see this form only because you are the owner.",
   "event.warning_empty": "This form does not contain any question yet.",
   "event.done.answers_sent": "Your answers have been sent to the organizer",
   "event.done.review_answers": "Review your answers",
