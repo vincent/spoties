@@ -8,7 +8,6 @@
   type Props = {
     locations: any[]
     value: any[]
-    submit: CallableFunction
   }
 
   let {

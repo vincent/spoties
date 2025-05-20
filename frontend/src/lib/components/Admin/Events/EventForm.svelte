@@ -9,13 +9,21 @@
   import RichText from "$lib/components/Shared/RichText.svelte";
   import { Link2Icon } from "lucide-svelte";
   import { t } from "$lib/i18n";
+    import { client } from "$lib/pocketbase";
 
   const { locations, config } = $props();
   let validation = $derived(AdminEventStore.valid($AdminEventStore))
   let publicLink = $derived(`${config.site?.url}/event/${$AdminEventStore.id}`)
+
+  function submitForm() {
+    return !!client.authStore?.record
+      ? AdminEventStore.updateEvent($AdminEventStore)
+      : AdminEventStore.storeEvent($AdminEventStore)
+  }
+
 </script>
 
-<form class="flex justify-center items-start flex-col xl:flex-row" onsubmit={() => AdminEventStore.updateEvent($AdminEventStore)}>
+<form class="flex justify-center items-start flex-col xl:flex-row" onsubmit={submitForm}>
   <div class="w-full xl:w-3/4">
     <div class="mb-6">
       <FloatingLabelInput required class="mb-4" inputClass="text-3xl" color={validation?.error?.fieldErrors?.title ? "default" : undefined} type="text" bind:value={$AdminEventStore.title}>
@@ -52,14 +60,13 @@
           <LocationsSelector
             {locations}
             bind:value={$AdminEventStore.locations}
-            submit={() => AdminEventStore.updateEvent($AdminEventStore)}
           />
         </AccordionItem>
       </Accordion>
     </div>
   </div>
   <div class="mt-3 w-full xl:mt-0 xl:ml-3 xl:w-1/4 xl:sticky xl:top-18 xl:ps-4">
-    <EventFormSummary submit={() => AdminEventStore.updateEvent($AdminEventStore)} />
+    <EventFormSummary submit={submitForm} />
   </div>
 </form>
 

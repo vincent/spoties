@@ -5,10 +5,13 @@
   import { goto } from "$app/navigation";
 	import { t } from "$lib/i18n";
 
-  const { returnUrl, authCollection = 'users' } = $props();
+  const { returnUrl = '/', authCollection = 'users' } = $props();
   const collection = client.collection(authCollection);
  
-  let forFormLink = returnUrl?.match(/^\/event\/\w/);
+  let onboardingLink = returnUrl?.match(/^\/admin\/events\/stored/);
+  let returnPath = returnUrl ? resolve_url(returnUrl).pathname : null;
+  let forFormLink = returnPath?.match(/^\/event\/\w/);
+  let large = $derived(forFormLink || onboardingLink);
   let signup = $state(false);
   let issue = $state(null);
 
@@ -19,6 +22,19 @@
     passwordConfirm: '',
     admin: false,
   });
+
+  function resolve_url(url) {
+    if (url instanceof URL) return url;
+
+    let baseURI = document.baseURI;
+
+    if (!baseURI) {
+      const baseTags = document.getElementsByTagName('base');
+      baseURI = baseTags.length ? baseTags[0].href : document.URL;
+    }
+
+    return new URL(url, baseURI);
+  }
 
   async function submit(e: SubmitEvent) {
     e.preventDefault();
@@ -42,13 +58,28 @@
 </script>
 
 
-<Card size={forFormLink ? 'lg' : 'sm'} class="flex flex-col lg:flex-row p-6 space-y-6 shadow-xl mx-auto">
+<Card size={large ? 'lg' : 'sm'} class="flex flex-col lg:flex-row p-6 space-y-6 shadow-xl mx-auto">
   {#if forFormLink}
     <figure class="w-full lg:w-3/5 lg:mr-4 flex flex-col {signup ? 'justify-center' : 'justify-between'} px-6 pb-8 text-center border-gray-200 border-b lg:border-b-0 lg:border-r dark:bg-gray-800 dark:border-gray-700">
       <blockquote class="mx-auto mb-10 max-w-2xl text-gray-500 dark:text-gray-400">
         <h3 class="mb-6 text-lg font-semibold text-gray-900 dark:text-white">{$t('login.welcome_1')}</h3>
         <p class="my-4 font-light">{$t('login.welcome_2')}</p>
         <p class="my-4 font-light">{$t('login.welcome_3')}</p>
+      </blockquote>
+      <figcaption class="flex justify-center items-center space-x-3 rtl:space-x-reverse">
+        <img class="w-15 h-15 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/karen-nelson.png" alt="Karen profile" />
+        <div class="space-y-0.5 font-medium dark:text-white text-left">
+          <div>Vincent</div>
+          <div class="text-sm font-light text-gray-500 dark:text-gray-400">Spoti.es team</div>
+        </div>
+      </figcaption>
+    </figure>
+  {:else if onboardingLink}
+    <figure class="w-full lg:w-3/5 lg:mr-4 flex flex-col {signup ? 'justify-center' : 'justify-between'} px-6 pb-8 text-center border-gray-200 border-b lg:border-b-0 lg:border-r dark:bg-gray-800 dark:border-gray-700">
+      <blockquote class="mx-auto mb-10 max-w-2xl text-gray-500 dark:text-gray-400">
+        <h3 class="mb-6 text-lg font-semibold text-gray-900 dark:text-white">{'You are almost there !'}</h3>
+        <p class="my-4 font-light">{('To create your form')}</p>
+        <p class="my-4 font-light">{('please create an account')}</p>
       </blockquote>
       <figcaption class="flex justify-center items-center space-x-3 rtl:space-x-reverse">
         <img class="w-15 h-15 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/karen-nelson.png" alt="Karen profile" />

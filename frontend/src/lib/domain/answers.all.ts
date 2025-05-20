@@ -2,6 +2,7 @@ import type { AnswersResponse, BookingsResponse, ParticipantsResponse } from "$l
 import type { UserBookingResponse } from "$lib/pocketbase/types";
 import type { RecordListOptions } from "pocketbase";
 import { client } from "$lib/pocketbase";
+import { isTempEvent } from "$lib/utils/utils";
 
 const ANSWERS = client.collection('answers');
 const BOOKINGS = client.collection('bookings');
@@ -14,6 +15,8 @@ export async function fetchEventAllAnswers(eventId: string, options: RecordListO
         responses: [] as UserBookingResponse[],
     };
 
+    if (isTempEvent(eventId)) return data;
+    
     data.responses = await BOOKINGS
         .getFullList<BookingsResponse>({
             ...options,

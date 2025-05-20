@@ -1,6 +1,7 @@
 import type { AnswersRecord, BookingsRecord, EventsRecord, EventsResponse, TimeSlotsResponse } from '$lib/pocketbase/generated-types';
 import type { RecordListOptions, RecordSubscription, UnsubscribeFunc } from 'pocketbase';
 import type { InputEventObject } from '$lib/pocketbase/types';
+import { isTempEvent } from '$lib/utils/utils';
 import { client } from '$lib/pocketbase';
 import debounce from 'lodash.debounce';
 
@@ -17,7 +18,7 @@ export async function fetchEvent(eventId: string, options: RecordListOptions) {
         questions: [] as any[],
     };
 
-    if (eventId !== 'create') {
+    if (!isTempEvent(eventId)) {
 
         const event = await EVENTS
             .getFirstListItem<EventsResponse>(

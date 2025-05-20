@@ -1,6 +1,7 @@
 import type { AnswersResponse, BookingsResponse } from "$lib/pocketbase/generated-types";
 import type { RecordListOptions } from "pocketbase";
 import { client } from "$lib/pocketbase";
+import { isTempEvent } from "$lib/utils/utils";
 
 const BOOKINGS = client.collection('bookings');
 const ANSWERS = client.collection('answers');
@@ -17,6 +18,8 @@ export async function fetchEventUserAnswers(eventId: string, userId: string, opt
         questions_answers: {}, // Record<string, UserFormAnswer>
         bookings: { id: '', updated: new Date(), slots: {} }, // { id: string, slots: Record<string, boolean> }
     };
+
+    if (isTempEvent(eventId)) return record;
 
     record.questions_answers = await ANSWERS
         .getFullList<AnswersResponse>(1000, {

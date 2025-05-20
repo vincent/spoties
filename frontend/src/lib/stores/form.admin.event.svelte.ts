@@ -81,6 +81,8 @@ export function createAdminEventStore(initial: AdminEvent, pb = client) {
 
     store.subscribe(_ => dirty.set(true))
 
+    const LOCAL_STORAGE_TMP_KEY = 'stored-event';
+
     return {
         ...store,
 
@@ -167,6 +169,19 @@ export function createAdminEventStore(initial: AdminEvent, pb = client) {
             store.set(props || { ...initial })
             dirty.set(false)
         },
+
+        loadFromStorage: () => {
+            try {
+                const props = JSON.parse(localStorage.getItem(LOCAL_STORAGE_TMP_KEY) || '{}')
+                store.set(props)
+            } finally {
+                dirty.set(true)
+            }
+        },
+
+        storeEvent: async (props: AdminEvent) => Promise.resolve()
+            .then(_ => localStorage.setItem(LOCAL_STORAGE_TMP_KEY, JSON.stringify(props)))
+            .then(_ => goto(`/login?return_url=/admin/events/stored`)),
 
         updateEvent: async (props: AdminEvent) => Promise.resolve()
             .then(_ => store.update(s => ({ ...s, loading: true })))
