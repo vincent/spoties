@@ -40,12 +40,12 @@
           {$t('event.form.available_locations')}
         </h3>
         <div class="mt-6 grid grid-cols-3 gap-4 sm:mt-8">
-          <NewLocationCard onclick={AdminEventStore.addLocation} />
+          <NewLocationCard onclick={AdminEventStore.locations.add} />
 
           {#each unselectedLocations as location}
             <AvailableLocationCard
               {location}
-              addLocation={AdminEventStore.addLocation}
+              addLocation={AdminEventStore.locations.add}
             />
           {/each}
         </div>

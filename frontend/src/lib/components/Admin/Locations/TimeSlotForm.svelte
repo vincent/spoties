@@ -14,7 +14,7 @@
     removeLocationTimeSlot
   } = $props()
 
-  let validation = $derived(AdminEventStore.valid($AdminEventStore))
+  let validation = $derived(AdminEventStore.validate($AdminEventStore))
 </script>
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->

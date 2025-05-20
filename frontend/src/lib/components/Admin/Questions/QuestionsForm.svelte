@@ -29,9 +29,9 @@
         </button>
         <div class="ps-2">
           <div class="flex justify-center between-questions">
-            <Button class="h-10 -m5" onclick={() => AdminEventStore.addEventQuestion(index)}><PlusOutline/> {$t('event.form.add_question')}</Button>
+            <Button class="h-10 -m5" onclick={() => AdminEventStore.questions.add(index)}><PlusOutline/> {$t('event.form.add_question')}</Button>
           </div>
-          <QuestionForm questionIndex={index} bind:value={$AdminEventStore.questions[index]} removeQuestion={() => AdminEventStore.removeEventQuestion(index)}/>
+          <QuestionForm questionIndex={index} bind:value={$AdminEventStore.questions[index]} removeQuestion={() => AdminEventStore.questions.remove(index)}/>
         </div>
       </div>
     {:else}
@@ -40,7 +40,7 @@
   {/each}
 
   <div class="mt-4 pr-12 grid justify-items-end">
-    <Button onclick={() => AdminEventStore.addEventQuestion()}><PlusOutline class="mr-2" /> {$t('event.form.add_question')}</Button>
+    <Button onclick={() => AdminEventStore.questions.add()}><PlusOutline class="mr-2" /> {$t('event.form.add_question')}</Button>
   </div>
 </section>
 

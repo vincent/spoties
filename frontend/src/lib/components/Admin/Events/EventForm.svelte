@@ -12,7 +12,7 @@
     import { client } from "$lib/pocketbase";
 
   const { locations, config } = $props();
-  let validation = $derived(AdminEventStore.valid($AdminEventStore))
+  let validation = $derived(AdminEventStore.validate($AdminEventStore))
   let publicLink = $derived(`${config.site?.url}/event/${$AdminEventStore.id}`)
 
   function submitForm() {

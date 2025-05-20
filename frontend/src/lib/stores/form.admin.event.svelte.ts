@@ -86,7 +86,94 @@ export function createAdminEventStore(initial: AdminEvent, pb = client) {
     return {
         ...store,
 
-        valid: form => {
+        questions: {
+            add(index: number|undefined = undefined, question: Partial<QuestionsResponse> = {}) {
+                store.update(s => {
+                    index = index ?? s.questions.length
+                    const newQuestion = {
+                        ...question,
+                        label: '',
+                        answer_type: '',
+                        required: true,
+                        properties: {}
+                    }
+                    const questions = s.questions.slice()
+                    questions.splice(index, 0, newQuestion as any)
+                    return ({
+                        ...s,
+                        questions,
+                    })
+                })
+            },
+            remove(index: number) {
+                store.update(s => {
+                    const questions = s.questions.slice()
+                    questions.splice(index, 1)
+                    return ({
+                        ...s,
+                        questions: s.questions
+                            .map((q, i) => i !== index ? q : (q.id ? ({ ...q, deleted: true }) : null))
+                            .filter(Boolean) as any[],
+                    })
+                })
+            },
+        },
+
+        locations: {
+            add(location: Partial<LocationsResponse> = {}) {
+                store.update(s => ({
+                    ...s,
+                    deleted: false,
+                    locations: (s.locations || []).concat({
+                        ...location,
+                        slots: [],
+                    } as any)
+                }))
+            },
+            remove(index: number) {
+                store.update(s => ({
+                    ...s,
+                    locations: s.locations
+                        .map((l, i) => i !== index ? l : (l.id ? ({ ...l, deleted: true }) : null))
+                        .filter(Boolean) as any[],
+                }))
+            },
+        },
+
+        slots: {
+            add(locationId: string) {
+                store.update(s => ({
+                    ...s,
+                    locations: (s.locations || []).map((l, i) => l.id !== locationId ? l : ({
+                        ...l, slots: (l.slots || [])
+                        .concat({
+                            label: '',
+                            description: '',
+                            starts_at: '',
+                            duration: 4 * 60,
+                            limit: 0,
+                        } as any)
+                    }))
+                }))
+            },
+            remove(locationId: string, slotIndex: number) {
+                store.update(s => ({
+                    ...s,
+                    locations: (s.locations || []).map((l, i) => l.id !== locationId ? l : ({
+                        ...l, slots: (l.slots || []).filter((s, i) => i !== slotIndex)
+                    }))
+                }))
+            },
+        },
+
+        /////////////////////////
+
+        reset: (props?: AdminEvent) => {
+            store.set(props || { ...initial })
+            dirty.set(false)
+        },
+
+        validate: form => {
             const result = get(schema).safeParse(form)
             return { ...result, error: result.error
                 ? result.error.flatten(i => i)
@@ -95,79 +182,6 @@ export function createAdminEventStore(initial: AdminEvent, pb = client) {
                 success: boolean,
                 error?: typeToFlattenedError<AdminEvent, ZodIssue>
             }
-        },
-
-        addEventQuestion: (index: number|undefined = undefined, question: Partial<QuestionsResponse> = {}) => store.update(s => {
-            index = index ?? s.questions.length
-            const newQuestion = {
-                ...question,
-                label: '',
-                answer_type: '',
-                required: true,
-                properties: {}
-            }
-            const questions = s.questions.slice()
-            questions.splice(index, 0, newQuestion as any)
-            return ({
-                ...s,
-                questions,
-            })
-        }),
-
-        removeEventQuestion: (index: number) => store.update(s => {
-            const questions = s.questions.slice()
-            questions.splice(index, 1)
-            return ({
-                ...s,
-                questions: s.questions
-                    .map((q, i) => i !== index ? q : (q.id ? ({ ...q, deleted: true }) : null))
-                    .filter(Boolean) as any[],
-            })
-        }),
-
-        addLocation: (location: Partial<LocationsResponse> = {}) => store.update(s => ({
-            ...s,
-            deleted: false,
-            locations: (s.locations || []).concat({
-                ...location,
-                slots: [],
-            } as any)
-        })),
-
-        removeLocation: (index: number) => store.update(s => ({
-            ...s,
-            locations: s.locations
-                .map((l, i) => i !== index ? l : (l.id ? ({ ...l, deleted: true }) : null))
-                .filter(Boolean) as any[],
-
-        })),
-
-        addLocationTimeSlot: (locationId: string) =>  store.update(s => ({
-            ...s,
-            locations: (s.locations || []).map((l, i) => l.id !== locationId ? l : ({
-                ...l, slots: (l.slots || [])
-                .concat({
-                    label: '',
-                    description: '',
-                    starts_at: '',
-                    duration: 4 * 60,
-                    limit: 0,
-                } as any)
-            }))
-        })),
-    
-        removeLocationTimeSlot: (locationId: string, slotIndex: number) =>  store.update(s => ({
-            ...s,
-            locations: (s.locations || []).map((l, i) => l.id !== locationId ? l : ({
-                ...l, slots: (l.slots || []).filter((s, i) => i !== slotIndex)
-            }))
-        })),
-
-        /////////////////////////
-
-        reset: (props?: AdminEvent) => {
-            store.set(props || { ...initial })
-            dirty.set(false)
         },
 
         loadFromStorage: () => {

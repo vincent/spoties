@@ -12,7 +12,7 @@
   import { t } from "$lib/i18n";
 
   let { removeQuestion, questionIndex, value = $bindable<QuestionsRecord>() } = $props()
-  let validation = $derived(AdminEventStore.valid($AdminEventStore))
+  let validation = $derived(AdminEventStore.validate($AdminEventStore))
 
   function updateAnswerType(answer_type: QuestionType) {
     value = { ...value, answer_type }

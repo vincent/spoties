@@ -18,7 +18,7 @@
 
   <div class="mr-auto">
     <NavUl>
-      <NavLi href="/admin/events">Events</NavLi>
+      <NavLi href="/admin/events/list">Events</NavLi>
     </NavUl>
   </div>
 

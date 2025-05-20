@@ -17,10 +17,12 @@
 
   const auth = client.authStore
   let next = $derived(!auth.isValid
-    ? { text: $t("homepage.getting_started"), url: '/login' }
-    : {
+    ? {
+        text: $t("homepage.getting_started"),
+        url: '/login'
+    } : {
         text: $t("homepage.staff_new_event"),
-        url: '/admin/events',
+        url: '/admin/events/create',
     });
 
   const alt = 1

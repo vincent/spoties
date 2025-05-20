@@ -5,7 +5,7 @@
   import { CheckOutline } from "flowbite-svelte-icons";
   
   let { submit } = $props();
-  let validation = $derived(AdminEventStore.valid($AdminEventStore))
+  let validation = $derived(AdminEventStore.validate($AdminEventStore))
   let activeQuestions = $derived($AdminEventStore.questions.filter(q => !q.deleted).length);
   let activeLocations = $derived($AdminEventStore.locations.filter(l => !l.deleted).length);
   let activeSlots = $derived($AdminEventStore.locations.filter(l => !l.deleted).reduce((acc, loc) => acc + loc.slots?.length, 0));
@@ -76,4 +76,4 @@
   </div>
 </div>
 
-<!-- <pre>{JSON.stringify(AdminEventStore.valid($AdminEventStore), null, 2)}</pre> -->
+<!-- <pre>{JSON.stringify(AdminEventStore.validate($AdminEventStore), null, 2)}</pre> -->

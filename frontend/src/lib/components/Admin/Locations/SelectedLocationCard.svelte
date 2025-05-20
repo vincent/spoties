@@ -46,7 +46,7 @@
         >
           <ListChecksIcon class="mx-1" /> {$t(showSlots ? 'event.form.hide_slots' : 'event.form.show_slots', { count: $AdminEventStore.locations[locationIndex].slots.length })}
         </button>
-        <DeleteButton confirm={() => AdminEventStore.removeLocation(locationIndex)} />
+        <DeleteButton confirm={() => AdminEventStore.locations.remove(locationIndex)} />
       </div>
     </div>
   </div>
@@ -59,7 +59,7 @@
         <TimeSlotForm
           {index}
           {locationIndex}
-          removeLocationTimeSlot={() => AdminEventStore.removeLocationTimeSlot(value.id, index)}
+          removeLocationTimeSlot={() => AdminEventStore.slots.remove(value.id, index)}
           bind:value={$AdminEventStore.locations[locationIndex].slots[index]}
         />
       {/each}
@@ -67,7 +67,7 @@
     
     <div class="flex justify-end">
       <Button
-        onclick={() => AdminEventStore.addLocationTimeSlot(value.id)}
+        onclick={() => AdminEventStore.slots.add(value.id)}
         ><PlusOutline /> {$t('event.form.add_slot')}
       </Button>
     </div>

@@ -7,7 +7,6 @@
   const activeClass = 'rounded-none md:border-b-2 border-primary-600 text-primary-600';
   const { data, children } = $props();
   let activeUrl = $derived(page.url.pathname)
-  debugger;
   page.url.pathname.match(/\/stored/)
     ? AdminEventStore.loadFromStorage()
     : AdminEventStore.reset(data.record as any)
