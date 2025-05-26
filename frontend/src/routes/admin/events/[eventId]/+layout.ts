@@ -20,5 +20,6 @@ export const load: LayoutLoad = async ({ params, fetch }) => {
       locations,
       responses,
       record,
+      showHelp: true,
     }))
 };

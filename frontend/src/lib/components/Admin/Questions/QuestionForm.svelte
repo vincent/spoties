@@ -122,7 +122,7 @@
     {/each}
     <button
       type="button"
-      class="mt-3 inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-900 hover:underline dark:text-gray-400 dark:hover:text-white"
+      class="mt-3 inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-900 hover:underline dark:text-gray-400 dark:hover:text-white transition-colors duration-200"
       onclick={addChoiceOption}
     >
       <PlusOutline class="mr-2" /> {$t('event.form.add_choice')}
@@ -136,7 +136,7 @@
     {/each}
     <button
       type="button"
-      class="mt-3 inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-900 hover:underline dark:text-gray-400 dark:hover:text-white"
+      class="mt-3 inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-900 hover:underline dark:text-gray-400 dark:hover:text-white transition-colors duration-200"
       onclick={addChoiceOption}
     >
       <PlusOutline class="mr-2" /> {$t('event.form.add_choice')}

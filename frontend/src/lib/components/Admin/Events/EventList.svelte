@@ -16,7 +16,7 @@
         <TimelineItem
           title={item.title}
           date={formatDate(new Date(Date.parse(item.updated)))}
-          liClass="hover:bg-gray-100 dark:hover:bg-gray-600 p-2"
+          liClass="hover:bg-gray-100 dark:hover:bg-gray-600 p-2 transition-colors duration-200"
         >
           <div class="mb-4 flex justify-between text-base font-normal text-gray-500 dark:text-gray-400">
             <p>{stripTags(item.description).slice(0, 100)}</p>

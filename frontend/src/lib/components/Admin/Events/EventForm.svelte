@@ -1,5 +1,6 @@
 <script lang="ts">
   import { Label, FloatingLabelInput, A, Accordion, AccordionItem } from "flowbite-svelte";
+  import type { LocationsResponse } from "$lib/pocketbase/generated-types";
   import LocationsSelector from "../Locations/LocationsSelector.svelte";
   import { AdminEventStore } from "$lib/stores/form.admin.event.svelte";
   import FieldErrors from "$lib/components/Shared/FieldErrors.svelte";
@@ -8,10 +9,25 @@
   import QuestionsForm from "../Questions/QuestionsForm.svelte";
   import RichText from "$lib/components/Shared/RichText.svelte";
   import { Link2Icon } from "lucide-svelte";
+  import { client } from "$lib/pocketbase";
+  import type { Snippet } from "svelte";
   import { t } from "$lib/i18n";
-    import { client } from "$lib/pocketbase";
 
-  const { locations, config } = $props();
+  const {
+    locations,
+    config,
+    beforeTitle,
+    beforeDescription,
+    summary,
+  }: {
+    locations: LocationsResponse[],
+    config: any,
+    beforeTitle?: Snippet,
+    beforeDescription?: Snippet,
+    summary?: Snippet,
+    children?: Snippet,
+  } = $props();
+
   let validation = $derived(AdminEventStore.validate($AdminEventStore))
   let publicLink = $derived(`${config.site?.url}/event/${$AdminEventStore.id}`)
 
@@ -20,11 +36,11 @@
       ? AdminEventStore.updateEvent($AdminEventStore)
       : AdminEventStore.storeEvent($AdminEventStore)
   }
-
 </script>
 
 <form class="flex justify-center items-start flex-col xl:flex-row" onsubmit={submitForm}>
   <div class="w-full xl:w-3/4">
+    {@render beforeTitle?.()}
     <div class="mb-6">
       <FloatingLabelInput required class="mb-4" inputClass="text-3xl" color={validation?.error?.fieldErrors?.title ? "default" : undefined} type="text" bind:value={$AdminEventStore.title}>
         {$t('event.form.event_title')}
@@ -46,6 +62,7 @@
 
     <div class="mb-6 accordion">
       <Accordion>
+        {@render beforeDescription?.()}
         <AccordionItem>
           {#snippet header()}{$t('event.form.description')}{/snippet}
           <RichText bind:value={$AdminEventStore.description} color={validation?.error?.fieldErrors?.description ? "base" : undefined}/>
@@ -66,6 +83,7 @@
     </div>
   </div>
   <div class="mt-3 w-full xl:mt-0 xl:ml-3 xl:w-1/4 xl:sticky xl:top-18 xl:ps-4">
+    {@render summary?.()}
     <EventFormSummary submit={submitForm} />
   </div>
 </form>
