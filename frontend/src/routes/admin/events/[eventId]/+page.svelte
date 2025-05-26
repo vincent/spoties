@@ -3,4 +3,4 @@
   const { data } = $props();
 </script>
 
-<EventForm locations={data.locations} config={data.config} />
+<EventForm locations={data.locations || []} config={data.config} showHelp={data.showHelp} />
