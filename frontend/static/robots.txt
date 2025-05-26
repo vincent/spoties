@@ -1,2 +1,7 @@
 User-agent: *
 Allow: /
+
+Allow: /about
+Allow: /about/fr
+Allow: /about/es
+Allow: /about/ca
