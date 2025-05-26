@@ -8,6 +8,15 @@ import debounce from 'lodash.debounce';
 const SLOTS = client.collection('time_slots');
 const EVENTS = client.collection('events');
 
+export async function hasAnyEvent(options: RecordListOptions) {
+    return EVENTS
+        .getList<EventsResponse>(1, 1, {
+            ...options,
+            filter: (client.authStore.record?.teams || [-1]).map((id) => `team='aa${id}'`).join('||'),
+        })
+        .then(res => !!res.items.length)
+}
+
 export async function fetchEvent(eventId: string, options: RecordListOptions) {
 
     let record: Partial<InputEventObject> = {

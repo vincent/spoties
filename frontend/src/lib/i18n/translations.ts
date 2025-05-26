@@ -10,6 +10,7 @@ const en = {
   'act.save': 'Save',
   'act.show': 'Show',
   'act.add': 'Add',
+  'act.next': 'Next',
   'act.remove': 'Remove',
   'act.submit': 'Submit',
   'act.select': 'Select',
@@ -68,6 +69,19 @@ const en = {
 
   'event.banner_1': `Hi <span class="font-semibold">{{username}}</span>, Welcome back!<br>`,
   'event.banner_2': "We already filled the form with your previous answers.",
+
+  'event.form.help.title': `Let's write a nice title.`,
+  'event.form.help.title.desc': `It's the first thing users will see. It should be short and describing the subject.`,
+  'event.form.help.description': `Explain what the form is about.`,
+  'event.form.help.description.desc': `You can write here a longer text if you like, to introduce the context.`,
+  'event.form.help.questions': `Now add some questions.`,
+  'event.form.help.questions.desc': `Click "Add question" and select the type of answer you expect.`,
+  'event.form.help.locations': `Now select some locations.`,
+  'event.form.help.locations.desc': `Click "New location" and search for an actual address.`,
+  'event.form.help.summary': `You can now publish the form.`,
+  'event.form.help.summary.desc': `Click "Publish" to make the form publicly available, or "Sealed" to prevent answers until you're ready.`,
+  'event.form.help.save': `Create the form by hitting "Save".`,
+  'event.form.help.save.desc': `Your form form will be immediately available.`,
 
   'event.form.choose_theme': 'Theme',
   'event.form.summary': 'Summary',
@@ -152,6 +166,7 @@ const fr = {
 
   'act.support': 'Soutenez le développement<br>offrez-moi un café :)',
   'act.add': 'Ajouter',
+  'act.next': 'Suivant',
   'act.remove': 'Retirer',
   'act.show': 'Montrer',
   'act.save': 'Sauvegarder',
@@ -213,6 +228,19 @@ const fr = {
 
   'event.banner_1': `Bonjour <span class="font-semibold">{{username}}</span>, heureux de vous revoir ici!<br>`,
   'event.banner_2': "Nous avons déjà rempli le formulaire avec vos réponses précédentes.",
+
+  'event.form.help.title': "Écrivons un bon titre.",
+  'event.form.help.title.desc': "C'est la première chose que les utilisateurs verront. Il doit être court et décrire le sujet.",
+  'event.form.help.description': "Expliquez de quoi parle le formulaire.",
+  'event.form.help.description.desc': "Vous pouvez écrire ici un texte plus long si vous le souhaitez, pour introduire le contexte.",
+  'event.form.help.questions': "Ajoutez maintenant des questions.",
+  'event.form.help.questions.desc': "Cliquez sur « Ajouter une question » et sélectionnez le type de réponse attendu.",
+  'event.form.help.locations': "Sélectionnez maintenant des lieux.",
+  'event.form.help.locations.desc': "Cliquez sur « Nouveau lieu » et recherchez une adresse réelle.",
+  'event.form.help.summary': "Vous pouvez maintenant publier le formulaire.",
+  'event.form.help.summary.desc': "Cliquez sur « Publier » pour rendre le formulaire public, ou « Figé » pour empêcher les réponses jusqu'à ce que vous soyez prêt.",
+  'event.form.help.save': "Créez le formulaire en cliquant sur « Sauvegarder ».",
+  'event.form.help.save.desc': "Votre formulaire sera immédiatement disponible.",
 
   'event.results.group_by': "Grouper les résultats",
   'event.results.group_by_user': "par participant",
@@ -297,6 +325,7 @@ const es = {
 
   'act.support': 'Apoya el desarrollo<br>cómprame un café :)',
   'act.add': 'Agregar',
+  'act.next': 'Siguiente',
   'act.remove': 'Quitar',
   'act.save': 'Guardar',
   'act.show': 'Mostrar',
@@ -358,6 +387,19 @@ const es = {
 
   'event.banner_1': "Hola <span class=\"font-semibold\">{{username}}</span>, ¡Bienvenido de nuevo!<br>",
   'event.banner_2': "Ya hemos rellenado el formulario con tus respuestas anteriores.",
+
+  'event.form.help.title': "Escribamos un buen título.",
+  'event.form.help.title.desc': "Es lo primero que verán los usuarios. Debe ser corto y describir el tema.",
+  'event.form.help.description': "Explica de qué trata el formulario.",
+  'event.form.help.description.desc': "Puedes escribir aquí un texto más largo si lo deseas, para introducir el contexto.",
+  'event.form.help.questions': "Ahora añade algunas preguntas.",
+  'event.form.help.questions.desc': "Haz clic en «Agregar una pregunta» y selecciona el tipo de respuesta que esperas.",
+  'event.form.help.locations': "Ahora selecciona algunas ubicaciones.",
+  'event.form.help.locations.desc': "Haz clic en «Nueva ubicación» y busca una dirección real.",
+  'event.form.help.summary': "Ahora puedes publicar el formulario.",
+  'event.form.help.summary.desc': "Haz clic en «Publicar» para hacer el formulario público, o en «Sellado» para impedir respuestas hasta que estés listo.",
+  'event.form.help.save': "Crea el formulario haciendo clic en «Guardar».",
+  'event.form.help.save.desc': "Tu formulario estará disponible inmediatamente.",
 
   'event.form.summary': 'Resumen',
   'event.form.choose_theme': 'Estilo',
@@ -442,6 +484,7 @@ const ca = {
 
   'act.support': "Dóna suport al desenvolupament<br>oferir-me un cafè :)",
   'act.add': 'Afegeix',
+  'act.next': 'Següent',
   'act.remove': 'Treu',
   'act.save': 'Desa',
   'act.show': 'Mostra',
@@ -503,6 +546,19 @@ const ca = {
 
   'event.banner_1': "Hola <span class=\"font-semibold\">{{username}}</span>, Benvingut de nou!<br>",
   'event.banner_2': "Ja hem omplert el formulari amb les teves respostes anteriors.",
+
+  'event.form.help.title': "Escrivim un bon títol.",
+  'event.form.help.title.desc': "És el primer que veuran els usuaris. Ha de ser curt i descriure el tema.",
+  'event.form.help.description': "Explica de què tracta el formulari.",
+  'event.form.help.description.desc': "Pots escriure aquí un text més llarg si vols, per introduir el context.",
+  'event.form.help.questions': "Ara afegeix algunes preguntes.",
+  'event.form.help.questions.desc': "Fes clic a «Afegeix una pregunta» i selecciona el tipus de resposta que esperes.",
+  'event.form.help.locations': "Ara selecciona algunes ubicacions.",
+  'event.form.help.locations.desc': "Fes clic a «Nova ubicació» i busca una adreça real.",
+  'event.form.help.summary': "Ara pots publicar el formulari.",
+  'event.form.help.summary.desc': "Fes clic a «Publica» per fer el formulari públic, o a «Segellat» per impedir respostes fins que estiguis preparat.",
+  'event.form.help.save': "Crea el formulari fent clic a «Desa».",
+  'event.form.help.save.desc': "El teu formulari estarà disponible immediatament.",
 
   'event.form.summary': 'Resum',
   'event.form.choose_theme': 'Estilo',

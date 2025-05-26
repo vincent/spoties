@@ -1,7 +1,7 @@
+import { fetchEventAllAnswers } from "$lib/domain/answers.all";
+import { fetchEvent, hasAnyEvent } from "$lib/domain/events";
 import { fetchLocations } from "$lib/domain/locations";
 import type { LayoutLoad } from "../../../$types";
-import { fetchEvent } from "$lib/domain/events";
-import { fetchEventAllAnswers } from "$lib/domain/answers.all";
 import { goto } from "$app/navigation";
 
 export const load: LayoutLoad = async ({ params, fetch }) => {
@@ -11,15 +11,16 @@ export const load: LayoutLoad = async ({ params, fetch }) => {
 
   return Promise
     .all([
+      hasAnyEvent(options),
       fetchLocations(eventId, options),
       fetchEvent(eventId, options),
       fetchEventAllAnswers(eventId, options),
     ])
-    .then(([ locations, record, {responses} ]) => ({
+    .then(([ hasAnyEvent, locations, record, {responses} ]) => ({
       eventId,
       locations,
       responses,
       record,
-      showHelp: true,
+      showHelp: !hasAnyEvent,
     }))
 };
