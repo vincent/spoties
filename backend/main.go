@@ -14,6 +14,8 @@ import (
 	"github.com/pocketbase/pocketbase/plugins/jsvm"
 	"github.com/pocketbase/pocketbase/plugins/migratecmd"
 	"github.com/pocketbase/pocketbase/tools/hook"
+
+	"pocketbase/pb_routes"
 )
 
 func main() {
@@ -115,6 +117,9 @@ func main() {
 		},
 		Priority: 999, // execute as latest as possible to allow users to provide their own route
 	})
+
+	// Register custom config route
+	pb_routes.RegisterConfigRoute(app, "/api/config")
 
 	if err := app.Start(); err != nil {
 		log.Fatal(err)

@@ -1,11 +1,9 @@
 # Spoti.es - Event Staffing Platform
 
-Welcome to Spoti.es!
-
 Spoti.es is an event staffing platform designed to simplify the complexities of event organization, especially when managing multiple locations.
 Think of it as Google Forms, but with locations as a core component, making it easy to coordinate staff and resources across various venues.
 
-Spoti.es is built upon [PocketBase](https://github.com/pocketbase/pocketbase) and [SvelteKit](https://kit.svelte.dev).
+Spoti.es is built upon [PocketBase](https://pocketbase.io) and [SvelteKit](https://kit.svelte.dev).
 
 ## Community
 
@@ -22,5 +20,3 @@ If you find Spoti.es helpful and would like to support its development, here are
 *   **Spread the Word:** Tell your friends, colleagues, or anyone who might benefit from Spoti.es about it! The more people who use it, the better it can become.
 *   **Code and Documentation:** You can contribute directly by helping us fix bugs, implement new features, or improve the documentation.
 *   **Donations:** You can donate on [Kofi](ko-fi.com/vlkofi).
-
-We appreciate all forms of support!
