@@ -119,7 +119,11 @@ func main() {
 	})
 
 	// Register custom config route
-	pb_routes.RegisterConfigRoute(app, "/api/config")
+	pb_routes.RegisterConfigRoute(app)
+	pb_routes.RegisterAdminEventRoute(app)
+	pb_routes.RegisterAdminManualBookingRoute(app)
+	pb_routes.RegisterUserEventAnswerRoute(app)
+	pb_routes.RegisterNotifyOwnerRoute(app)
 
 	if err := app.Start(); err != nil {
 		log.Fatal(err)
