@@ -15,7 +15,7 @@ import (
 	"github.com/pocketbase/pocketbase/plugins/migratecmd"
 	"github.com/pocketbase/pocketbase/tools/hook"
 
-	"pocketbase/pb_routes"
+	pb_routes "pocketbase/pb_hooks/routes"
 )
 
 func main() {

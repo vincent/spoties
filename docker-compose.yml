@@ -1,29 +1,16 @@
-version: '3.5'
+
+volumes:
+  spoties_data:
 
 services:
-  backend:
-    image: alpine:latest
-    entrypoint: /app/backend/entrypoint.sh
-    command: "/app/backend/pocketbase serve --dev --http 0.0.0.0:8090 --publicDir ../frontend/build"
-    user: ${UID}:${GID}
-    expose:
-      - 8090
-    working_dir: /app/backend
-    environment:
-      - HOME=/app/backend
-      - AUDITLOG=${AUDITLOG}
+
+  spoties:
+    build: .
+    image: spoties
+    hostname: backend
+    restart: unless-stopped
     volumes:
-      - ${PWD}/backend:/app/backend
-      - ${PWD}/frontend:/app/frontend
-      - ${HOME}/go/pkg:/go/pkg
-  frontend:
-    image: node:22-alpine
-    user: ${UID}:${GID}
-    # sveltekit build
-    command: sh -c "npx pnpm install && npm run build"
-    volumes:
-      - ${PWD}/frontend:/app/frontend
-      - ${PWD}/backend:/app/backend
-    environment:
-      - HOME=/app/frontend
-    working_dir: /app/frontend
+      - spoties_data:/srv/spoties/data
+    ports:
+      - "80:1080"
+      - "443:1443"
