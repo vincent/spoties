@@ -3,7 +3,7 @@
     https_port 1443
 }
 
-DOMAIN {
+SPOTIES_FQDN {
 
     encode gzip zstd
 

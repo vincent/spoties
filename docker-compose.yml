@@ -4,9 +4,12 @@ volumes:
 
 services:
   spoties:
-    image: ghcr.io/vincent/spoties:latest
+    image: ghcr.io/vincent/spoties:main
     hostname: spoties
     restart: unless-stopped
+    environment:
+      - SPOTIES_FQDN=
+      - SPOTIES_CLOUDFLARE_TOKEN=
     volumes:
       - spoties_data:/srv/spoties/data
     ports:
