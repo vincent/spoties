@@ -1,0 +1,53 @@
+name: CI
+on:
+  pull_request:
+
+jobs:
+  build-backend:
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: 1.24
+          cache-dependency-path: "backend/go.sum"
+          cache: 'go'
+
+      - name: Install dependencies
+        working-directory: ./backend
+        run: go get .
+
+      - name: Build backend
+        working-directory: ./backend
+        run: go build -o pocketbase .
+
+  build-frontend:
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache-dependency-path: "frontend"
+          cache: 'npm'
+
+      - name: Copy secrets
+        working-directory: ./frontend
+        run: |
+          echo PUBLIC_GOOGLE_MAPS_API_KEY=${{ secrets.PUBLIC_GOOGLE_MAPS_API_KEY }} > .env
+
+      - name: Install dependencies
+        working-directory: ./frontend
+        run: npm ci
+
+      - name: Build frontend
+        working-directory: ./frontend
+        run: npm run build
