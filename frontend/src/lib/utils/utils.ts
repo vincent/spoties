@@ -1,3 +1,3 @@
 export function isTempEvent(eventId: string) {
-    return eventId === 'create' || eventId  === 'stored'
+  return eventId === "create" || eventId === "stored";
 }

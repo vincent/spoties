@@ -1,8 +1,8 @@
-import { browser } from '$app/environment';
+import { browser } from "$app/environment";
 
 export class LocalStore<T> {
   value = $state<T>() as T;
-  key = '';
+  key = "";
 
   constructor(key: string, value: T) {
     this.key = key;

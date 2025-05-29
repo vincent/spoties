@@ -7,7 +7,7 @@
 <div class="min-h-screen bg-gray-50 antialiased dark:bg-gray-900">
   <Nav siteName={config.site?.name} siteLogo="/spoties_logo.svg" />
 
-  <main class="h-auto px-4 flex">
+  <main class="flex h-auto px-4">
     {@render children()}
   </main>
 </div>

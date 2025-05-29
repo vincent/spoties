@@ -4,5 +4,3 @@
 .env
 .ash_history
 .IDEAS.md
-/docker-compose.override.yml
-pbsk.code-workspace
