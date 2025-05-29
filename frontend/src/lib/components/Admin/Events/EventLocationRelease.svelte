@@ -8,20 +8,26 @@
   let options = $state({
     userName: true,
     userEmail: true,
-    ...(event.locations.reduce((acc, l) => ({
-      ...acc,
-      ...(l.slots.reduce((acc, s) => ({
+    ...event.locations.reduce(
+      (acc, l) => ({
         ...acc,
-        [s.id]: true,
-      }), {}))
-    }), {}))
-  })
+        ...l.slots.reduce(
+          (acc, s) => ({
+            ...acc,
+            [s.id]: true,
+          }),
+          {}
+        ),
+      }),
+      {}
+    ),
+  });
 </script>
 
-<div class="flex justify-between items-start">
+<div class="flex items-start justify-between">
   <section class="paper">
     <div class="header">
-      <img src="/api/placeholder/200/100" alt="Event Logo" class="logo">
+      <img src="/api/placeholder/200/100" alt="Event Logo" class="logo" />
       <h1 class="event-title">{event.title}</h1>
       <div class="date">April 26, 2025</div>
       <div class="contact">
@@ -32,12 +38,18 @@
     </div>
 
     <div class="event-details">
-      <p>[Brief description of the event - what it is, why it's significant, and what attendees can expect]</p>
+      <p>
+        [Brief description of the event - what it is, why it's significant, and
+        what attendees can expect]
+      </p>
     </div>
 
     <div class="organizer">
       <h3><strong>About the Organizer</strong></h3>
-      <p>[Description of the organizing entity - who they are, their mission, and their role in the event]</p>
+      <p>
+        [Description of the organizing entity - who they are, their mission, and
+        their role in the event]
+      </p>
     </div>
 
     <div class="locations">
@@ -52,14 +64,16 @@
                 <div class="slot-item">
                   <div class="flex justify-between">
                     <div class="location-name">{@html s.label}</div>
-                    <div class="time"><strong>{formatDate(s.starts_at)}</strong></div>
+                    <div class="time">
+                      <strong>{formatDate(s.starts_at)}</strong>
+                    </div>
                   </div>
                   <div class="participants">
                     {#each responses as r, i}
                       {#if r.bookings.includes(s.id)}
                         {#if options.userName}{r.user.name}{/if}
                         {#if options.userEmail}{r.user.email}{/if}
-                        <br>
+                        <br />
                       {/if}
                     {/each}
                   </div>
@@ -70,31 +84,37 @@
         {/if}
       {/each}
     </div>
-    
+
     <div class="additional-info">
       <h3><strong>Additional Information</strong></h3>
-      <p>[Any other important details - ticket information, registration process, COVID protocols, etc.]</p>
+      <p>
+        [Any other important details - ticket information, registration process,
+        COVID protocols, etc.]
+      </p>
     </div>
-    
+
     <div class="footer">
-      <p>For more information, visit [Website URL] or follow us on social media at [Social Media Handles]</p>
+      <p>
+        For more information, visit [Website URL] or follow us on social media
+        at [Social Media Handles]
+      </p>
       <p>###</p>
     </div>
   </section>
 
-  <div class="ml-3 sticky top-18">
-    <Card class="p-3 space-y-2">
-      <div class="text-gray-400">{$t('act.show')}</div>
+  <div class="sticky top-18 ml-3">
+    <Card class="space-y-2 p-3">
+      <div class="text-gray-400">{$t("act.show")}</div>
       {#each event.locations as l}
         <div class="text-gray-500">{stripTags(l.name)}</div>
         {#each l.slots as s}
           <Toggle bind:checked={options[s.id]}>{stripTags(s.label)}</Toggle>
         {/each}
       {/each}
-      <Hr/>
+      <Hr />
       <Toggle bind:checked={options.userName}>Include names</Toggle>
       <Toggle bind:checked={options.userEmail}>Include emails</Toggle>
-      <Hr/>
+      <Hr />
     </Card>
   </div>
 </div>
@@ -159,7 +179,8 @@
     color: #2980b9;
     margin-bottom: 5px;
   }
-  .paper .time, .paper .participants {
+  .paper .time,
+  .paper .participants {
     margin-top: 10px;
     text-align: right;
   }

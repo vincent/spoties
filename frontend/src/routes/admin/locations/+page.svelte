@@ -46,7 +46,6 @@
       <h2>{item.name}</h2>
     </div>
   </a>
-
 {:else}
   <div>No location found. Create some !</div>
 {/each}

@@ -4,10 +4,10 @@
   import { client } from "$lib/pocketbase";
   import { t } from "$lib/i18n";
 
-  import userForm from '/src/assets/event-10-form.png';
-  import combined1 from '/src/assets/event-combined-1-description.png';
-  import combined2 from '/src/assets/event-combined-2-questions.png';
-  import combined3 from '/src/assets/event-combined-3-locations.png';
+  import userForm from "/src/assets/event-10-form.png";
+  import combined1 from "/src/assets/event-combined-1-description.png";
+  import combined2 from "/src/assets/event-combined-2-questions.png";
+  import combined3 from "/src/assets/event-combined-3-locations.png";
 
   const { data } = $props();
 
@@ -15,27 +15,31 @@
   data.metadata.headline = $t("homepage.headline");
   data.metadata.subline = $t("homepage.subline");
 
-  const auth = client.authStore
-  let next = $derived(!auth.isValid
-    ? {
-        text: $t("homepage.getting_started"),
-        url: '/login'
-    } : {
-        text: $t("homepage.staff_new_event"),
-        url: '/admin/events/create',
-    });
+  const auth = client.authStore;
+  let next = $derived(
+    !auth.isValid
+      ? {
+          text: $t("homepage.getting_started"),
+          url: "/login",
+        }
+      : {
+          text: $t("homepage.staff_new_event"),
+          url: "/admin/events/create",
+        }
+  );
 
-  const alt = 1
-  const highlight = text => text
-    .replaceAll('{{', '<span class="text-primary-600">')
-    .replaceAll('}}', '</span>')
+  const alt = 1;
+  const highlight = (text) =>
+    text
+      .replaceAll("{{", '<span class="text-primary-600">')
+      .replaceAll("}}", "</span>");
 
   const ctas = [
     `Start organizing {{smarter}} today.`,
     `{{Simplify}} your next event.`,
     `Your perfect event crew is just {{one click away}}.`,
     `{{Never stress}} about event staffing again.`,
-  ].map(highlight)
+  ].map(highlight);
 
   const features = [
     {
@@ -44,139 +48,237 @@
         {
           alt: "Event Description",
           src: combined1,
-          title: "Description"
+          title: "Description",
         },
         {
           alt: "Event Questions",
           src: combined2,
-          title: "Questions"
+          title: "Questions",
         },
         {
           alt: "Event Locations",
           src: combined3,
-          title: "Locations"
+          title: "Locations",
         },
-      ]
+      ],
     },
     {
       text: `Deploy forms that work great on {{any device}}.`,
-      imgClass: 'shadow-lg hover:shadow-xl transition-shadow duration-200 ease-in-out',
+      imgClass:
+        "shadow-lg hover:shadow-xl transition-shadow duration-200 ease-in-out",
       images: [
         {
           alt: "Event Description",
           src: userForm,
-          title: "Description"
+          title: "Description",
         },
-      ]
+      ],
     },
     {
       text: `Organize staff by location with {{one-click}} simplicity.`,
-      imgClass: 'shadow-lg hover:shadow-xl transition-shadow duration-200 ease-in-out',
+      imgClass:
+        "shadow-lg hover:shadow-xl transition-shadow duration-200 ease-in-out",
       images: [
         {
           alt: "Event Description",
           src: userForm,
-          title: "Description"
+          title: "Description",
         },
-      ]
+      ],
     },
     {
       texts: [
         `Keep everyone {{synchronized}} through every change,`,
         `stay {{informed}} as responses roll in.`,
       ],
-      imgClass: 'shadow-lg hover:shadow-xl transition-shadow duration-200 ease-in-out',
+      imgClass:
+        "shadow-lg hover:shadow-xl transition-shadow duration-200 ease-in-out",
       images: [
         {
           alt: "Event Description",
           src: userForm,
-          title: "Description"
+          title: "Description",
         },
-      ]
+      ],
     },
     {
       text: `{{Reassign}} staff with automatic notifications.`,
-      imgClass: 'shadow-lg hover:shadow-xl transition-shadow duration-200 ease-in-out',
+      imgClass:
+        "shadow-lg hover:shadow-xl transition-shadow duration-200 ease-in-out",
       images: [
         {
           alt: "Event Description",
           src: userForm,
-          title: "Description"
+          title: "Description",
         },
-      ]
+      ],
     },
-  ].map(f => ({
+  ].map((f) => ({
     ...f,
-    texts: f.texts ? f.texts.map(t => highlight(t)) : null,
+    texts: f.texts ? f.texts.map((t) => highlight(t)) : null,
     text: f.text ? highlight(f.text) : null,
-  }))
+  }));
 </script>
 
-<section class="flex flex-col min-h-screen bg-gray-100 dark:bg-gray-900">
+<section class="flex min-h-screen flex-col bg-gray-100 dark:bg-gray-900">
   <NavMini />
 
-  <div class="min-h-screen grid align-items-center justify-items-center max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 xl:pt-20 xl:pb-50">
+  <div
+    class="align-items-center mx-auto grid min-h-screen max-w-screen-xl justify-items-center px-4 py-8 lg:grid-cols-12 lg:gap-8 lg:py-16 xl:gap-0 xl:pt-20 xl:pb-50"
+  >
     <div class="mr-auto place-self-center lg:col-span-7">
-      <h1 class="max-w-2xl mb-4 text-3xl font-extrabold tracking-tight md:text-4xl xl:text-5xl dark:text-white whitespace-pre-wrap leading-16">{@html $t("homepage.headline")}</h1>
-      <p class="max-w-2xl mt-5 mb-6 font-light text-gray-700 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">{@html $t("homepage.subline")}</p>
-      <a href={next.url} class="inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900 transition-colors duration-400">
+      <h1
+        class="mb-4 max-w-2xl text-3xl leading-16 font-extrabold tracking-tight whitespace-pre-wrap md:text-4xl xl:text-5xl dark:text-white"
+      >
+        {@html $t("homepage.headline")}
+      </h1>
+      <p
+        class="mt-5 mb-6 max-w-2xl font-light text-gray-700 md:text-lg lg:mb-8 lg:text-xl dark:text-gray-400"
+      >
+        {@html $t("homepage.subline")}
+      </p>
+      <a
+        href={next.url}
+        class="bg-primary-700 hover:bg-primary-800 focus:ring-primary-300 dark:focus:ring-primary-900 mr-3 inline-flex items-center justify-center rounded-lg px-5 py-3 text-center text-base font-medium text-white transition-colors duration-400 focus:ring-4"
+      >
         {next.text}
-        <svg class="w-5 h-5 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+        <svg
+          class="-mr-1 ml-2 h-5 w-5"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg"
+          ><path
+            fill-rule="evenodd"
+            d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+            clip-rule="evenodd"
+          ></path></svg
+        >
       </a>
     </div>
-    <div class="hidden place-self-center lg:mt-0 lg:col-span-5 lg:block">
-      <img class="max-w-[300px]" src="/spoties_logo.svg" alt="Spoties" width="100%" height="auto">
+    <div class="hidden place-self-center lg:col-span-5 lg:mt-0 lg:block">
+      <img
+        class="max-w-[300px]"
+        src="/spoties_logo.svg"
+        alt="Spoties"
+        width="100%"
+        height="auto"
+      />
     </div>
   </div>
 
   {#each features as feature, i}
-    <div class="w-full" class:odd-container={i % 2 === 1-alt}>
+    <div class="w-full" class:odd-container={i % 2 === 1 - alt}>
       {#if feature.texts}
-        <div class="grid justify-items-center max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 xl:pt-10">
-          <div class="mr-auto place-self-center lg:col-span-5 lg:pe-40 w-full {i % 2 === alt ? 'order-first sm:order-last' : ''}">
+        <div
+          class="mx-auto grid max-w-screen-xl justify-items-center px-4 py-8 lg:grid-cols-12 lg:gap-8 lg:py-16 xl:gap-0 xl:pt-10"
+        >
+          <div
+            class="mr-auto w-full place-self-center lg:col-span-5 lg:pe-40 {i %
+              2 ===
+            alt
+              ? 'order-first sm:order-last'
+              : ''}"
+          >
             {#each feature.texts as text, j}
-              <P class="my-15 text-xl font-extrabold tracking-tight md:text-2xl xl:text-3xl" align={j%2 ? 'right' : 'left'}>{@html text}</P>
+              <P
+                class="my-15 text-xl font-extrabold tracking-tight md:text-2xl xl:text-3xl"
+                align={j % 2 ? "right" : "left"}>{@html text}</P
+              >
             {/each}
           </div>
-          <div class="mr-auto place-self-center lg:col-span-6 w-full {i % 2 === alt ? 'order-last sm:order-first' : ''}">
+          <div
+            class="mr-auto w-full place-self-center lg:col-span-6 {i % 2 === alt
+              ? 'order-last sm:order-first'
+              : ''}"
+          >
             <a href={next.url}>
-              <Carousel divClass="max-w-[400px] mx-auto {feature.imgClass}" images={feature.images} duration={3000} slideDuration={0} />
+              <Carousel
+                divClass="max-w-[400px] mx-auto {feature.imgClass}"
+                images={feature.images}
+                duration={3000}
+                slideDuration={0}
+              />
             </a>
           </div>
-        </div>  
+        </div>
       {:else if feature.text}
-        <div class="grid justify-items-center max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 xl:pt-10">
-          <div class="mr-auto place-self-center lg:col-span-5 lg:ps-40 w-full {i % 2 === alt ? 'order-first sm:order-last' : ''}">
-            <P class="my-10 text-xl font-extrabold tracking-tight md:text-2xl xl:text-3xl" align="center">{@html feature.text}</P>
+        <div
+          class="mx-auto grid max-w-screen-xl justify-items-center px-4 py-8 lg:grid-cols-12 lg:gap-8 lg:py-16 xl:gap-0 xl:pt-10"
+        >
+          <div
+            class="mr-auto w-full place-self-center lg:col-span-5 lg:ps-40 {i %
+              2 ===
+            alt
+              ? 'order-first sm:order-last'
+              : ''}"
+          >
+            <P
+              class="my-10 text-xl font-extrabold tracking-tight md:text-2xl xl:text-3xl"
+              align="center">{@html feature.text}</P
+            >
           </div>
-          <div class="mr-auto place-self-center lg:col-span-6 w-full {i % 2 === alt ? 'order-last sm:order-first' : ''}">
+          <div
+            class="mr-auto w-full place-self-center lg:col-span-6 {i % 2 === alt
+              ? 'order-last sm:order-first'
+              : ''}"
+          >
             <a href={next.url}>
-              <Carousel divClass="max-w-[400px] mx-auto {feature.imgClass}" images={feature.images} duration={3000} slideDuration={0} />
+              <Carousel
+                divClass="max-w-[400px] mx-auto {feature.imgClass}"
+                images={feature.images}
+                duration={3000}
+                slideDuration={0}
+              />
             </a>
           </div>
-        </div>  
+        </div>
       {/if}
     </div>
   {/each}
 
-  <div class="mb-20"> </div>
+  <div class="mb-20"></div>
 
-  <div class="min-h-screen grid align-items-center justify-items-center max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 xl:pt-20 xl:pb-50">
+  <div
+    class="align-items-center mx-auto grid min-h-screen max-w-screen-xl justify-items-center px-4 py-8 lg:grid-cols-12 lg:gap-8 lg:py-16 xl:gap-0 xl:pt-20 xl:pb-50"
+  >
     <div class="mr-auto place-self-center lg:col-span-7">
-      <h1 class="max-w-2xl mb-4 text-3xl font-extrabold tracking-tight md:text-4xl xl:text-5xl dark:text-white whitespace-pre-wrap leading-16">{@html ctas[0]}</h1>
+      <h1
+        class="mb-4 max-w-2xl text-3xl leading-16 font-extrabold tracking-tight whitespace-pre-wrap md:text-4xl xl:text-5xl dark:text-white"
+      >
+        {@html ctas[0]}
+      </h1>
       <div class="text-center">
-        <a href={next.url} class="inline-flex items-center justify-center px-5 py-3 mt-5 mr-3 text-base font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900">
+        <a
+          href={next.url}
+          class="bg-primary-700 hover:bg-primary-800 focus:ring-primary-300 dark:focus:ring-primary-900 mt-5 mr-3 inline-flex items-center justify-center rounded-lg px-5 py-3 text-center text-base font-medium text-white focus:ring-4"
+        >
           It's free
-          <svg class="w-5 h-5 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+          <svg
+            class="-mr-1 ml-2 h-5 w-5"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+            ><path
+              fill-rule="evenodd"
+              d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+              clip-rule="evenodd"
+            ></path></svg
+          >
         </a>
       </div>
     </div>
-    <div class="hidden place-self-center lg:mt-0 lg:col-span-5 lg:block">
-      <img class="max-w-[300px]" src="/spoties_logo.svg" alt="Spoties" width="100%" height="auto">
+    <div class="hidden place-self-center lg:col-span-5 lg:mt-0 lg:block">
+      <img
+        class="max-w-[300px]"
+        src="/spoties_logo.svg"
+        alt="Spoties"
+        width="100%"
+        height="auto"
+      />
     </div>
   </div>
 
-  <div class="mb-20"> </div>
+  <div class="mb-20"></div>
 </section>
 
 <style>

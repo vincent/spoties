@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @plugin 'flowbite/plugin';
 
@@ -26,9 +26,9 @@
   --color-secondary-700: #855168;
   --color-secondary-800: #6f4557;
   --color-secondary-900: #623f4e;
-  --color-secondary-950: #37202a;  
+  --color-secondary-950: #37202a;
 }
 
 @source "../node_modules/flowbite-svelte/dist";
 
-@source "./app.styles.themes"
+@source "./app.styles.themes";

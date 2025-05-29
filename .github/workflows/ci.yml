@@ -1,6 +1,12 @@
 name: CI
 on:
   pull_request:
+    paths-ignore:
+      - 'README.md'
+      - 'LICENSE.md'
+      - 'docker-compose.yml'
+    branches:
+      - main
 
 jobs:
   build-backend:
@@ -47,6 +53,10 @@ jobs:
       - name: Install dependencies
         working-directory: ./frontend
         run: npm ci
+
+      - name: Lint frontend
+        working-directory: ./frontend
+        run: npm run lint
 
       - name: Build frontend
         working-directory: ./frontend

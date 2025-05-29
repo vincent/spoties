@@ -10,7 +10,10 @@ export const load: PageLoad = async ({ parent, fetch }) => {
     expand,
     fetch,
   };
-  const locations = await watch<LocationsResponse<any>>("locations", queryParams);
+  const locations = await watch<LocationsResponse<any>>(
+    "locations",
+    queryParams
+  );
   const { metadata } = await parent();
   // you could set the title/headline either here or in +page.svelte
   metadata.title = "Locations";

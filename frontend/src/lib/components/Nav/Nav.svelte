@@ -4,7 +4,14 @@
   import NavApp from "./NavApp.svelte";
   import NavSearch from "./NavSearch.svelte";
   import Language from "./Language.svelte";
-  import { DarkMode, Navbar, NavBrand, NavHamburger, NavLi, NavUl } from "flowbite-svelte";
+  import {
+    DarkMode,
+    Navbar,
+    NavBrand,
+    NavHamburger,
+    NavLi,
+    NavUl,
+  } from "flowbite-svelte";
 
   const { siteName, siteLogo } = $props();
 </script>
@@ -12,7 +19,10 @@
 <Navbar>
   <NavBrand href="/">
     <img src={siteLogo} class="me-3 h-6 sm:h-9" alt={siteName} />
-    <span class="self-center pb-1 text-xl font-semibold whitespace-nowrap dark:text-white">{siteName}</span>
+    <span
+      class="self-center pb-1 text-xl font-semibold whitespace-nowrap dark:text-white"
+      >{siteName}</span
+    >
   </NavBrand>
   <NavHamburger />
 
@@ -23,7 +33,6 @@
   </div>
 
   <Language />
-  <DarkMode />  
+  <DarkMode />
   <LoginBadge />
 </Navbar>
-

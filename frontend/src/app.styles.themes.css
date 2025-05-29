@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @plugin 'flowbite/plugin';
 
@@ -26,7 +26,7 @@
   --color-secondary-700: #855168;
   --color-secondary-800: #6f4557;
   --color-secondary-900: #623f4e;
-  --color-secondary-950: #37202a;  
+  --color-secondary-950: #37202a;
 }
 
 @source "../node_modules/flowbite-svelte/dist";
@@ -48,7 +48,7 @@ https://uicolors.app
   --color-primary-700: #06764b;
   --color-primary-800: #085d3d;
   --color-primary-900: #084c34;
-  --color-primary-950: #032b1e;  
+  --color-primary-950: #032b1e;
 
   --color-secondary-50: #fbf8f1;
   --color-secondary-100: #f6edde;
@@ -111,5 +111,5 @@ https://uicolors.app
   --color-secondary-700: #016aa3;
   --color-secondary-800: #065a86;
   --color-secondary-900: #0b4b6f;
-  --color-secondary-950: #07304a;  
+  --color-secondary-950: #07304a;
 }

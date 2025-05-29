@@ -6,17 +6,19 @@
   import QuestionForm from "./QuestionForm.svelte";
   import { t } from "$lib/i18n";
 
-  let { value = $bindable() } = $props()
+  let { value = $bindable() } = $props();
 
   let sortable = $state<HTMLElement | null>(null);
 
   useSortable(() => sortable, {
     animation: 200,
-    handle: '.my-handle',
-    ghostClass: 'opacity-0',
+    handle: ".my-handle",
+    ghostClass: "opacity-0",
     onEnd(evt) {
-      $AdminEventStore.questions = [].concat(reorder($AdminEventStore.questions, evt) as any);
-    }
+      $AdminEventStore.questions = [].concat(
+        reorder($AdminEventStore.questions, evt) as any
+      );
+    },
   });
 </script>
 
@@ -24,23 +26,37 @@
   {#each $AdminEventStore.questions as question, index (question)}
     {#if !question.deleted}
       <div class="relative space-y-4">
-        <button type="button" class="my-handle outline-none text-gray-600 dark:text-gray-200 cursor-move">
-          <DotsVerticalOutline /><Tooltip>{$t('act.reorder')}</Tooltip>
+        <button
+          type="button"
+          class="my-handle cursor-move text-gray-600 outline-none dark:text-gray-200"
+        >
+          <DotsVerticalOutline /><Tooltip>{$t("act.reorder")}</Tooltip>
         </button>
         <div class="ps-2">
-          <div class="flex justify-center between-questions">
-            <Button class="h-10 -m5" onclick={() => AdminEventStore.questions.add(index)}><PlusOutline/> {$t('event.form.add_question')}</Button>
+          <div class="between-questions flex justify-center">
+            <Button
+              class="-m5 h-10"
+              onclick={() => AdminEventStore.questions.add(index)}
+              ><PlusOutline /> {$t("event.form.add_question")}</Button
+            >
           </div>
-          <QuestionForm questionIndex={index} bind:value={$AdminEventStore.questions[index]} removeQuestion={() => AdminEventStore.questions.remove(index)}/>
+          <QuestionForm
+            questionIndex={index}
+            bind:value={$AdminEventStore.questions[index]}
+            removeQuestion={() => AdminEventStore.questions.remove(index)}
+          />
         </div>
       </div>
     {:else}
-      <div class="relative space-y-4"></div><!-- keep me for dnd -->
+      <div class="relative space-y-4"></div>
+      <!-- keep me for dnd -->
     {/if}
   {/each}
 
-  <div class="mt-4 pr-12 grid justify-items-end">
-    <Button onclick={() => AdminEventStore.questions.add()}><PlusOutline class="mr-2" /> {$t('event.form.add_question')}</Button>
+  <div class="mt-4 grid justify-items-end pr-12">
+    <Button onclick={() => AdminEventStore.questions.add()}
+      ><PlusOutline class="mr-2" /> {$t("event.form.add_question")}</Button
+    >
   </div>
 </section>
 
