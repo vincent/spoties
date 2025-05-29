@@ -46,7 +46,7 @@ RUN caddy add-package github.com/caddy-dns/cloudflare
 RUN echo "echo Starting Spoties...                                                                                    \n\
 if [ \"\${SPOTIES_FQDN}\" = \"\" ]; then echo 'error: missing SPOTIES_FQDN'; exit 100; fi                             \n\
 if [ \"\${SPOTIES_CLOUDFLARE_TOKEN}\" = \"\" ]; then echo 'error: missing SPOTIES_CLOUDFLARE_TOKEN'; exit 100; fi   \n\n\
-sed -i \"s%SPOTIES_FQDN%dns cloudflare \${SPOTIES_FQDN}%\" /srv/spoties/deployed/backend/Caddyfile                    \n\
+sed -i \"s%SPOTIES_FQDN%\${SPOTIES_FQDN}%\" /srv/spoties/deployed/backend/Caddyfile                                   \n\
 sed -i \"s%SPOTIES_CLOUDFLARE_TOKEN%\${SPOTIES_CLOUDFLARE_TOKEN}%\" /srv/spoties/deployed/backend/Caddyfile         \n\n\
 caddy run --config /srv/spoties/deployed/backend/Caddyfile &                                                        \n\n\
 /srv/spoties/deployed/backend/pocketbase serve \${SPOTIES_DEBUG} --http 0.0.0.0:8090 --dir /srv/spoties/data --hooksDir /srv/spoties/deployed/pb_hooks --migrationsDir /srv/spoties/deployed/pb_migrations --publicDir /srv/spoties/frontend \n\n\

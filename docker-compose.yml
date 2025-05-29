@@ -13,5 +13,5 @@ services:
     volumes:
       - spoties_data:/srv/spoties/data
     ports:
-      - 80:1080
-      - 443:1443
+      - 80:80
+      - 443:443
