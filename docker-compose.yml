@@ -3,14 +3,12 @@ volumes:
   spoties_data:
 
 services:
-
   spoties:
-    build: .
-    image: spoties
-    hostname: backend
+    image: ghcr.io/vincent/spoties:latest
+    hostname: spoties
     restart: unless-stopped
     volumes:
       - spoties_data:/srv/spoties/data
     ports:
-      - "80:1080"
-      - "443:1443"
+      - 80:1080
+      - 443:1443
