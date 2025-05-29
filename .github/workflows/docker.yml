@@ -62,11 +62,15 @@ jobs:
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
       
-      # - name: Deploy to server
-      #   uses: appleboy/ssh-action@v1.0.3
-      #   with:
-      #     username: ${{ secrets.SSH_USERNAME }}
-      #     port: ${{ secrets.SSH_PORT }}
-      #     host: ${{ secrets.SSH_HOST }}
-      #     key: ${{ secrets.SSH_KEY }}
-      #     script: ...
+  pull-image-on-remote:
+    needs: build-and-push-image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull image on remote
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          username: ${{ secrets.SSH_USERNAME }}
+          port: ${{ secrets.SSH_PORT }}
+          host: ${{ secrets.SSH_HOST }}
+          key: ${{ secrets.SSH_KEY }}
+          script: /home/debian/dockcheck.sh -u -y
