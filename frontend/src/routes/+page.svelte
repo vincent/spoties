@@ -167,7 +167,7 @@
   </div>
 
   {#each features as feature, i}
-    <div class="w-full" class:odd-container={i % 2 === 1 - alt}>
+    <div class="w-full">
       {#if feature.texts}
         <div
           class="mx-auto grid max-w-screen-xl justify-items-center px-4 py-8 lg:grid-cols-12 lg:gap-8 lg:py-16 xl:gap-0 xl:pt-10"
@@ -280,11 +280,3 @@
 
   <div class="mb-20"></div>
 </section>
-
-<style>
-  .odd-container {
-    background: #eee;
-    padding: 2rem 0;
-    box-shadow: 0px -1px 4px #a6a6a6;
-  }
-</style>

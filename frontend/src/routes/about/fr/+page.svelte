@@ -1,11 +1,15 @@
 <script>
-  import NavMini from "$lib/components/Nav/NavMini.svelte";
+  import Nav from "$lib/components/Nav/Nav.svelte";
+  const { data } = $props();
+  const { name: siteName, logo: siteLogo } = $derived(data.config.site ?? {});
 </script>
 
-<section class="flex min-h-screen flex-col bg-gray-100 dark:bg-gray-900">
-  <NavMini />
+<section
+  class="mx-auto flex min-h-screen w-full max-w-(--breakpoint-2xl) flex-col"
+>
+  <Nav {siteName} {siteLogo} />
 
-  <div class="rounded-lg bg-gray-50 p-4 md:p-8 lg:p-16 dark:bg-gray-800">
+  <div class="p-4 md:p-8 lg:p-16 dark:bg-gray-800">
     <h1
       class="mb-6 text-3xl leading-tight font-bold tracking-tight text-gray-900 dark:text-white"
     >

@@ -83,6 +83,10 @@ const en = {
   "event.form.help.save": `Create the form by hitting "Save".`,
   "event.form.help.save.desc": `Your form form will be immediately available.`,
 
+  "event.form.finish.line1": `You are almost there !`,
+  "event.form.finish.line2": `To finish your form,`,
+  "event.form.finish.line3": `please signin or create an account.`,
+
   "event.form.choose_theme": "Theme",
   "event.form.summary": "Summary",
   "event.form.geo_search": "Start typing your address...",
@@ -255,6 +259,10 @@ const fr = {
     "Créez le formulaire en cliquant sur « Sauvegarder ».",
   "event.form.help.save.desc":
     "Votre formulaire sera immédiatement disponible.",
+
+  "event.form.finish.line1": "Vous y êtes presque !",
+  "event.form.finish.line2": "Pour terminer votre formulaire,",
+  "event.form.finish.line3": "veuillez vous connecter ou créer un compte.",
 
   "event.results.group_by": "Grouper les résultats",
   "event.results.group_by_user": "par participant",
@@ -432,6 +440,10 @@ const es = {
   "event.form.help.save.desc":
     "Tu formulario estará disponible inmediatamente.",
 
+  "event.form.finish.line1": "¡Ya casi está!",
+  "event.form.finish.line2": "Para finalizar tu formulario,",
+  "event.form.finish.line3": "por favor inicia sesión o crea una cuenta.",
+
   "event.form.summary": "Resumen",
   "event.form.choose_theme": "Estilo",
   "event.form.geo_search": "Empieza a escribir tu dirección...",
@@ -606,6 +618,10 @@ const ca = {
   "event.form.help.save": "Crea el formulari fent clic a «Desa».",
   "event.form.help.save.desc":
     "El teu formulari estarà disponible immediatament.",
+
+  "event.form.finish.line1": "Ja gairebé ho tens!",
+  "event.form.finish.line2": "Per acabar el teu formulari,",
+  "event.form.finish.line3": "si us plau inicia sessió o crea un compte.",
 
   "event.form.summary": "Resum",
   "event.form.choose_theme": "Estilo",

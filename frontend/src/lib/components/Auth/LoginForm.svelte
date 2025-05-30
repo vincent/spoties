@@ -5,7 +5,7 @@
   import { goto } from "$app/navigation";
   import { t } from "$lib/i18n";
 
-  const { returnUrl = "/", authCollection = "users" } = $props();
+  const { siteName, returnUrl = "/", authCollection = "users" } = $props();
   const collection = client.collection(authCollection);
 
   let onboardingLink = returnUrl?.match(/^\/admin\/events\/stored/);
@@ -86,13 +86,13 @@
       >
         <img
           class="h-15 w-15 rounded-full"
-          src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/karen-nelson.png"
-          alt="Karen profile"
+          src="https://avatars.githubusercontent.com/u/5623?v=4"
+          alt="Vincent Lark"
         />
         <div class="space-y-0.5 text-left font-medium dark:text-white">
           <div>Vincent</div>
           <div class="text-sm font-light text-gray-500 dark:text-gray-400">
-            Spoti.es team
+            {siteName} team
           </div>
         </div>
       </figcaption>
@@ -107,23 +107,25 @@
         class="mx-auto mb-10 max-w-2xl text-gray-500 dark:text-gray-400"
       >
         <h3 class="mb-6 text-lg font-semibold text-gray-900 dark:text-white">
-          {"You are almost there !"}
+          {$t("event.form.finish.line1")}
         </h3>
-        <p class="my-4 font-light">{"To create your form"}</p>
-        <p class="my-4 font-light">{"please create an account"}</p>
+        <p class="my-4 font-light">{$t("event.form.finish.line2")}</p>
+        <p class="my-4 font-light">{$t("event.form.finish.line3")}</p>
       </blockquote>
       <figcaption
         class="flex items-center justify-center space-x-3 rtl:space-x-reverse"
       >
         <img
           class="h-15 w-15 rounded-full"
-          src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/karen-nelson.png"
-          alt="Karen profile"
+          src="https://avatars.githubusercontent.com/u/5623?v=4"
+          alt="Vincent Lark"
         />
         <div class="space-y-0.5 text-left font-medium dark:text-white">
-          <div>Vincent</div>
+          <div>
+            <a href="http://github.com/vincent" target="_blank">Vincent</a>
+          </div>
           <div class="text-sm font-light text-gray-500 dark:text-gray-400">
-            Spoti.es team
+            {siteName} team
           </div>
         </div>
       </figcaption>

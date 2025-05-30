@@ -22,7 +22,7 @@ export async function hasAnyEvent(options: RecordListOptions) {
   return EVENTS.getList<EventsResponse>(1, 1, {
     ...options,
     filter: (client.authStore.record?.teams || [-1])
-      .map((id) => `team='aa${id}'`)
+      .map((id) => `team='${id}'`)
       .join("||"),
   }).then((res) => !!res.items.length);
 }

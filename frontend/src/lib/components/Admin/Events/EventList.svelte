@@ -44,5 +44,5 @@
     {/each}
   </Timeline>
 {:else}
-  <Label class="ps-4">{$t("event.empty_list")}</Label>
+  <Label class="mb-4 ps-4">{$t("event.empty_list")}</Label>
 {/if}

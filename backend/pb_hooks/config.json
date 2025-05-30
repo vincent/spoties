@@ -1,6 +1,7 @@
 {
   "site": {
     "name": "this comes from pocketbase admin settings",
+    "logo": "/spoties_logo.svg",
     "copyright": "Same as above",
     "year": 2024
   },

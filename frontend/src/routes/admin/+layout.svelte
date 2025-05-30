@@ -1,16 +1,13 @@
 <script lang="ts">
   import Nav from "$lib/components/Nav/Nav.svelte";
   const { data, children } = $props();
-  const config = $derived(data.config ?? {});
+  const { name: siteName, logo: siteLogo } = $derived(data.config.site ?? {});
 </script>
 
 <div class="min-h-screen bg-gray-50 antialiased dark:bg-gray-900">
-  <Nav siteName={config.site?.name} siteLogo="/spoties_logo.svg" />
+  <Nav {siteName} {siteLogo} />
 
-  <main class="flex h-auto px-4">
+  <main class="h-min-[800px] flex h-auto px-4">
     {@render children()}
   </main>
 </div>
-
-<style>
-</style>
