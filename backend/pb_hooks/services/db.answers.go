@@ -43,7 +43,7 @@ func UpsertAnswers(app *pocketbase.PocketBase, eventId string, userId string, in
 			return nil, err
 		}
 
-		app.Logger().Info("[answer] upsert answer", "id", record.Id)
+		app.Logger().Info("[answer] upsert question", "id", record.Id)
 
 		records = append(records, record)
 	}

@@ -25,10 +25,10 @@ func AcknowledgeUserEventResponse(app *pocketbase.PocketBase, eventId, userId, b
 	if err != nil {
 		return fmt.Errorf("no such event: %w", err)
 	}
-	if err := app.ExpandRecord(event, []string{"team"}, nil); err != nil {
-		return fmt.Errorf("failed to expand team: %w", err)
+	if errs := app.ExpandRecord(event, []string{"team"}, nil); len(errs) > 0 {
+		return fmt.Errorf("failed to expand team: %v", errs)
 	}
-	team := event.Expand()["team"]
+	team := event.ExpandedOne("team")
 	if team == nil {
 		return errors.New("event has no team")
 	}
@@ -40,14 +40,17 @@ func AcknowledgeUserEventResponse(app *pocketbase.PocketBase, eventId, userId, b
 	}
 
 	// Fetch team owner
-	ownerId, ok := team.(map[string]interface{})["owner"].(string)
-	if !ok || ownerId == "" {
+	ownerId := team.GetString("owner")
+	if ownerId == "" {
 		return errors.New("team has no owner")
 	}
 	owner, err := app.FindRecordById("users", ownerId)
 	if err != nil {
 		return fmt.Errorf("no such owner: %w", err)
 	}
+
+	// Set email visibility
+	owner.Set("emailVisibility", true)
 
 	// Fetch booking
 	booking, err := app.FindRecordById("bookings", bookingId)

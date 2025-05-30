@@ -220,6 +220,8 @@ const fr = {
   "event.published": "Publié",
   "event.sealed": "Figé, n'accepte plus de réponses",
   "event.warning_sealed": "Ce formulaire n'accepte plus de nouvelles réponses.",
+  "event.warning_own_event":
+    "Vous pouvez voir ce formulaire uniquement parce que vous en êtes le propriétaire.",
   "event.warning_empty":
     "Ce formulaire ne contient aucune question pour l'instant.",
 
@@ -402,6 +404,8 @@ const es = {
   "event.sealed": "Sellado, no acepta nuevas respuestas",
   "event.warning_sealed": "Este formulario no acepta nuevas respuestas.",
   "event.warning_empty": "Este formulario aún no contiene ninguna pregunta.",
+  "event.warning_own_event":
+    "Solo puedes ver este formulario porque eres el propietario.",
 
   "event.done.answers_sent": "Tus respuestas han sido enviadas al organizador",
   "event.done.review_answers": "Revisa tus respuestas",
@@ -579,6 +583,8 @@ const ca = {
   "event.published": "Publicat",
   "event.sealed": "Segellat, no accepta noves respostes",
   "event.warning_sealed": "Aquest formulari no accepta noves respostes.",
+  "event.warning_own_event":
+    "Només pots veure aquest formulari perquè n'ets el propietari.",
   "event.warning_empty": "Aquest formulari encara no conté cap pregunta.",
 
   "event.done.answers_sent":

@@ -55,6 +55,8 @@ func RegisterUserEventAnswerRoute(app *pocketbase.PocketBase) {
 				}
 			}
 
+			app.Logger().Info("[answer] notify", "isUpdating", isUpdating, "notifyOwner", notifyOwner)
+
 			// Upsert answers
 			_, err := services.UpsertAnswers(app, eventId, e.Auth.Id, req.QuestionsAnswers)
 			if err != nil {
@@ -69,11 +71,17 @@ func RegisterUserEventAnswerRoute(app *pocketbase.PocketBase) {
 
 			// Notify owner if needed
 			if notifyOwner {
-				_ = services.NotifyEventResponse(app, eventId, e.Auth.Id, isUpdating)
+				err = services.NotifyEventResponse(app, eventId, e.Auth.Id, isUpdating)
+				if err != nil {
+					app.Logger().Warn("[answer] cannot notify owner", "error", err)
+				}
 			}
 			// Notify user if needed
 			if notifyUser {
-				_ = services.AcknowledgeUserEventResponse(app, eventId, e.Auth.Id, bookingRecord.Id)
+				err = services.AcknowledgeUserEventResponse(app, eventId, e.Auth.Id, bookingRecord.Id)
+				if err != nil {
+					app.Logger().Warn("[answer] cannot notify owner", "error", err)
+				}
 			}
 
 			return e.JSON(http.StatusOK, map[string]string{"status": "ok"})

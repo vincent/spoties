@@ -74,7 +74,7 @@ Start the backend with
 
 ```shell
 cd backend
-./modd
+./modd # will show an url to create the first admin 
 ```
 
 Start the frontend with

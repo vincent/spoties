@@ -21,10 +21,10 @@ func NotifyEventResponse(app *pocketbase.PocketBase, eventId, userId string, isU
 	if err != nil {
 		return fmt.Errorf("no such event: %w", err)
 	}
-	if err := app.ExpandRecord(event, []string{"team"}, nil); err != nil {
-		return fmt.Errorf("failed to expand team: %w", err)
+	if errs := app.ExpandRecord(event, []string{"team"}, nil); len(errs) > 0 {
+		return fmt.Errorf("failed to expand team: %v", errs)
 	}
-	team := event.Expand()["team"]
+	team := event.ExpandedOne("team")
 	if team == nil {
 		return errors.New("event has no team")
 	}
@@ -36,8 +36,8 @@ func NotifyEventResponse(app *pocketbase.PocketBase, eventId, userId string, isU
 	}
 
 	// Fetch team owner
-	ownerId, ok := team.(map[string]interface{})["owner"].(string)
-	if !ok || ownerId == "" {
+	ownerId := team.GetString("owner")
+	if ownerId == "" {
 		return errors.New("team has no owner")
 	}
 	owner, err := app.FindRecordById("users", ownerId)
@@ -45,8 +45,8 @@ func NotifyEventResponse(app *pocketbase.PocketBase, eventId, userId string, isU
 		return fmt.Errorf("no such owner: %w", err)
 	}
 
-	// Set email visibility (if needed, here just a placeholder)
-	// owner.Set("emailVisibility", true) // Uncomment if needed
+	// Set email visibility
+	owner.Set("emailVisibility", true)
 
 	// Prepare email subject and action
 	eventTitle, _ := event.Get("title").(string)
@@ -69,8 +69,8 @@ func NotifyEventResponse(app *pocketbase.PocketBase, eventId, userId string, isU
 	}
 
 	html, err := template.NewRegistry().LoadFiles(
-		"views/emails/layout.html",
-		"views/emails/owner.response-changed.html",
+		"pb_hooks/views/emails/layout.html",
+		"pb_hooks/views/emails/owner.response-changed.html",
 	).Render(map[string]any{
 		"meta":       meta,
 		"subject":    subject,
