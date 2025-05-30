@@ -3,6 +3,7 @@
   import { fly } from "svelte/transition";
   import { backOut } from "svelte/easing";
   import { t } from "$lib/i18n";
+  import { ThumbsUpOutline } from "flowbite-svelte-icons";
 </script>
 
 <section
@@ -11,21 +12,12 @@
   <div
     class="mx-auto grid max-w-screen-xl rounded-lg bg-gray-50 p-4 md:p-8 lg:grid-cols-12 lg:gap-8 lg:p-16 xl:gap-16 dark:bg-gray-800"
   >
-    <div class="lg:col-span-5 lg:mt-0">
-      <a href="#">
-        <img
-          class="mb-4 h-56 w-56 sm:h-96 sm:w-96 md:h-full md:w-full dark:hidden"
-          src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-components.svg"
-          alt="peripherals"
-        />
-        <img
-          class="mb-4 hidden md:h-full dark:block"
-          src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-components-dark.svg"
-          alt="peripherals"
-        />
-      </a>
+    <div class="mx-auto lg:col-span-5 lg:mt-0">
+      <ThumbsUpOutline
+        class="h-80 w-80 text-gray-900 md:text-4xl dark:text-white"
+      />
     </div>
-    <div class="me-auto place-self-center lg:col-span-7">
+    <div class="mx-auto place-self-center text-center lg:col-span-7">
       <h1
         class="mb-3 text-2xl leading-tight font-bold tracking-tight text-gray-900 md:text-4xl dark:text-white"
         in:fly={{ y: 100, delay: 300, easing: backOut }}
