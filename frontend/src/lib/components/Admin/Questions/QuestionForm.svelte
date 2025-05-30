@@ -99,10 +99,11 @@
   }
 </script>
 
-<Card size="xl" class="mt-2 p-4">
+<Card size="xl" class="question-form mt-2 p-4">
   <div class="mb-4 flex justify-between">
     <div class="mr-auto flex w-3/6 flex-col">
       <EditInPlace
+        divClass={`question-label question-label-${questionIndex}`}
         input="richtext"
         bind:value={$AdminEventStore.questions[questionIndex].label}
       >
@@ -124,7 +125,7 @@
     </div>
     <div class="flex w-2/8 items-start justify-end">
       <AnswerTypeSelector
-        divClass="w-4/5"
+        divClass={`w-4/5 question-type question-type-${questionIndex}`}
         value={$AdminEventStore.questions[questionIndex].answer_type}
         {updateAnswerType}
       />
@@ -135,7 +136,10 @@
   <!-- <pre>{ JSON.stringify(value.properties) }</pre> -->
 
   {#if value.answer_type === "just_text"}
-    <RichText class="rounded-lg" bind:value={value.properties.text} />
+    <RichText
+      class={`question-description rounded-lg question-description-${questionIndex}`}
+      bind:value={value.properties.text}
+    />
   {:else if value.answer_type === "simple_text" && value.properties?.placeholder !== undefined}
     <FloatingLabelInput type="text" bind:value={value.properties.placeholder}>
       {$t("event.form.placeholder")}

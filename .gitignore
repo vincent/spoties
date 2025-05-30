@@ -4,3 +4,5 @@
 .env
 .ash_history
 .IDEAS.md
+playwright-report
+test-results

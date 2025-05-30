@@ -128,7 +128,7 @@
   >
     <div class="mr-auto place-self-center lg:col-span-7">
       <h1
-        class="mb-4 max-w-2xl text-3xl leading-16 font-extrabold tracking-tight whitespace-pre-wrap md:text-4xl xl:text-5xl dark:text-white"
+        class="hero-headline mb-4 max-w-2xl text-3xl leading-16 font-extrabold tracking-tight whitespace-pre-wrap md:text-4xl xl:text-5xl dark:text-white"
       >
         {@html $t("homepage.headline")}
       </h1>

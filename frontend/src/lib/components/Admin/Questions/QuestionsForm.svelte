@@ -35,7 +35,7 @@
         <div class="ps-2">
           <div class="between-questions flex justify-center">
             <Button
-              class="-m5 h-10"
+              class="insert-question -m5 h-10"
               onclick={() => AdminEventStore.questions.add(index)}
               ><PlusOutline /> {$t("event.form.add_question")}</Button
             >
@@ -54,7 +54,9 @@
   {/each}
 
   <div class="mt-4 grid justify-items-end pr-12">
-    <Button onclick={() => AdminEventStore.questions.add()}
+    <Button
+      class="append-question"
+      onclick={() => AdminEventStore.questions.add()}
       ><PlusOutline class="mr-2" /> {$t("event.form.add_question")}</Button
     >
   </div>

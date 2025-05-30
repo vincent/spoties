@@ -21,7 +21,7 @@
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <TimelineItem title="" date="">
   <div
-    class="mb-4 flex justify-between text-base font-normal text-gray-500 dark:text-gray-400"
+    class={`location-slot-form location-${locationIndex}-slot-form-${index} mb-4 flex justify-between text-base font-normal text-gray-500 dark:text-gray-400`}
   >
     <EditInPlace
       divClass="w-3/5"

@@ -74,7 +74,7 @@
 
         <div class="items-top mt-6 flex justify-between">
           <Button
-            class="w-5/5"
+            class="form-submit w-5/5"
             onclick={submit}
             outline={!$dirty}
             disabled={!validation.success || $AdminEventStore.loading}

@@ -94,7 +94,7 @@
       <FloatingLabelInput
         required
         class="mb-4"
-        inputClass="text-3xl"
+        inputClass="text-3xl field-title"
         color={validation?.error?.fieldErrors?.title ? "default" : undefined}
         type="text"
         bind:value={$store.title}
@@ -133,10 +133,11 @@
         {/if}
         <AccordionItem
           bind:open={accordionOpen.description}
-          class="border-s border-e border-b border-gray-200 dark:border-gray-700"
+          class="accordion-description border-s border-e border-b border-gray-200 dark:border-gray-700"
         >
           {#snippet header()}{$t("event.form.description")}{/snippet}
           <RichText
+            class="field-description"
             bind:value={$store.description}
             color={validation?.error?.fieldErrors?.description
               ? "base"
@@ -158,7 +159,10 @@
             description={$t("event.form.help.questions.desc")}
           />
         {/if}
-        <AccordionItem bind:open={accordionOpen.questions}>
+        <AccordionItem
+          class="accordion-questions"
+          bind:open={accordionOpen.questions}
+        >
           {#snippet header()}{$t("event.form.questions")}{/snippet}
           <QuestionsForm bind:value={$store.questions} />
         </AccordionItem>
@@ -173,7 +177,10 @@
             description={$t("event.form.help.locations.desc")}
           />
         {/if}
-        <AccordionItem bind:open={accordionOpen.locations}>
+        <AccordionItem
+          class="accordion-locations"
+          bind:open={accordionOpen.locations}
+        >
           {#snippet header()}{$t("event.form.locations")}{/snippet}
           <LocationsSelector {locations} bind:value={$store.locations} />
         </AccordionItem>

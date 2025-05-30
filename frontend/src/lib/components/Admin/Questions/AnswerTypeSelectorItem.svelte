@@ -5,11 +5,13 @@
   import { t } from "$lib/i18n";
 
   let {
+    itemClass = "",
     key,
     helper,
     select,
     children,
   }: {
+    itemClass?: string;
     key: QuestionType;
     helper?: string;
     select: (k: QuestionType) => void;
@@ -23,7 +25,10 @@
   }
 </script>
 
-<DropdownItem class="w-full min-w-50" onclick={() => selectHandler(key)}>
+<DropdownItem
+  class={`w-full min-w-50 question-type-${key} ${itemClass}`}
+  onclick={() => selectHandler(key)}
+>
   <span class="flex content-center"
     >{@render children?.()} {$t(`event.form.question_type_${key}` as any)}</span
   >

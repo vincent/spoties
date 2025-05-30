@@ -19,7 +19,7 @@
 </script>
 
 <div
-  class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm md:p-6 dark:border-gray-700 dark:bg-gray-800"
+  class={`location-form location-form-${locationIndex} rounded-lg border border-gray-200 bg-white p-4 shadow-sm md:p-6 dark:border-gray-700 dark:bg-gray-800`}
 >
   <div
     class="md:items-top space-y-4 md:flex md:justify-between md:gap-6 md:space-y-0"
@@ -38,6 +38,7 @@
     <div class="w-full min-w-0 flex-1 space-y-4 md:order-2">
       <EditInPlace
         input="geo"
+        divClass={`location-name location-name-${locationIndex}`}
         bind:value={$AdminEventStore.locations[locationIndex].name}
         bind:altValue={$AdminEventStore.locations[locationIndex].geo_place}
       >
@@ -51,6 +52,7 @@
 
       <EditInPlace
         input="richtext"
+        divClass={`location-description location-description-${locationIndex}`}
         bind:value={$AdminEventStore.locations[locationIndex].description}
       >
         <p class="text-gray-600 dark:text-gray-200">
@@ -64,7 +66,7 @@
       <div class="mt-2 flex justify-end gap-4">
         <button
           type="button"
-          class="inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-900 hover:underline dark:text-gray-400 dark:hover:text-white"
+          class={`location-slots-toggle location-slots-toggle-${locationIndex} inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-900 hover:underline dark:text-gray-400 dark:hover:text-white`}
           onclick={() => (showSlots = !showSlots)}
         >
           <ListChecksIcon class="mx-1" />

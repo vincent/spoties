@@ -20,11 +20,13 @@
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
+    "@playwright/test": "^1.52.0",
     "@sveltejs/adapter-auto": "^6.0.0",
     "@sveltejs/adapter-static": "^3.0.8",
     "@sveltejs/kit": "^2.20.8",
     "@sveltejs/vite-plugin-svelte": "^5.0.3",
     "@tailwindcss/vite": "^4.1.6",
+    "@types/node": "^22.15.24",
     "@types/sortablejs": "^1.15.8",
     "flowbite-svelte-icons": "^2.1.1",
     "husky": "^9.1.7",

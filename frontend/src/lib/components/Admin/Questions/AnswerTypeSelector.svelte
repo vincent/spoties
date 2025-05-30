@@ -49,7 +49,12 @@
       class="ms-2 h-6 w-6 text-white dark:text-white"
     />
   </Button>
-  <Dropdown simple placement="top" {isOpen} class="w-60 space-y-1 p-3 text-sm">
+  <Dropdown
+    simple
+    placement="top"
+    {isOpen}
+    class="question-type-menu w-60 space-y-1 p-3 text-sm"
+  >
     <AnswerTypeSelectorItem
       {select}
       key="just_text"

@@ -23,9 +23,10 @@
   class="mx-2 rounded-lg p-2.5 text-sm text-gray-500 hover:bg-gray-100 focus:outline-hidden dark:text-gray-400 dark:hover:bg-gray-700"
 >
   <LanguageOutline class="lang-menu dark:text-white" />
-  <Dropdown simple bind:isOpen triggeredBy=".lang-menu">
+  <Dropdown class="lang-dropdown" simple bind:isOpen triggeredBy=".lang-menu">
     {#each locales as l}
-      <DropdownItem onclick={switchTo(l)}>{$t(`lang.${l}` as any)}</DropdownItem
+      <DropdownItem class={`to-${l}`} onclick={switchTo(l)}
+        >{$t(`lang.${l}` as any)}</DropdownItem
       >
     {/each}
   </Dropdown>
