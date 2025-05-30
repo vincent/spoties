@@ -13,11 +13,11 @@ import (
 )
 
 // RegisterConfigRoute registers the /api/config GET route.
-func RegisterConfigRoute(app *pocketbase.PocketBase) {
+func RegisterConfigRoute(app *pocketbase.PocketBase, hooksDir string) {
 	app.OnServe().BindFunc(func(se *core.ServeEvent) error {
 		se.Router.GET("/api/config", func(e *core.RequestEvent) error {
 			// Read config.json from backend/pb_hooks/config.json
-			configPath := filepath.Join("pb_hooks", "config.json")
+			configPath := filepath.Join(hooksDir, "config.json")
 			configFile, err := os.Open(configPath)
 			if err != nil {
 				return e.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to open config.json"})

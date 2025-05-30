@@ -29,7 +29,7 @@ func main() {
 	app.RootCmd.PersistentFlags().StringVar(
 		&hooksDir,
 		"hooksDir",
-		"",
+		"pb_hooks",
 		"the directory with the JS app hooks",
 	)
 
@@ -53,7 +53,7 @@ func main() {
 	app.RootCmd.PersistentFlags().StringVar(
 		&migrationsDir,
 		"migrationsDir",
-		"",
+		"pb_migrations",
 		"the directory with the user defined migrations",
 	)
 
@@ -119,7 +119,7 @@ func main() {
 	})
 
 	// Register custom config route
-	pb_routes.RegisterConfigRoute(app)
+	pb_routes.RegisterConfigRoute(app, hooksDir)
 	pb_routes.RegisterAdminEventRoute(app)
 	pb_routes.RegisterAdminManualBookingRoute(app)
 	pb_routes.RegisterUserEventAnswerRoute(app)
