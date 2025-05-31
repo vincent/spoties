@@ -21,6 +21,9 @@ const en = {
   "act.delete_ask": "Are you sure you want to delete this?",
   "act.delete_yes": `Yes, I'm sure`,
   "act.delete_no": "No, cancel",
+  "act.delete_all_my_data": "Delete all my data",
+  "act.delete_all_my_data_confirm":
+    "All your answers, all your events, and your account will be deleted. Are you sure?",
   "act.reorder": "Change order",
 
   "data.as_csv": "as CSV",
@@ -192,6 +195,9 @@ const fr = {
   "act.delete_ask": "Souhaitez vous réellement supprimer cela ?",
   "act.delete_yes": `Oui, je suis sûr`,
   "act.delete_no": "Non, annuler",
+  "act.delete_all_my_data": "Supprimer toutes mes données",
+  "act.delete_all_my_data_confirm":
+    "Toutes vos réponses, tous vos évènements, ainsi que votre compte seront supprimés. Êtes-vous sûr ?",
   "act.reorder": "Réordonner",
   "act.share": "Partager",
 
@@ -375,6 +381,9 @@ const es = {
   "act.delete_ask": "¿Estás seguro de que deseas eliminar esto?",
   "act.delete_yes": "Sí, estoy seguro",
   "act.delete_no": "No, cancelar",
+  "act.delete_all_my_data": "Eliminar todos mis datos",
+  "act.delete_all_my_data_confirm":
+    "Todas tus respuestas, todos tus eventos y tu cuenta serán eliminados. ¿Estás seguro?",
   "act.reorder": "Cambiar orden",
   "act.share": "Compartir",
 
@@ -558,6 +567,9 @@ const ca = {
   "act.delete_ask": "Estàs segur que vols eliminar això?",
   "act.delete_yes": "Sí, n'estic segur",
   "act.delete_no": "No, cancel·la",
+  "act.delete_all_my_data": "Elimina totes les meves dades",
+  "act.delete_all_my_data_confirm":
+    "Totes les teves respostes, tots els teus esdeveniments i el teu compte seran eliminats. N'estàs segur?",
   "act.reorder": "Canvia l'ordre",
   "act.share": "Compartir",
 
