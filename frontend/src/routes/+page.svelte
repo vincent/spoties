@@ -5,9 +5,13 @@
   import { t } from "$lib/i18n";
 
   import userForm from "/src/assets/event-10-form.png";
+  import reassign from "/src/assets/event-4-reassign.png";
+  import slotsForm from "/src/assets/event-6-slots.png";
+  import notification from "/src/assets/event-5-notification.png";
   import combined1 from "/src/assets/event-combined-1-description.png";
   import combined2 from "/src/assets/event-combined-2-questions.png";
   import combined3 from "/src/assets/event-combined-3-locations.png";
+  import SpotiesLogo from "$lib/components/Shared/SpotiesLogo.svelte";
 
   const { data } = $props();
 
@@ -65,24 +69,24 @@
     {
       text: `Deploy forms that work great on {{any device}}.`,
       imgClass:
-        "shadow-lg hover:shadow-xl transition-shadow duration-200 ease-in-out",
+        "shadow-lg hover:shadow-xl transition-shadow duration-200 ease-in-out moveV",
       images: [
         {
-          alt: "Event Description",
+          alt: "Responsive mobile form",
           src: userForm,
-          title: "Description",
+          title: "Responsive mobile form",
         },
       ],
     },
     {
       text: `Organize staff by location with {{one-click}} simplicity.`,
       imgClass:
-        "shadow-lg hover:shadow-xl transition-shadow duration-200 ease-in-out",
+        "shadow-lg hover:shadow-xl transition-shadow duration-200 ease-in-out moveH",
       images: [
         {
-          alt: "Event Description",
-          src: userForm,
-          title: "Description",
+          alt: "Location slots management",
+          src: slotsForm,
+          title: "Location slots management",
         },
       ],
     },
@@ -92,24 +96,24 @@
         `stay {{informed}} as responses roll in.`,
       ],
       imgClass:
-        "shadow-lg hover:shadow-xl transition-shadow duration-200 ease-in-out",
+        "shadow-lg hover:shadow-xl transition-shadow duration-200 ease-in-out moveH",
       images: [
         {
-          alt: "Event Description",
-          src: userForm,
-          title: "Description",
+          alt: "Email notification",
+          src: notification,
+          title: "Email notification",
         },
       ],
     },
     {
       text: `{{Reassign}} staff with automatic notifications.`,
       imgClass:
-        "shadow-lg hover:shadow-xl transition-shadow duration-200 ease-in-out",
+        "shadow-lg hover:shadow-xl transition-shadow duration-200 ease-in-out moveH",
       images: [
         {
-          alt: "Event Description",
-          src: userForm,
-          title: "Description",
+          alt: "Spot reassignment with notification",
+          src: reassign,
+          title: "Spot reassignment with notification",
         },
       ],
     },
@@ -156,18 +160,12 @@
       </a>
     </div>
     <div class="hidden place-self-center lg:col-span-5 lg:mt-0 lg:block">
-      <img
-        class="max-w-[300px]"
-        src="/spoties_logo.svg"
-        alt="Spoties"
-        width="100%"
-        height="auto"
-      />
+      <SpotiesLogo />
     </div>
   </div>
 
   {#each features as feature, i}
-    <div class="w-full">
+    <div class={`feature w-full feature-${i}`}>
       {#if feature.texts}
         <div
           class="mx-auto grid max-w-screen-xl justify-items-center px-4 py-8 lg:grid-cols-12 lg:gap-8 lg:py-16 xl:gap-0 xl:pt-10"
@@ -245,7 +243,7 @@
       <h1
         class="mb-4 max-w-2xl text-3xl leading-16 font-extrabold tracking-tight whitespace-pre-wrap md:text-4xl xl:text-5xl dark:text-white"
       >
-        {@html ctas[0]}
+        {@html ctas[~~(Math.random() * ctas.length)]}
       </h1>
       <div class="text-center">
         <a
@@ -268,15 +266,38 @@
       </div>
     </div>
     <div class="hidden place-self-center lg:col-span-5 lg:mt-0 lg:block">
-      <img
-        class="max-w-[300px]"
-        src="/spoties_logo.svg"
-        alt="Spoties"
-        width="100%"
-        height="auto"
-      />
+      <SpotiesLogo />
     </div>
   </div>
 
   <div class="mb-20"></div>
 </section>
+
+<style>
+  @keyframes moveH {
+    0% {
+      object-position: -18px 0px;
+    }
+    100% {
+      object-position: 0px 0px;
+    }
+  }
+  @keyframes moveV {
+    0% {
+      object-position: 0px -50px;
+    }
+    100% {
+      object-position: 0px 0px;
+    }
+  }
+  :global(.moveH .object-cover:hover) {
+    animation: moveH 0.5s linear;
+    animation-iteration-count: 1;
+    animation-fill-mode: both;
+  }
+  :global(.moveV .object-cover:hover) {
+    animation: moveV 0.5s linear;
+    animation-iteration-count: 1;
+    animation-fill-mode: both;
+  }
+</style>

@@ -82,19 +82,16 @@
   </div>
 
   {#if showSlots}
-    <Hr class="my-8" />
-
-    <Timeline>
-      {#each value.slots as s, index}
-        <TimeSlotForm
-          {index}
-          {locationIndex}
-          removeLocationTimeSlot={() =>
-            AdminEventStore.slots.remove(value.id, index)}
-          bind:value={$AdminEventStore.locations[locationIndex].slots[index]}
-        />
-      {/each}
-    </Timeline>
+    {#each value.slots as s, index}
+      <Hr class="m-8" />
+      <TimeSlotForm
+        {index}
+        {locationIndex}
+        removeLocationTimeSlot={() =>
+          AdminEventStore.slots.remove(value.id, index)}
+        bind:value={$AdminEventStore.locations[locationIndex].slots[index]}
+      />
+    {/each}
 
     <div class="flex justify-end">
       <Button onclick={() => AdminEventStore.slots.add(value.id)}
