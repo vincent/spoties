@@ -8,88 +8,87 @@
   import combined3 from "/src/assets/event-combined-3-locations.png";
   import { Carousel, P } from "flowbite-svelte";
   import { highlight } from "$lib/utils/utils";
+  import { t } from "$lib/i18n";
 
   let { next } = $props();
 
   const alt = 1;
-
-  const features = [
-    {
-      text: `Design perfect forms in {{minutes}}, not hours.`,
-      images: [
-        {
-          alt: "Event Description",
-          src: combined1,
-          title: "Description",
-        },
-        {
-          alt: "Event Questions",
-          src: combined2,
-          title: "Questions",
-        },
-        {
-          alt: "Event Locations",
-          src: combined3,
-          title: "Locations",
-        },
-      ],
-    },
-    {
-      text: `Deploy forms that work great on {{any device}}.`,
-      imgClass:
-        "shadow-lg hover:shadow-xl transition-shadow duration-200 ease-in-out moveV",
-      images: [
-        {
-          alt: "Responsive mobile form",
-          src: userForm,
-          title: "Responsive mobile form",
-        },
-      ],
-    },
-    {
-      text: `Organize staff by location with {{one-click}} simplicity.`,
-      imgClass:
-        "shadow-lg hover:shadow-xl transition-shadow duration-200 ease-in-out moveH",
-      images: [
-        {
-          alt: "Location slots management",
-          src: slotsForm,
-          title: "Location slots management",
-        },
-      ],
-    },
-    {
-      texts: [
-        `Keep everyone {{synchronized}} through every change,`,
-        `stay {{informed}} as responses roll in.`,
-      ],
-      imgClass:
-        "shadow-lg hover:shadow-xl transition-shadow duration-200 ease-in-out moveH",
-      images: [
-        {
-          alt: "Email notification",
-          src: notification,
-          title: "Email notification",
-        },
-      ],
-    },
-    {
-      text: `{{Reassign}} staff with automatic notifications.`,
-      imgClass:
-        "shadow-lg hover:shadow-xl transition-shadow duration-200 ease-in-out moveH",
-      images: [
-        {
-          alt: "Spot reassignment with notification",
-          src: reassign,
-          title: "Spot reassignment with notification",
-        },
-      ],
-    },
-  ].map((f) => ({
-    ...f,
-    texts: f.texts ? f.texts.map((t) => highlight(t)) : null,
-    text: f.text ? highlight(f.text) : null,
-  }));
+  const features = $derived(
+    [
+      {
+        text: $t("homepage.f1"),
+        images: [
+          {
+            alt: "Event Description",
+            src: combined1,
+            title: "Description",
+          },
+          {
+            alt: "Event Questions",
+            src: combined2,
+            title: "Questions",
+          },
+          {
+            alt: "Event Locations",
+            src: combined3,
+            title: "Locations",
+          },
+        ],
+      },
+      {
+        text: $t("homepage.f2"),
+        imgClass:
+          "shadow-lg hover:shadow-xl transition-shadow duration-200 ease-in-out moveV",
+        images: [
+          {
+            alt: "Responsive mobile form",
+            src: userForm,
+            title: "Responsive mobile form",
+          },
+        ],
+      },
+      {
+        text: $t("homepage.f3"),
+        imgClass:
+          "shadow-lg hover:shadow-xl transition-shadow duration-200 ease-in-out moveH",
+        images: [
+          {
+            alt: "Location slots management",
+            src: slotsForm,
+            title: "Location slots management",
+          },
+        ],
+      },
+      {
+        texts: [$t("homepage.f4"), $t("homepage.f5")],
+        imgClass:
+          "shadow-lg hover:shadow-xl transition-shadow duration-200 ease-in-out moveH",
+        images: [
+          {
+            alt: "Email notification",
+            src: notification,
+            title: "Email notification",
+          },
+        ],
+      },
+      {
+        text: $t("homepage.f6"),
+        imgClass:
+          "shadow-lg hover:shadow-xl transition-shadow duration-200 ease-in-out moveH",
+        images: [
+          {
+            alt: "Spot reassignment with notification",
+            src: reassign,
+            title: "Spot reassignment with notification",
+          },
+        ],
+      },
+    ].map((f) => ({
+      ...f,
+      texts: f.texts ? f.texts.map((t) => highlight(t)) : null,
+      text: f.text ? highlight(f.text) : null,
+    }))
+  );
 </script>
 
 {#each features as feature, i}

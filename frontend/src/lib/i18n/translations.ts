@@ -49,6 +49,18 @@ const en = {
   "homepage.getting_started": `Getting started`,
   "homepage.staff_new_event": `Staff a new event`,
 
+  "homepage.f1": "Design perfect forms in {{minutes}}.",
+  "homepage.f2": "Deploy forms that work great on {{any device}}.",
+  "homepage.f3": "Organize staff by location with {{one-click}} simplicity.",
+  "homepage.f4": "Keep everyone {{synchronized}} through every change,",
+  "homepage.f5": "stay {{informed}} as responses roll in.",
+  "homepage.f6": "{{Reassign}} staff with automatic notifications.",
+
+  "ctas.0": "Start organizing {{smarter}} today.",
+  "ctas.1": "{{Simplify}} your next event.",
+  "ctas.2": "Your perfect event crew is just {{one click away}}.",
+  "ctas.3": "{{Never stress}} about event staffing again.",
+
   "errors.we_are_on_it": "We are already working to solve the problem.",
   "errors.required": "This field is required",
   "errors.too_long": "This value is too long",
@@ -223,6 +235,22 @@ const fr = {
   "homepage.subline": `Assignez les bonnes personnes aux bons lieux selon leurs réponses. Quand les plans changent, notre système vous aide à réaffecter les places — transformant des heures de coordination en secondes, pour que vous puissiez vous concentrer sur l'essentiel.`,
   "homepage.getting_started": `Commencer`,
   "homepage.staff_new_event": `Créer un nouvel événement`,
+
+  "homepage.f1": "Créez des formulaires parfaits en {{quelques minutes}}.",
+  "homepage.f2":
+    "Déployez des formulaires qui fonctionnent sur {{n'importe quel appareil}}.",
+  "homepage.f3":
+    "Organisez le personnel par lieu avec une simplicité<br> {{en un clic}}.",
+  "homepage.f4": "Gardez tout le monde {{synchronisé}} à chaque changement,",
+  "homepage.f5":
+    "restez {{informé}} à mesure que les réponses arrivent, ou changent.",
+  "homepage.f6":
+    "{{Réaffectez}} les personnes avec notifications automatiques.",
+
+  "ctas.0": "Commencez à organiser {{plus intelligemment}} dès aujourd'hui.",
+  "ctas.1": "{{Simplifiez}} votre prochain événement.",
+  "ctas.2": "Votre équipe idéale pour l'événement est à {{un clic}}.",
+  "ctas.3": "{{Ne stressez plus}} pour la gestion du personnel événementiel.",
 
   "errors.we_are_on_it": "Nous travaillons déjà à résoudre le problème.",
   "errors.required": "Ce champ est requis",
@@ -413,6 +441,20 @@ const es = {
   "homepage.getting_started": "Empezar",
   "homepage.staff_new_event": "Organizar un nuevo evento",
 
+  "homepage.f1": "Diseña formularios perfectos en {{minutes}}.",
+  "homepage.f2":
+    "Despliega formularios que funcionan en {{cualquier dispositivo}}.",
+  "homepage.f3":
+    "Organiza al personal por ubicación con la simplicidad de {{un solo clic}}.",
+  "homepage.f4": "Mantén a todos {{sincronizados}} ante cualquier cambio,",
+  "homepage.f5": "permanece {{informado}} a medida que llegan las respuestas.",
+  "homepage.f6": "{{Reasigna}} personal con notificaciones automáticas.",
+
+  "ctas.0": "Empieza a organizar de forma {{más inteligente}} hoy.",
+  "ctas.1": "{{Simplifica}} tu próximo evento.",
+  "ctas.2": "Tu equipo perfecto para el evento está a {{un solo clic}}.",
+  "ctas.3": "{{Nunca más te estreses}} por la gestión de personal en eventos.",
+
   "errors.we_are_on_it": "Ya estamos trabajando para resolver el problema.",
   "errors.required": "Este campo es obligatorio",
   "errors.too_long": "Este valor es demasiado largo",
@@ -598,6 +640,21 @@ const ca = {
     "Assigna el personal adequat als llocs correctes segons les teves respostes, disponibilitat i proximitat. Quan els plans canvien, el nostre sistema t'ajuda a reassignar places — convertint hores de coordinació en segons, perquè et puguis centrar en el que és important.",
   "homepage.getting_started": "Començar",
   "homepage.staff_new_event": "Organitza un nou esdeveniment",
+
+  "homepage.f1": "Dissenya formularis perfectes en {{minutes}}.",
+  "homepage.f2":
+    "Desplega formularis que funcionen en {{qualsevol dispositiu}}.",
+  "homepage.f3":
+    "Organitza el personal per ubicació amb la simplicitat d’{{un sol clic}}.",
+  "homepage.f4": "Mantingues tothom {{sincronitzat}} a cada canvi,",
+  "homepage.f5": "estigues {{informat}} a mesura que arriben les respostes.",
+  "homepage.f6": "{{Reassigna}} personal amb notificacions automàtiques.",
+
+  "ctas.0": "Comença a organitzar {{més intel·ligentment}} avui.",
+  "ctas.1": "{{Simplifica}} el teu proper esdeveniment.",
+  "ctas.2": "El teu equip perfecte per a l'esdeveniment és a {{un sol clic}}.",
+  "ctas.3":
+    "{{No t'estressis mai més}} per la gestió de personal d'esdeveniments.",
 
   "errors.we_are_on_it": "Ja estem treballant per resoldre el problema.",
   "errors.required": "Aquest camp és obligatori",

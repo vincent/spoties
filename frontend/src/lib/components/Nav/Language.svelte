@@ -25,7 +25,7 @@
   <LanguageOutline class="lang-menu dark:text-white" />
   <Dropdown class="lang-dropdown" simple bind:isOpen triggeredBy=".lang-menu">
     {#each locales as l}
-      <DropdownItem class={`to-${l}`} onclick={switchTo(l)}
+      <DropdownItem class={`w-full to-${l}`} onclick={switchTo(l)}
         >{$t(`lang.${l}` as any)}</DropdownItem
       >
     {/each}

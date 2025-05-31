@@ -26,12 +26,9 @@
         }
   );
 
-  const ctas = [
-    `Start organizing {{smarter}} today.`,
-    `{{Simplify}} your next event.`,
-    `Your perfect event crew is just {{one click away}}.`,
-    `{{Never stress}} about event staffing again.`,
-  ].map(highlight);
+  const ctas = $derived(
+    [$t("ctas.0"), $t("ctas.1"), $t("ctas.2"), $t("ctas.3")].map(highlight)
+  );
 </script>
 
 <section class="flex min-h-screen flex-col bg-gray-100 dark:bg-gray-900">
