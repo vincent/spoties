@@ -1,0 +1,4 @@
+backend/pb_migrations/* linguist-vendored
+docker-compose.yml linguist-vendored
+Dockerfile linguist-vendored
+frontend/src/*.css -linguist-detectable
