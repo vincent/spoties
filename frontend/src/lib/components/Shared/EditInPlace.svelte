@@ -55,7 +55,11 @@
     </div>
   {:else if editing && input === "geo"}
     <div use:clickOutside={() => (editing = false)}>
-      <GeoLocationSearch bind:textValue={value} bind:geoValue={altValue} />
+      <GeoLocationSearch
+        bind:textValue={value}
+        bind:geoValue={altValue}
+        locale={navigator?.language || "en-US"}
+      />
     </div>
   {:else}
     <!-- svelte-ignore a11y_click_events_have_key_events -->

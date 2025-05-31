@@ -13,10 +13,12 @@
     Textarea,
     Label,
     Spinner,
+    Tooltip,
   } from "flowbite-svelte";
-  import { ArrowRightOutline, MapPinAltOutline } from "flowbite-svelte-icons";
+  import { ArrowRightOutline } from "flowbite-svelte-icons";
   import { userEventStore as store } from "$lib/stores/form.event.user.svelte";
   import type { InputEventObject, UserEvent } from "$lib/pocketbase/types";
+  import { MapPinCheckIcon, MapPinMinusIcon } from "lucide-svelte";
   import BannerPrefillEvent from "./BannerPrefillEvent.svelte";
   import BannerWarningEvent from "./BannerWarningEvent.svelte";
   import RichTextView from "../Shared/RichTextView.svelte";
@@ -231,12 +233,37 @@
                 ? 'border-primary-600 dark:border-secondary-800 border-2'
                 : ''}"
             >
-              <div class="mb-3 flex">
-                <MapPinAltOutline
-                  size="xl"
-                  class="text-gray-500 dark:text-gray-400"
-                />
-                <Label class="ms-2 mb-2 block text-xl">{l.name}</Label>
+              <div class="mb-3 flex items-center">
+                {#if l.geo_place}
+                  <a
+                    class="flex cursor-pointer"
+                    target="_blank"
+                    href={`https://maps.google.com/?ll=${l.geo_place}`}
+                  >
+                    <MapPinCheckIcon
+                      size="xl"
+                      class="w-7 text-gray-500 dark:text-gray-400"
+                    />
+                    <Tooltip>{$t("act.open_map")}</Tooltip>
+                    <Label class="ms-2 block text-xl">{l.name}</Label>
+                  </a>
+                {:else}
+                  <MapPinMinusIcon
+                    size="xl"
+                    class="text-gray-500 dark:text-gray-400"
+                  />
+                  <Label class="ms-2 block text-xl">{l.name}</Label>
+                {/if}
+                {#if l.geo_place}
+                  <span class="ml-auto"></span>
+                  <a
+                    class="text-gray-500 dark:text-gray-500"
+                    target="_blank"
+                    href={`https://maps.google.com/?ll=${l.geo_place}`}
+                    >{"map"}</a
+                  >
+                  <Tooltip>{$t("act.open_map")}</Tooltip>
+                {/if}
               </div>
 
               <Label class="text-md mb-3 block">{@html l.description}</Label>
