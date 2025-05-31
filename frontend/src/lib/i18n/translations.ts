@@ -17,6 +17,7 @@ const en = {
   "act.delete": "Delete",
   "act.confirmed": "Confirmed",
   "act.download": "Download",
+  "act.to_access_form": "to access form <br><strong>{{title}}</strong>",
   "act.delete_ask": "Are you sure you want to delete this?",
   "act.delete_yes": `Yes, I'm sure`,
   "act.delete_no": "No, cancel",
@@ -186,6 +187,8 @@ const fr = {
   "act.confirmed": "Confirmé",
   "act.download": "Télécharger",
   "act.select": "Sélectionner",
+  "act.to_access_form":
+    "pour accéder au formulaire <br><strong>{{title}}</strong>",
   "act.delete_ask": "Souhaitez vous réellement supprimer cela ?",
   "act.delete_yes": `Oui, je suis sûr`,
   "act.delete_no": "Non, annuler",
@@ -367,6 +370,8 @@ const es = {
   "act.delete": "Eliminar",
   "act.confirmed": "Confirmado",
   "act.download": "Descargar",
+  "act.to_access_form":
+    "para acceder al formulario <br><strong>{{title}}</strong",
   "act.delete_ask": "¿Estás seguro de que deseas eliminar esto?",
   "act.delete_yes": "Sí, estoy seguro",
   "act.delete_no": "No, cancelar",
@@ -548,6 +553,8 @@ const ca = {
   "act.delete": "Elimina",
   "act.confirmed": "Confirmat",
   "act.download": "Descarrega",
+  "act.to_access_form":
+    "per accedir al formulari <br><strong>{{title}}</strong>",
   "act.delete_ask": "Estàs segur que vols eliminar això?",
   "act.delete_yes": "Sí, n'estic segur",
   "act.delete_no": "No, cancel·la",

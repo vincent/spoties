@@ -1,16 +1,19 @@
 <script lang="ts">
   import type { UsersResponse } from "$lib/pocketbase/generated-types";
   import { Label, Input, Button, Card, Alert } from "flowbite-svelte";
+  import PreFormSpotiesBlock from "./PreFormSpotiesBlock.svelte";
   import { client, providerLogin } from "../../pocketbase";
+  import OnboardingBlock from "./OnboardingBlock.svelte";
   import { goto } from "$app/navigation";
   import { t } from "$lib/i18n";
+  import type { RecordModel } from "pocketbase";
 
   const { siteName, returnUrl = "/", authCollection = "users" } = $props();
   const collection = client.collection(authCollection);
 
   let onboardingLink = returnUrl?.match(/^\/admin\/events\/stored/);
   let returnPath = returnUrl ? resolve_url(returnUrl).pathname : null;
-  let forFormLink = returnPath?.match(/^\/event\/\w/);
+  let forFormLink = returnPath?.match(/^\/event\/(\w*)/);
   let large = $derived(forFormLink || onboardingLink);
   let signup = $state(false);
   let issue = $state(null);
@@ -22,6 +25,16 @@
     passwordConfirm: "",
     admin: false,
   });
+
+  let forForm = $state<RecordModel | null>(null);
+  if (forFormLink)
+    client
+      .collection("events")
+      .getOne(forFormLink?.[1])
+      .then((e) => (forForm = e))
+      .catch((_) => {
+        // event does not exist or is not published
+      });
 
   function resolve_url(url) {
     if (url instanceof URL) return url;
@@ -72,77 +85,22 @@
   size={large ? "lg" : "sm"}
   class="mx-auto flex flex-col space-y-6 p-6 shadow-xl lg:flex-row"
 >
-  {#if forFormLink}
-    <figure
-      class="flex w-full flex-col lg:mr-4 lg:w-3/5 {signup
-        ? 'justify-center'
-        : 'justify-between'} border-b border-gray-200 px-6 pb-8 text-center lg:border-r lg:border-b-0 dark:border-gray-700 dark:bg-gray-800"
-    >
-      <blockquote
-        class="mx-auto mb-10 max-w-2xl text-gray-500 dark:text-gray-400"
-      >
-        <h3 class="mb-6 text-lg font-semibold text-gray-900 dark:text-white">
-          {$t("login.welcome_1")}
-        </h3>
-        <p class="my-4 font-light">{$t("login.welcome_2")}</p>
-        <p class="my-4 font-light">{$t("login.welcome_3")}</p>
-      </blockquote>
-      <figcaption
-        class="flex items-center justify-center space-x-3 rtl:space-x-reverse"
-      >
-        <img
-          class="h-15 w-15 rounded-full"
-          src="https://avatars.githubusercontent.com/u/5623?v=4"
-          alt="Vincent Lark"
-        />
-        <div class="space-y-0.5 text-left font-medium dark:text-white">
-          <div>Vincent</div>
-          <div class="text-sm font-light text-gray-500 dark:text-gray-400">
-            {siteName} team
-          </div>
-        </div>
-      </figcaption>
-    </figure>
-  {:else if onboardingLink}
-    <figure
-      class="flex w-full flex-col lg:mr-4 lg:w-3/5 {signup
-        ? 'justify-center'
-        : 'justify-between'} border-b border-gray-200 px-6 pb-8 text-center lg:border-r lg:border-b-0 dark:border-gray-700 dark:bg-gray-800"
-    >
-      <blockquote
-        class="mx-auto mb-10 max-w-2xl text-gray-500 dark:text-gray-400"
-      >
-        <h3 class="mb-6 text-lg font-semibold text-gray-900 dark:text-white">
-          {$t("event.form.finish.line1")}
-        </h3>
-        <p class="my-4 font-light">{$t("event.form.finish.line2")}</p>
-        <p class="my-4 font-light">{$t("event.form.finish.line3")}</p>
-      </blockquote>
-      <figcaption
-        class="flex items-center justify-center space-x-3 rtl:space-x-reverse"
-      >
-        <img
-          class="h-15 w-15 rounded-full"
-          src="https://avatars.githubusercontent.com/u/5623?v=4"
-          alt="Vincent Lark"
-        />
-        <div class="space-y-0.5 text-left font-medium dark:text-white">
-          <div>
-            <a href="http://github.com/vincent" target="_blank">Vincent</a>
-          </div>
-          <div class="text-sm font-light text-gray-500 dark:text-gray-400">
-            {siteName} team
-          </div>
-        </div>
-      </figcaption>
-    </figure>
+  {#if onboardingLink}
+    <OnboardingBlock {signup} {siteName} />
   {/if}
   <div class="w-auto lg:min-w-[300px]">
     <h3
-      class="mb-5 p-0 text-center text-xl font-semibold text-gray-900 lg:text-start dark:text-white"
+      class="mb-3 p-0 text-center text-xl font-semibold text-gray-900 lg:text-start dark:text-white"
     >
       {$t("login.sign_in")}
     </h3>
+    {#if forForm}
+      <div
+        class="mb-3 p-0 text-center text-sm text-gray-900 lg:text-start dark:text-white"
+      >
+        {@html $t("act.to_access_form", forForm)}
+      </div>
+    {/if}
     {#await collection.listAuthMethods({ $autoCancel: false }) then methods}
       {#if methods.oauth2?.providers.length}
         <p class="font-semibold">{$t("login.login_with")}</p>
@@ -290,4 +248,7 @@
       {/if}
     </form>
   </div>
+  {#if forFormLink}
+    <PreFormSpotiesBlock {signup} {siteName} />
+  {/if}
 </Card>
