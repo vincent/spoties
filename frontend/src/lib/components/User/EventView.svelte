@@ -77,12 +77,12 @@
   }
 </script>
 
-{#if ownEvent}
+{#if !record.published && ownEvent}
   <BannerWarningEvent text={"event.warning_own_event"} />
-{:else if empty}
-  <BannerWarningEvent text={"event.warning_empty"} />
 {:else if disabled}
   <BannerWarningEvent text={"event.warning_sealed"} />
+{:else if empty}
+  <BannerWarningEvent text={"event.warning_empty"} />
 {:else if somePreviousAnswers}
   <BannerPrefillEvent {username} />
 {/if}
