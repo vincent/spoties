@@ -179,12 +179,14 @@
                 >
                 <Dropdown simple>
                   <DropdownItem
+                    class="w-full text-left"
                     onclick={() => saveManualBooking({ notify: true })}
                     >{$t(
                       "event.results.save_slots_selection_with_notify"
                     )}</DropdownItem
                   >
                   <DropdownItem
+                    class="w-full text-left"
                     onclick={() => saveManualBooking({ notify: false })}
                     >{$t(
                       "event.results.save_slots_selection_without_notify"

@@ -1,19 +1,16 @@
 <script lang="ts">
   import {
     Avatar,
+    Button,
     Dropdown,
     DropdownDivider,
     DropdownHeader,
     DropdownItem,
   } from "flowbite-svelte";
   import { authModel, client } from "../../pocketbase";
-  import { goto } from "$app/navigation";
-  import Alerts from "../Alerts.svelte";
-  import Dialog from "../Dialog.svelte";
-  import { t } from "$lib/i18n";
   import { CupSoda, LogOut } from "lucide-svelte";
-
-  const { signupAllowed = true } = $props();
+  import { goto } from "$app/navigation";
+  import { t } from "$lib/i18n";
 
   const logout = () => {
     client.authStore.clear();
@@ -32,15 +29,21 @@
       <span class="block text-sm">{$authModel.name}</span>
       <span class="block truncate text-sm font-medium">{$authModel.email}</span>
     </DropdownHeader>
-    <DropdownItem>{$t("menu.user_settings")}</DropdownItem>
-    <DropdownItem href="https://ko-fi.com/vlkofi" target="_blank">
+    <DropdownItem class="w-full" href="/me/"
+      >{$t("menu.user_settings")}</DropdownItem
+    >
+    <DropdownItem
+      class="w-full"
+      href="https://ko-fi.com/vlkofi"
+      target="_blank"
+    >
       <div class="flex items-center justify-between">
         <span>{@html $t("act.support")}</span>
-        <CupSoda class="text-primary-500" />
+        <CupSoda class="text-primary-500 ms-3" />
       </div>
     </DropdownItem>
     <DropdownDivider />
-    <DropdownItem>
+    <DropdownItem class="w-full">
       <!-- svelte-ignore a11y_no_static_element_interactions -->
       <!-- svelte-ignore a11y_click_events_have_key_events -->
       <div onclick={logout} class="flex items-center justify-between">
@@ -50,12 +53,5 @@
     </DropdownItem>
   </Dropdown>
 {:else}
-  <Dialog>
-    {#snippet trigger(show)}
-      <a href="/login">
-        {signupAllowed ? "Sign In / Sign Up" : "Sign In"}
-      </a>
-    {/snippet}
-    <Alerts />
-  </Dialog>
+  <Button outline class="ms-4" href="/login">{$t("login.login")}</Button>
 {/if}

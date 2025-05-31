@@ -24,7 +24,7 @@
   });
 </script>
 
-<div class="flex items-start justify-between">
+<div class="mb-4 flex items-start justify-between">
   <section class="paper">
     <div class="header">
       <img src="/api/placeholder/200/100" alt="Event Logo" class="logo" />

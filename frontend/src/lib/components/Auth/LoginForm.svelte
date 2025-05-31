@@ -54,7 +54,13 @@
         )
       ).record;
 
-      goto(returnUrl || "/welcome");
+      goto(
+        returnUrl
+          ? returnUrl
+          : user.teams?.length
+            ? "/admin/events/list"
+            : "/welcome"
+      );
     } catch (error: any) {
       console.log(error);
       issue = error.toString();

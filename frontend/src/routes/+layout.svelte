@@ -22,4 +22,4 @@
 
 {@render children()}
 
-<Footer {siteName} {siteLogo} {siteUrl} />
+<Footer {siteName} {siteUrl} />

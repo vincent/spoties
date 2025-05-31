@@ -124,6 +124,7 @@ func main() {
 	pb_routes.RegisterAdminManualBookingRoute(app)
 	pb_routes.RegisterUserEventAnswerRoute(app)
 	pb_routes.RegisterNotifyOwnerRoute(app)
+	pb_routes.RegisterUserDeleteRoute(app)
 
 	if err := app.Start(); err != nil {
 		log.Fatal(err)

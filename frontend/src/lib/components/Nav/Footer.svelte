@@ -1,11 +1,14 @@
 <script lang="ts">
+  import { client } from "$lib/pocketbase";
   import {
+    BullhornOutline,
     QuestionCircleOutline,
-    UserCircleOutline,
+    UserOutline,
   } from "flowbite-svelte-icons";
-  import { GithubIcon, SpeakerIcon } from "lucide-svelte";
+  import { GithubIcon } from "lucide-svelte";
 
-  const { siteName, siteLogo, siteUrl } = $props();
+  const { siteName, siteUrl } = $props();
+  const user = client.authStore.isValid;
 </script>
 
 <footer class="bottom-0 w-full bg-white p-4 sm:p-6 dark:bg-gray-800">
@@ -48,22 +51,29 @@
     <div class="sm:flex sm:items-center sm:justify-between">
       <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400"
         >© {new Date().getFullYear()}
-        <a href={siteUrl} class="hover:underline">{siteName}</a>. All Rights
-        Reserved.
+        <a href={siteUrl} class="hover:underline">{siteName}</a>.
       </span>
       <div class="mt-4 flex space-x-6 sm:mt-0 sm:justify-center">
+        {#if user}
+          <a
+            href="/me"
+            class="text-gray-500 hover:text-gray-900 dark:hover:text-white"
+          >
+            <UserOutline size="lg" />
+          </a>
+        {/if}
         <a
           href="/about"
           class="text-gray-500 hover:text-gray-900 dark:hover:text-white"
         >
-          <QuestionCircleOutline />
+          <QuestionCircleOutline size="lg" />
         </a>
         <a
           target="_blank"
           href="https://spoti.featurebase.app"
           class="text-gray-500 hover:text-gray-900 dark:hover:text-white"
         >
-          <UserCircleOutline />
+          <BullhornOutline size="lg" />
         </a>
         <a
           target="_blank"

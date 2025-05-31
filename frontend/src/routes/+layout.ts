@@ -19,6 +19,7 @@ export const load: LayoutLoad = async ({ fetch }) => {
     site: {
       url: string;
       name: string;
+      logo: string;
       copyright: string;
       year: number;
     };

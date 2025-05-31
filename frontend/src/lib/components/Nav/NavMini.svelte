@@ -2,6 +2,7 @@
   import { DarkMode } from "flowbite-svelte";
   import Language from "./Language.svelte";
   import type { Snippet } from "svelte";
+  import LoginBadge from "../Auth/LoginBadge.svelte";
   let { children }: { children?: Snippet } = $props();
 </script>
 
@@ -12,5 +13,6 @@
     <div class="mr-auto">{@render children?.()}</div>
     <Language />
     <DarkMode />
+    <LoginBadge />
   </div>
 </nav>

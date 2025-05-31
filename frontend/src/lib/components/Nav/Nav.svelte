@@ -1,8 +1,5 @@
 <script lang="ts">
   import LoginBadge from "../Auth/LoginBadge.svelte";
-  import NavDrawer from "./NavDrawer.svelte";
-  import NavApp from "./NavApp.svelte";
-  import NavSearch from "./NavSearch.svelte";
   import Language from "./Language.svelte";
   import {
     DarkMode,

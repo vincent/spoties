@@ -1,5 +1,6 @@
 import type {
   AnswersRecord,
+  AnswersResponse,
   BookingsRecord,
   EventsRecord,
   EventsResponse,
@@ -14,8 +15,11 @@ import type { InputEventObject } from "$lib/pocketbase/types";
 import { isTempEvent } from "$lib/utils/utils";
 import { client } from "$lib/pocketbase";
 import debounce from "lodash.debounce";
+import { A } from "flowbite-svelte";
 
+const BOOKINGS = client.collection("bookings");
 const SLOTS = client.collection("time_slots");
+const ANSWERS = client.collection("answers");
 const EVENTS = client.collection("events");
 
 export async function hasAnyEvent(options: RecordListOptions) {
@@ -25,6 +29,21 @@ export async function hasAnyEvent(options: RecordListOptions) {
       .map((id) => `team='${id}'`)
       .join("||"),
   }).then((res) => !!res.items.length);
+}
+
+export async function fetchUserAnsweredEvents(options: RecordListOptions) {
+  const count = (col) =>
+    col
+      .getList(1, 1, {
+        ...options,
+        filter: client.filter("user={:userId}", {
+          userId: client.authStore.record?.id,
+        }),
+      })
+      .then((res) => res.totalItems);
+  return Promise.all([count(ANSWERS), count(BOOKINGS)]).then(
+    ([answers, bookings]) => ({ answers, bookings })
+  );
 }
 
 export async function fetchEvent(eventId: string, options: RecordListOptions) {

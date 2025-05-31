@@ -211,7 +211,7 @@ const fr = {
   "homepage.start_creating_event": `Commencez par créer un événement`,
   "homepage.access_admin": `Accédez à votre panneau d'administration`,
   "homepage.headline": `Gestion d'événements sans effort, de <span class="text-primary-600">l'invitation</span> à <span class="text-primary-600">la localisation</span>.`,
-  "homepage.subline": `Assignez le bon personnel aux bons lieux selon vos réponses, disponibilités et proximité. Quand les plans changent, notre système vous aide à réaffecter les places — transformant des heures de coordination en secondes, pour que vous puissiez vous concentrer sur l'essentiel.`,
+  "homepage.subline": `Assignez les bonnes personnes aux bons lieux selon leurs réponses. Quand les plans changent, notre système vous aide à réaffecter les places — transformant des heures de coordination en secondes, pour que vous puissiez vous concentrer sur l'essentiel.`,
   "homepage.getting_started": `Commencer`,
   "homepage.staff_new_event": `Créer un nouvel événement`,
 

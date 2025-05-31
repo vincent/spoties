@@ -26,9 +26,11 @@
         <NavLi {activeClass} href={`/admin/events/${data.eventId}/responses/`}
           >{$t("menu.responses")}</NavLi
         >
+        <!--
         <NavLi {activeClass} href={`/admin/events/${data.eventId}/releases/`}
           >{$t("menu.press")}</NavLi
         >
+        -->
       {/if}
     </NavUl>
   </Navbar>
