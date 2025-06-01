@@ -32,9 +32,9 @@ export async function fetchEventAllAnswers(
       filter: client.filter("event = {:eventId}", { eventId }),
     }).then((ps) =>
       ps.reduce(
-        (acc, { id, name, email, avatar }) => ({
+        (acc, { id, name, email, avatar, verified }) => ({
           ...acc,
-          [id]: { id, name, email, avatar },
+          [id]: { id, name, email, avatar, verified },
         }),
         {}
       )

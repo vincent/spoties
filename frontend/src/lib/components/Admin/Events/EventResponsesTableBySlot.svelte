@@ -11,6 +11,7 @@
   import { slide } from "svelte/transition";
   import { stripTags, t } from "$lib/i18n";
   import { BadgeCheckIcon } from "lucide-svelte";
+  import UserName from "$lib/components/Shared/UserName.svelte";
 
   let { event, responses, secondaryGroups } = $props();
   let slotsOccupation = $derived(
@@ -75,14 +76,10 @@
                   {#each slotsOccupation[s.id].bookedBy as r}
                     <TableBodyRow class="border-0">
                       <TableBodyCell class="w-50 p-1">
-                        <span class="flex gap-1"
-                          >{r.user.name}
-                          {#if r.confirmed}<BadgeCheckIcon
-                              size={16}
-                              class="text-green-700"
-                            /><Tooltip>{$t("act.confirmed")}</Tooltip
-                            >{/if}</span
-                        >
+                        <UserName
+                          user={r.user as any}
+                          confirmed={r.confirmed}
+                        />
                       </TableBodyCell>
                       {#if secondaryGroups?.length}
                         {#each secondaryGroups as qid}

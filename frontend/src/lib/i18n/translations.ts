@@ -31,6 +31,7 @@ const en = {
   "data.email": "Email",
   "data.yes": "Yes",
   "data.no": "No",
+  "data.not_verified_email": "The email has not been verified",
   "data.required": "Required",
   "data.option_i": "Option {{i}}",
 
@@ -218,6 +219,7 @@ const fr = {
   "data.email": "Email",
   "data.yes": "Oui",
   "data.no": "Non",
+  "data.not_verified_email": "L'email n'a pas été vérifié",
   "data.required": "Obligatoire",
   "data.option_i": "Option {{i}}",
 
@@ -420,6 +422,7 @@ const es = {
   "data.email": "Correo electrónico",
   "data.yes": "Sí",
   "data.no": "No",
+  "data.not_verified_email": "El correo electrónico no ha sido verificado",
   "data.required": "Obligatorio",
   "data.option_i": "Opción {{i}}",
 
@@ -620,6 +623,7 @@ const ca = {
   "data.email": "Correu electrònic",
   "data.yes": "Sí",
   "data.no": "No",
+  "data.not_verified_email": "El correu electrònic no ha estat verificat",
   "data.required": "Obligatori",
   "data.option_i": "Opció {{i}}",
 

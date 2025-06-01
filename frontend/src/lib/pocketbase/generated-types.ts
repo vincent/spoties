@@ -164,6 +164,7 @@ export type ParticipantsRecord = {
   id: string;
   name?: string;
   team?: RecordIdString;
+  verified?: boolean;
 };
 
 export type PostsRecord = {

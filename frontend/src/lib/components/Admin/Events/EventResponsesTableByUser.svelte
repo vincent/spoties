@@ -18,6 +18,7 @@
   import { stripTags, t } from "$lib/i18n";
   import { client } from "$lib/pocketbase";
   import { ChevronDownOutline } from "flowbite-svelte-icons";
+  import UserName from "$lib/components/Shared/UserName.svelte";
 
   let {
     event,
@@ -103,13 +104,10 @@
           >{formatDate(new Date(response.updated))}</TableHeadCell
         >
         <TableHeadCell>
-          <span class="flex gap-1"
-            >{response.user.name}
-            {#if response.confirmed}<BadgeCheckIcon
-                size={16}
-                class="text-green-700"
-              /><Tooltip>{$t("act.confirmed")}</Tooltip>{/if}</span
-          >
+          <UserName
+            user={response.user as any}
+            confirmed={response.confirmed}
+          />
         </TableHeadCell>
         {#each event.locations as l}
           {#each l.slots as s}
