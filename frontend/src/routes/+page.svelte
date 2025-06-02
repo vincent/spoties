@@ -18,7 +18,7 @@
     !auth.isValid
       ? {
           text: $t("homepage.getting_started"),
-          url: "/login",
+          url: "/admin/events/create",
         }
       : {
           text: $t("homepage.staff_new_event"),
