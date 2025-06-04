@@ -31,7 +31,9 @@
   );
 </script>
 
-<section class="flex min-h-screen flex-col bg-gray-100 dark:bg-gray-900">
+<section
+  class="frontpage flex min-h-screen flex-col bg-gray-100 dark:bg-gray-900"
+>
   <NavMini />
 
   <Hero href={next.url} button={next.text}>

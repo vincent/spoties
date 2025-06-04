@@ -4,10 +4,10 @@
   import { LanguageOutline } from "flowbite-svelte-icons";
   import { t, locale, locales } from "$lib/i18n";
 
-  let storedLang = localStore(
-    "language",
-    navigator ? navigator.language.split("-")[0] : "en"
-  );
+  let browserLang = navigator?.language?.split("-")?.[0];
+  if (!browserLang || !locales[browserLang]) browserLang = "en";
+
+  let storedLang = localStore("language", browserLang);
   if (storedLang?.value) $locale = storedLang.value as any;
 
   let isOpen = $state(false);
