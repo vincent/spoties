@@ -1,19 +1,12 @@
 
-volumes:
-  caddy_data:
-  spoties_data:
-
 services:
   spoties:
     image: ghcr.io/vincent/spoties:main
-    hostname: spoties
     restart: unless-stopped
-    environment:
-      - SPOTIES_FQDN=                       # your public instance domain (ie: myspoties.com)
-      - SPOTIES_CLOUDFLARE_TOKEN=           # your Cloudflare API key
     volumes:
-      - caddy_data:/root/.local/share/caddy # for persistent LetsEncrypt certificates
-      - spoties_data:/srv/spoties/data      # for persistent PocketBase databases
+      - spoties_data:/srv/spoties/data
     ports:
-      - 80:80
-      - 443:443
+      - 8090:8090
+
+volumes:
+  spoties_data: # for persistent database
