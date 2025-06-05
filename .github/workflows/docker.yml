@@ -7,7 +7,7 @@ on:
       - 'README.md'
       - 'LICENSE.md'
       - 'docker-compose.yml'
-    branches: ['main']
+    branches: ['main', 'feat/pb-serve']
 
 # Defines two custom environment variables for the workflow. These are used for the Container registry domain, and a name for the Docker image that this workflow builds.
 env:
@@ -65,16 +65,3 @@ jobs:
           subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
-      
-  pull-image-on-remote:
-    needs: build-and-push-image
-    runs-on: ubuntu-latest
-    steps:
-      - name: Pull image on remote
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          username: ${{ secrets.SSH_USERNAME }}
-          port: ${{ secrets.SSH_PORT }}
-          host: ${{ secrets.SSH_HOST }}
-          key: ${{ secrets.SSH_KEY }}
-          script: /home/debian/dockcheck.sh -u -y
